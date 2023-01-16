@@ -64,7 +64,8 @@ class VehicleApiEndpoint(Resource):
             created_at=db[license_plate].created_at
           )
           db[args['uid']] = vehicle
-          del db[license_plate]
+          if license_plate != args['uid']:
+            del db[license_plate]
           return vehicle.__dict__
       except KeyError:
         return {'code': 404, 'message': 'Vehicle not found'}, 404
