@@ -31,7 +31,7 @@ Content-Type: application/json
 GET http://localhost:3000/api/vehicle/GBL4731K
 
 ###
-GET http://localhost:3000/api/vehicle/SSS0983R
+GET http://localhost:3000/api/vehicle/SSS777S
 
 ###
 DELETE http://localhost:3000/api/vehicle/SSS0983R
