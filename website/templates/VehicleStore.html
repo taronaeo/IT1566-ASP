@@ -33,7 +33,7 @@
             <td class="p-4">{{ vehicle.vehicle_model }}</td>
             <td class="p-4">{{ vehicle.uid }}</td>
            <td class = "px-4 py-2 flex justify-around">
-            <button onclick = "getuid(this,'remove')" id = 'remove' class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
+            <button onclick = "if(confirm(confirm_text) == true){getuid(this,'remove')}" id = 'remove' class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
           </td> 
           <td class="px-4 py-2 flex justify-around">
               <button onclick = "fillinputs('{{vehicle.owner_uid}}','{{vehicle.vehicle_make}}', '{{vehicle.vehicle_model}}', '{{vehicle.uid}}'),getuid(this,'update')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Update</button>
@@ -74,6 +74,7 @@
       <button type="submit" id = 'update'>Update Car</button>
   </div>
   <script>
+    const confirm_text = "Are you sure you want to remove this car?";
     function fillinputs(owner_uid,vehicle_make,vehicle_model,uid){
       document.getElementById('update_uid').value = owner_uid
       document.getElementById('update_make').value = vehicle_make
