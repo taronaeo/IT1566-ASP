@@ -11,6 +11,7 @@ import shelve
 from . import DB_USER_LOCATION, DB_WALLET_LOCATION, DB_LISTING_LOCATION, DB_VEHICLE_LOCATION
 from flask import Blueprint, request, redirect, url_for, render_template
 from flask_login import login_required, current_user
+import json
 
 views = Blueprint('views', __name__)
 
@@ -35,13 +36,6 @@ def vehiclestore():
       if current_user.email == db[i].owner_uid:
         vehicles.append(db[i])
   return render_template("VehicleStore.html", vehicles = vehicles)
-
-@views.route('/UpdateVehicle',methods = ['GET','POST'])
-@login_required
-def updatevehicle():
-  vehicles = []
-  with shelve.open(DB_VEHICLE_LOCATION) as db:
-    return render_template("UpdateVehicle.html", owner_uid = current_user.email)
 
 @views.route('/retrieveacc')
 @login_required
@@ -93,3 +87,18 @@ def updateA():
   with shelve.open(DB_USER_LOCATION) as db:
     return render_template("UpdateAcc.html", user=db[email])
 
+@views.route('/VehicleStore')
+def VehicleStore():
+  return render_template("VehicleStore.html")
+
+@views.route('/UpdateVehicle')
+def updateV():
+  return render_template("UpdateVehicle.html")
+
+@login_required
+@views.route('/testfetch')
+def testfetch():
+  with shelve.open(DB_USER_LOCATION) as db:
+    user_db = db[current_user.email]
+    user_db  = json.dumps(user_db.__dict__) #Imported json, passes user object as dictionary in JSON format
+  return render_template("testfetch.html",user_db=user_db)
