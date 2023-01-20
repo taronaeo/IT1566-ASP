@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Test</title>
+</head>
+<body>
+    <h1><strong>Testing Fetch, User Info Table</strong></h1>
+    <table class = 'table-auto w-full'>
+        <thead>
+            <tr>
+                <th>UID</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Full Name</th>
+                <th>Home Address</th>
+                <th>Phone Number</th>
+                <th>Vehicels</th>
+                <th>Bank_Info</th>
+                <th>Training_Complete</th>
+                <th>Background_Check</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <div class="flex flex-col">
+        <h1 class="text-4xl font-bold">Update User</h1>
+  
+        <div class="mb-4">
+            <label for="update_uid">UID</label>
+            <input id="update_uid" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required readonly>
+          </div>
+
+        <div class="mb-4">
+          <label for="update_email">Email</label>
+          <input id="update_email" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required readonly>
+        </div>
+        <div class="mb-4">
+          <label for="update_password">Password</label>
+          <input id="update_password" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+        </div>
+  
+        <div class="mb-4">
+          <label for="update_name">Full Name</label>
+          <input id="update_name" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+        </div>
+  
+        <div class="mb-4">
+          <label for="update_address">Home Address</label>
+          <input id="update_address" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="update_number">Phone Number</label>
+            <input id="update_number" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="update_vehicles">Vehicles</label>
+            <input id="update_vehicles" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="update_bank">Bank_Info</label>
+            <input id="update_bank" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="update_training">Training_Complete</label>
+            <input id="update_training" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="update_bg">Background_Check</label>
+            <input id="update_bg" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+        </div>
+
+
+        <button type="submit" id = 'update'>Update User</button>
+    </div>
+    
+
+
+    
+    <script>
+        const user_db = JSON.parse({{ user_db|tojson }});
+        const userapi_url = {{ url_for("userapiendpoint")|tojson}};
+        const redirect_url=  {{ url_for("views.login")|tojson}};
+
+        let tr = document.getElementsByTagName('tr')[1];
+        Object.keys(user_db).forEach(key =>{
+            let text = document.createTextNode(user_db[key]);
+            let td = document.createElement('td');
+            td.appendChild(text);
+            tr.appendChild(td);
+        })
+        let update_button = document.createElement('button');
+        update_button.appendChild(document.createTextNode("UPDATE"));
+        update_button.classList.add('bg-red-500', 'hover:bg-red-700', 'text-white', 'font-bold', 'py-2', 'px-4','rounded-full');
+        tr.appendChild(update_button);
+
+        function fillinputs(uid,email,password,name,address,number,vehicles,bank,training,bg_check){
+            document.getElementById('update_uid').value = uid;
+            document.getElementById('update_email').value = email;
+            document.getElementById('update_password').value = password;
+            document.getElementById('update_name').value = name;
+            document.getElementById('update_address').value = address;
+            document.getElementById('update_number').value = number;
+            document.getElementById('update_vehicles').value = vehicles;
+            document.getElementById('update_bank').value = bank;
+            document.getElementById('update_training').value = training;
+            document.getElementById('update_bg').value = bg_check;
+        }
+
+        update_button.onclick = () =>{
+         fillinputs(user_db['uid'],user_db['email'],user_db['password'],user_db['full_name'],user_db['home_address'],user_db['phone_number'],user_db['vehicles'],user_db['bank_information'],user_db['training_complete'], user_db['background_check'])
+        }
+
+        function putRequest(){
+            const uid = document.getElementById('update_uid').value;
+            const email = document.getElementById('update_email').value;
+            const password = document.getElementById('update_password').value;
+            const full_name = document.getElementById('update_name').value;
+            const home_address = document.getElementById('update_address').value;
+            const phone_number = document.getElementById('update_number').value;
+            const vehicles = document.getElementById('update_vehicles').value;
+            const bank_information = document.getElementById('update_bank').value;
+            const training_complete = document.getElementById('update_training').value;
+            const background_check = document.getElementById('update_bg').value;
+
+            let data = {
+                "uid": uid,
+                "email": email,
+                "password": password,
+                "full_name": full_name,
+                "home_address": home_address,
+                "phone_number": phone_number,
+                "vehicles": vehicles,
+                "bank_information": bank_information,
+                "training_complete": training_complete
+            }
+            
+            fetch(`${userapi_url}/${uid}`, {
+                "method": "PUT",
+                "redirect": 'follow',
+                "headers": {"Content-Type": "application/json"},
+                "body": JSON.stringify(data),
+            })
+            .then(response =>{response.text})
+        }
+        const final_update_button = document.getElementById('update');
+        final_update_button.onclick = () =>{putRequest()}
+
+
+        
+
+        
+        
+
+
+
+
+
+    </script>
+</body>
+</html>
+{% endblock %}
