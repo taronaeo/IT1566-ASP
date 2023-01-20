@@ -36,6 +36,13 @@ def vehiclestore():
         vehicles.append(db[i])
   return render_template("VehicleStore.html", vehicles = vehicles)
 
+@views.route('/UpdateVehicle',methods = ['GET','POST'])
+@login_required
+def updatevehicle():
+  vehicles = []
+  with shelve.open(DB_VEHICLE_LOCATION) as db:
+    return render_template("UpdateVehicle.html", owner_uid = current_user.email)
+
 @views.route('/retrieveacc')
 @login_required
 def retrieveacc():
@@ -86,10 +93,3 @@ def updateA():
   with shelve.open(DB_USER_LOCATION) as db:
     return render_template("UpdateAcc.html", user=db[email])
 
-@views.route('/VehicleStore')
-def VehicleStore():
-  return render_template("VehicleStore.html")
-
-@views.route('/UpdateVehicle')
-def updateV():
-  return render_template("UpdateVehicle.html")

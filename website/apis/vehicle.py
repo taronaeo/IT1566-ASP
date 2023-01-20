@@ -56,14 +56,16 @@ class VehicleApiEndpoint(Resource):
           return {'code': 404, "message": "Vehicle does not exist." }, 404
         if args['type'] == 'update':
           vehicle = Vehicle(
-            license_plate,
+            args['uid'],
             db[license_plate].owner_uid,
             args['vehicle_make'],
             args['vehicle_model'],
             db[license_plate].unlock_system_installed,
             created_at=db[license_plate].created_at
           )
-          db[license_plate] = vehicle
+          db[args['uid']] = vehicle
+          if license_plate != args['uid']:
+            del db[license_plate]
           return vehicle.__dict__
       except KeyError:
         return {'code': 404, 'message': 'Vehicle not found'}, 404
