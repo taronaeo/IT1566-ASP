@@ -34,6 +34,7 @@ def create_app():
 
   from .auth import auth
   from .views import views
+  from .routes import listing
   from .apis.user import UserApiEndpoint
   from .apis.wallet import WalletApiEndpoint
   from .apis.vehicle import VehicleApiEndpoint
@@ -41,6 +42,7 @@ def create_app():
 
   app.register_blueprint(auth, url_prefix='/')
   app.register_blueprint(views, url_prefix='/')
+  app.register_blueprint(listing, url_prefix='/listing')
   api.add_resource(UserApiEndpoint, "/api/user", "/api/user/<string:uid>")
   api.add_resource(WalletApiEndpoint, "/api/wallet", "/api/wallet/<string:owner_uid>")
   api.add_resource(VehicleApiEndpoint, "/api/vehicle", "/api/vehicle/<string:license_plate>")

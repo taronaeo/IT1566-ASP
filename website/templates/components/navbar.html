@@ -43,15 +43,16 @@
         <img class="w-36 py-4" src="/img/logo.svg" alt="Logo">
       </a>
 
-      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="/">
+      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="{{ url_for('views.home') }}">
         Home
       </a>
 
-      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="/listing/cars">
+      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="{{ url_for('listing.cars') }}">
         Car Listings
       </a>
 
-      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="/listing/contractors">
+      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2"
+        href="{{ url_for('listing.contractors') }}">
         Contractor Listings
       </a>
 
