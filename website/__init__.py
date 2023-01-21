@@ -20,7 +20,10 @@ DB_WALLET_TRANSACTION_LOCATION = f"{DB_BASE_LOCATION}_wallet_transaction"
 DB_LISTING_TRANSACTION_LOCATION = f"{DB_BASE_LOCATION}_listing_transaction"
 
 def create_app():
-  app = Flask(__name__)
+  app = Flask(__name__,
+              static_url_path='',
+              static_folder='static',
+              template_folder='templates')
   api = Api(app)
 
   app.config['SECRET_KEY'] = 'abcdefghijklmnopqrstuvwxyz' # NOTE: To be changed when deploying
