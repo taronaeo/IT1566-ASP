@@ -1,62 +1,57 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-  <title>Create Account</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+{% block title %}Create Account{% endblock %}
 
-<body class="bg-gray-100 h-screen font-sans">
-  <div class="container mx-auto flex flex-col items-center px-4 py-8">
-    <img src="logo.jpeg" class="w-32 mb-8" alt="Logo">
-    <div class="w-full max-w-sm">
-      <h2 class="text-2xl font-bold mb-4">Update Account Information</h2>
-      <form>
-        <div class="mb-4">
-          <label class="block font-bold mb-2" for="full_name">Full Name</label>
-          <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="text" id="full_name" placeholder="John Tan"
-            value="{{ user.full_name }}">
-        </div>
-        <div class="mb-4">
-          <label class="block font-bold mb-2" for="home_address">Home Address</label>
-          <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="text" id="home_address"
-            placeholder="Ang Mio Kio Street 201" value="{{ user.home_address }}">
-        </div>
-        <div class="mb-4">
-          <label class="block font-bold mb-2" for="contact-number">Contact Number</label>
-          <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="tel" id="phone_number" placeholder="8391 2912"
-            value="{{ user.phone_number }}">
-        </div>
-      </form>
-    </div>
-    <div class="mb-8">
-      <button
-        class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-        type="submit" onclick="update_user()">
-        Update
-      </button>
-    </div>
+{% block content %}
+<div class="container mx-auto flex flex-col items-center px-4 py-8">
+  <img src="logo.jpeg" class="w-32 mb-8" alt="Logo">
+  <div class="w-full max-w-sm">
+    <h2 class="text-2xl font-bold mb-4">Update Account Information</h2>
+    <form>
+      <div class="mb-4">
+        <label class="block font-bold mb-2" for="full_name">Full Name</label>
+        <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="text" id="full_name" placeholder="John Tan"
+          value="{{ user.full_name }}">
+      </div>
+      <div class="mb-4">
+        <label class="block font-bold mb-2" for="home_address">Home Address</label>
+        <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="text" id="home_address"
+          placeholder="Ang Mio Kio Street 201" value="{{ user.home_address }}">
+      </div>
+      <div class="mb-4">
+        <label class="block font-bold mb-2" for="contact-number">Contact Number</label>
+        <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="tel" id="phone_number" placeholder="8391 2912"
+          value="{{ user.phone_number }}">
+      </div>
+    </form>
   </div>
-
-  <script>
-    function update_user() {
-      const fullname = document.getElementById('full_name').value
-      const home_address = document.getElementById('home_address').value
-      const phone_number = document.getElementById('phone_number').value
-
-      const xhr = new XMLHttpRequest();
-      xhr.open('PUT', '/api/user/{{ user.email }}')
-      xhr.setRequestHeader('Content-Type', 'application/json')
-      xhr.send(JSON.stringify({
-        "full_name": fullname,
-        "home_address": home_address,
-        "phone_number": phone_number,
-      }))
-
-      setTimeout(() => window.location.reload(), 250)
-    }
-  </script>
-</body>
-
-
+  <div class="mb-8">
+    <button
+      class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+      type="submit" onclick="update_user()">
+      Update
+    </button>
+  </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+  function update_user() {
+    const fullname = document.getElementById('full_name').value
+    const home_address = document.getElementById('home_address').value
+    const phone_number = document.getElementById('phone_number').value
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', '/api/user/{{ user.email }}')
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify({
+      "full_name": fullname,
+      "home_address": home_address,
+      "phone_number": phone_number,
+    }))
+
+    setTimeout(() => window.location.reload(), 250)
+  }
+</script>
+{% endblock %}
