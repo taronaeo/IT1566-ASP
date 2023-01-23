@@ -7,7 +7,7 @@
 """
 
 import shelve
-from flask import Flask
+from flask import Flask, flash, url_for, redirect
 from flask_restful import Api
 from flask_login import LoginManager
 
@@ -32,17 +32,18 @@ def create_app():
   login_manager.login_view = "auth.login"
   login_manager.init_app(app)
 
-  from .auth import auth
-  from .views import views
-  from .routes import listing
+  from .routes import views, auth, account, vehicle, listing
+
   from .apis.user import UserApiEndpoint
   from .apis.wallet import WalletApiEndpoint
   from .apis.vehicle import VehicleApiEndpoint
   from .apis.listing import ListingApiEndpoint
 
-  app.register_blueprint(auth, url_prefix='/')
   app.register_blueprint(views, url_prefix='/')
-  app.register_blueprint(listing, url_prefix='/listing')
+  app.register_blueprint(auth, url_prefix='/')
+  app.register_blueprint(account, url_prefix='/')
+  app.register_blueprint(vehicle, url_prefix='/')
+  app.register_blueprint(listing, url_prefix='/')
   api.add_resource(UserApiEndpoint, "/api/user", "/api/user/<string:uid>")
   api.add_resource(WalletApiEndpoint, "/api/wallet", "/api/wallet/<string:owner_uid>")
   api.add_resource(VehicleApiEndpoint, "/api/vehicle", "/api/vehicle/<string:license_plate>")
@@ -55,5 +56,11 @@ def create_app():
         return db[email]
       except KeyError:
         pass
+  
+  # * BETA CODE
+  @login_manager.unauthorized_handler
+  def unauthorised_access():
+    flash('Please login to continue')
+    return redirect(url_for('auth.login', next=next))
   
   return app
