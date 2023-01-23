@@ -35,7 +35,7 @@ def login():
 
     user = User.query_user(email)
     if not user:
-      flash('Account does not exist.')
+      flash('Account does not exist')
       return redirect(url_for('auth.login'))
 
     if user.password == password:
@@ -47,6 +47,9 @@ def login():
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
+  if not isinstance(current_user, AnonymousUserMixin):
+    return redirect(url_for('views.home'))
+
   if request.method == 'POST':
     email = request.form.get('email')
     password = request.form.get('password')

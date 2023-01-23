@@ -1,9 +1,84 @@
 {% extends 'base.html' %}
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}Sign Up | SGCARWASH{% endblock %}
 
 {% block content %}
-<div class="container mx-auto flex flex-col items-center px-4 py-8">
+<section class="h-screen flex flex-col justify-center items-center">
+  <div class="w-10/12 max-w-md">
+    {% with alerts = get_flashed_messages() %}
+    {% if alerts %}
+    {% for alert in alerts %}
+    <div class="w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+      <div class="w-5 h-5">
+        <img src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">
+      </div>
+
+      <p class="grow">
+        {{alert}}
+      </p>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="px-6 py-8 rounded-lg bg-gray-100">
+      <h1 class="mb-4 text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">Create an SGCARWASH account</h1>
+
+      <form method="POST" class="space-y-4 md:space-y-6">
+        <div>
+          <label for="email" class="font-light">Email Address</label>
+          <input id="email" type="email" name="email" placeholder="name@example.com"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="password" class="font-light">Password</label>
+          <input type="password" name="password" id="password" placeholder="••••••••"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="password_confirm" class="font-light">Confirm Password</label>
+          <input type="password" name="password_confirm" id="password_confirm" placeholder="••••••••"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="full_name" class="font-light">Full Name</label>
+          <input type="text" name="full_name" id="full_name" placeholder="Mickey Mouse"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="home_address" class="font-light">Home Address</label>
+          <input type="text" name="home_address" id="home_address"
+            placeholder="180 Ang Mo Kio Avenue 8, Singapore 569830"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="phone_number" class="font-light">Phone Number</label>
+          <input type="tel" name="phone_number" id="phone_number" placeholder="6451 5115"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <button type="submit" class="px-5 py-2.5 w-full rounded-lg
+                                     text-white text-center font-medium bg-blue-600
+                                     hover:bg-blue-700 focus:outline-none
+                                     focus:ring-4 focus:ring-blue-300">
+          Create account
+        </button>
+
+        <p class="text-sm font-light text-gray-500">
+          Already have an account?
+          <a href="{{ url_for('auth.login') }}" class="font-medium text-blue-600 hover:underline">Login here</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- <div class="container mx-auto flex flex-col items-center px-4 py-8">
   <img src="logo.jpeg" class="w-32 mb-8" alt="Logo" />
 
   <div class="w-full max-w-sm">
@@ -55,5 +130,5 @@
       </div>
     </form>
   </div>
-</div>
+</div> -->
 {% endblock %}
