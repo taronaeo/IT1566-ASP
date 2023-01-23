@@ -21,9 +21,8 @@ def logout():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-  # * Temporarily Disabled
-  # if not isinstance(current_user, AnonymousUserMixin):
-  #   return redirect(url_for('views.home'))
+  if not isinstance(current_user, AnonymousUserMixin):
+    return redirect(url_for('views.home'))
   
   if request.method == 'POST':
     email = request.form.get('email')

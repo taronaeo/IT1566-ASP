@@ -38,6 +38,9 @@ class User(UserMixin):
     self.training_complete = training_complete
     self.background_check = background_check
 
+  def get_id(self):
+    return self.email
+
   @staticmethod
   def query_user(email: str) -> User | None:
     with shelve.open(DB_USER_LOCATION) as db_user:
