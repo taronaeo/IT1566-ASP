@@ -38,7 +38,8 @@ def update_car(uid: str):
 @listing.route('/contractors')
 def contractors():
   return render_template('/listing/contractors.html',
-                          user=current_user)
+                          user=current_user,
+                          contractors={})
 
 @listing.route('/contractors/create')
 @login_required
