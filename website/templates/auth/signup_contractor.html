@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Contractor Sign-Up{% endblock %}
+
+{% block content %}
+<section class="my-10 flex flex-col justify-center items-center">
+  <div class="w-10/12 max-w-md">
+    <a href="/signup" class="mb-4 text-sm inline-flex gap-2">
+      <img src="/img/chevron_left.svg" alt="Chevron Left Icon" class="w-5 h-5 text-gray-900">
+      Back to selection
+    </a>
+
+    {% with alerts = get_flashed_messages() %}
+    {% if alerts %}
+    {% for alert in alerts %}
+    <div class="w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+      <div class="w-5 h-5">
+        <img src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">
+      </div>
+
+      <p class="grow">
+        {{alert}}
+      </p>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="px-6 py-8 rounded-lg bg-gray-100">
+      <h1 class="mb-4 text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">Become a contractor</h1>
+
+      <form action="/signup" method="POST" class="space-y-4 md:space-y-6">
+        <div>
+          <label for="full_name" class="font-light">Full Name</label>
+          <input type="text" name="full_name" id="full_name" placeholder="Mickey Mouse" data-lpignore="true"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="phone_number" class="font-light">Phone Number</label>
+          <input type="tel" name="phone_number" id="phone_number" placeholder="6451 5115"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="email" class="font-light">Email Address</label>
+          <input id="email" type="email" name="email" placeholder="name@example.com"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="password" class="font-light">Password</label>
+          <input type="password" name="password" id="password" placeholder="••••••••"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="password_confirm" class="font-light">Confirm Password</label>
+          <input type="password" name="password_confirm" id="password_confirm" placeholder="••••••••"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="bank_account" class="font-light">Bank Account No.</label>
+          <input type="text" name="bank_account" id="bank_account" placeholder="123-456789-0"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <button type="submit" class="px-5 py-2.5 w-full rounded-lg
+                                     text-white text-center font-medium bg-blue-600
+                                     hover:bg-blue-700 focus:outline-none
+                                     focus:ring-4 focus:ring-blue-300">
+          Get started
+        </button>
+
+        <p class="text-sm font-light text-gray-500">
+          Already have an account?
+          <a href="{{ url_for('auth.login') }}" class="font-medium text-blue-600 hover:underline">Login here</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+  const phone_number = document.getElementById('phone_number')
+  const bank_account = document.getElementById('bank_account')
+  phone_number.addEventListener('input', maskPhoneNumber)
+  bank_account.addEventListener('input', maskBankAccount)
+
+  function maskPhoneNumber({ target: { value } }) {
+    const maskedValue = value.replace(/\s/g, "").match(/.{1,4}/g)?.join(" ").substr(0, 9) || ""
+    phone_number.value = maskedValue
+  }
+
+  function maskBankAccount({ target: { value } }) {
+    const maskedValue = value.replace(/-/g, "").match(/.{1,3}/g)?.join("-").substr(0, 13) || ""
+    bank_account.value = maskedValue
+  }
+</script>
+{% endblock %}

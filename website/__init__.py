@@ -29,7 +29,7 @@ def create_app():
   app.config['SECRET_KEY'] = 'abcdefghijklmnopqrstuvwxyz' # NOTE: To be changed when deploying
 
   login_manager = LoginManager()
-  login_manager.login_view = "auth.login"
+  login_manager.login_view = "auth.login" # type: ignore
   login_manager.init_app(app)
 
   from .routes import views, auth, account, vehicle, listing
@@ -49,18 +49,16 @@ def create_app():
   api.add_resource(VehicleApiEndpoint, "/api/vehicle", "/api/vehicle/<string:license_plate>")
   api.add_resource(ListingApiEndpoint, "/api/listing", "/api/listing/<string:uid>")
 
+  from .models import User
+
   @login_manager.user_loader
   def load_user(email):
-    with shelve.open(DB_USER_LOCATION) as db:
-      try:
-        return db[email]
-      except KeyError:
-        pass
-  
+    return User.query_user(email)
+
   # * BETA CODE
   @login_manager.unauthorized_handler
   def unauthorised_access():
     flash('Please login to continue')
     return redirect(url_for('auth.login', next=next))
-  
+
   return app
