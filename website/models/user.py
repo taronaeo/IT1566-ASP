@@ -32,7 +32,7 @@ class User(UserMixin):
     training_complete = None
   ):
     super().__init__()
-    self.uid = uid | email
+    self.uid = uid or email
     self.email = email
     self.full_name = full_name
     self.phone_number = phone_number
@@ -52,11 +52,11 @@ class User(UserMixin):
         return None
 
       return db[email]
-  
+
   @staticmethod
   def update_user(background_check = None, training_complete = None):
     return NotImplemented
-  
+
   @staticmethod
   def create_user(
     email,
@@ -78,5 +78,5 @@ class User(UserMixin):
     with shelve.open(DB_USER_LOCATION) as db:
       db[email] = user
       db.sync()
-    
+
     return user
