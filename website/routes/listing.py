@@ -20,7 +20,6 @@ def cars():
   with shelve.open(DB_LISTING_LOCATION) as db_listing:
     return render_template('/listing/cars.html',
                             user=current_user,
-                            owner_uid=current_user.email, # type: ignore
                             cars=db_listing)
 
 @listing.route('/cars/create')
