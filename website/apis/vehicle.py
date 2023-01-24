@@ -33,7 +33,7 @@ class VehicleApiEndpoint(Resource):
       try:
         if args['license_plate'] in db:
           return { "message": "Vehicle already exists." }, 409
-  
+
         vehicle = Vehicle(
           args['license_plate'],
           args['owner_uid'],
@@ -47,7 +47,7 @@ class VehicleApiEndpoint(Resource):
         return vehicle.__dict__
       except Exception:
         return { "message": "Something went wrong." }, 500
-        
+
   def put(self,license_plate):
     args = update_parser.parse_args()
     with shelve.open(DB_VEHICLE_LOCATION) as db:
@@ -79,5 +79,5 @@ class VehicleApiEndpoint(Resource):
         return {'code': 200, 'message': 'Vehicle Deleted'}, 200
       except KeyError:
         return {'code': 404, 'message': 'Vehicle not found'}, 404
-      except Exception: 
+      except Exception:
         return {'code': 500, 'message': 'Somthing went wrong'}, 500

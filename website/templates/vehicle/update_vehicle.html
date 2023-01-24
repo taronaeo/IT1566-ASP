@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Vehicle{% endblock %}
+
+{% block content %}
+<div class="container mx-auto flex flex-col items-center px-4 py-8">
+  <img src="logo.jpeg" class="w-32 mb-8" alt="Logo">
+  <div class="w-full max-w-sm">
+    <h2 class="text-2xl font-bold mb-4">Add Vehicle Information</h2>
+    <form>
+      <div class="mb-4">
+        <label class="block font-bold mb-2" for="full-name">Car Make</label>
+        <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="text" id="car-make" placeholder="Nissan">
+      </div>
+      <div class="mb-4">
+        <label class="block font-bold mb-2" for="contact-number">Car Model</label>
+        <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="text" id="car-model" placeholder="Skyline GT-R">
+      </div>
+      <div class="mb-4">
+        <label class="block font-bold mb-2" for="contact-number">License Plate Number</label>
+        <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="text" id="plate-number" placeholder="SBA 1234B">
+      </div>
+
+    </form>
+  </div>
+  <div class="mb-8">
+    <button id='add_vehicle'
+      class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+      type="submit">
+      Add
+    </button>
+  </div>
+
+  <div class="mb-4">
+    <span id="update_error" class="text-red-400"></span>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  const submitVehicle = document.getElementById('add_vehicle');
+
+
+  const error_text = document.getElementById('update_error')
+
+
+
+  const sendRequest = () => {
+
+    const license = document.getElementById('plate-number').value;
+    const make = document.getElementById('car-make').value;
+    const model = document.getElementById('car-model').value;
+
+    if (!make || !model || !license) {
+      return error_text.innerText = "Fill in all Information!"
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/vehicle');
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify({
+      "license_plate": license,
+      "vehicle_model": model,
+      "owner_uid": "{{owner_uid}}",
+      "vehicle_make": make,
+      "unlock_system_installed": true
+    }))
+    setTimeout(() => window.location.href = '/vehicle', 250)
+
+  }
+  submitVehicle.onclick = () => sendRequest()
+</script>
+{% endblock %}

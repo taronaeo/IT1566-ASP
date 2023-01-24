@@ -6,9 +6,10 @@
   ! `py main.py`
 """
 
+from __future__ import annotations
 import shelve, random, string
 
-from . import DB_BASE_LOCATION
+from . import DB_BASE_LOCATION, DB_USER_LOCATION, DB_WALLET_LOCATION
 from flask_login import UserMixin
 
 class User(UserMixin):
@@ -37,6 +38,17 @@ class User(UserMixin):
     self.training_complete = training_complete
     self.background_check = background_check
 
+  def get_id(self):
+    return self.email
+
+  @staticmethod
+  def query_user(email: str) -> User | None:
+    with shelve.open(DB_USER_LOCATION) as db_user:
+      if email not in db_user:
+        return None
+
+      return db_user[email]
+
   @staticmethod
   def create_user(
     email,
@@ -44,8 +56,8 @@ class User(UserMixin):
     full_name,
     home_address,
     phone_number
-  ):
-    return User(
+  ) -> User:
+    user = User(
       email,
       password,
       full_name,
@@ -58,8 +70,10 @@ class User(UserMixin):
       background_check=False
     )
 
-  def get_id(self):
-    return (self.email)
+    with shelve.open(DB_USER_LOCATION) as db_user:
+      db_user[email] = user
+
+    return user
 
 class Vehicle():
   def __init__(self, uid, owner_uid, vehicle_make, vehicle_model, unlock_system_installed, created_at) -> None:
@@ -83,7 +97,12 @@ class Wallet():
 
   @staticmethod
   def create_wallet(email):
-    return Wallet(email, 0, 0, [])
+    wallet = Wallet(email, 0, 0, [])
+
+    with shelve.open(DB_WALLET_LOCATION) as db_wallet:
+      db_wallet[email] = wallet
+
+    return wallet
 
 class WalletTransaction():
   def __init__(self, transaction_type, transaction_amount, transaction_remarks, transaction_timestamp) -> None:

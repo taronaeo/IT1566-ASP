@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehicle Management{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+  <h1 class="text-2xl font-bold mb-4">Vehicle Management</h1>
+  <a href='/UpdateVehicle'>
+    <button id='add' class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+      Add Vehicle
+    </button>
+  </a>
+  <table class="table-auto w-full">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">UID</th>
+        <th class="px-4 py-2">Car Make</th>
+        <th class="px-4 py-2">Car Model</th>
+        <th class="px-4 py-2">License Plate Number</th>
+        <th class="px-4 py-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {% for vehicle in vehicles %}
+      <tr>
+        <td class="p-4" id='owner_uid'>{{ vehicle.owner_uid }}</td>
+        <td class="p-4">{{ vehicle.vehicle_make }}</td>
+        <td class="p-4">{{ vehicle.vehicle_model }}</td>
+        <td class="p-4">{{ vehicle.uid }}</td>
+        <td class="px-4 py-2 flex justify-around">
+          <button onclick="if(confirm(confirm_text) == true){getuid(this,'remove')}" id='remove'
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
+        </td>
+        <td class="px-4 py-2 flex justify-around">
+          <button
+            onclick="fillinputs('{{vehicle.owner_uid}}','{{vehicle.vehicle_make}}', '{{vehicle.vehicle_model}}', '{{vehicle.uid}}'),getuid(this,'update')"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Update</button>
+
+        </td>
+
+        {% endfor %}
+      </tr>
+      </tr>
+
+    </tbody>
+  </table>
+  <div class="flex flex-col">
+    <h1 class="text-4xl font-bold">Update Car Details</h1>
+
+    <div class="mb-4">
+      <label for="update_uid">UID</label>
+      <input id="update_uid" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required readonly>
+    </div>
+    <div class="mb-4">
+      <label for="update_make">Car Make</label>
+      <input id="update_make" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+    </div>
+
+    <div class="mb-4">
+      <label for="update_model">Car Model</label>
+      <input id="update_model" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+    </div>
+
+    <div class="mb-4">
+      <label for="update_license_plate">License Plate</label>
+      <input id="update_license_plate" type="text" class="bg-gray-200 px-4 py-2 rounded-md" required>
+    </div>
+
+    <div class="mb-4">
+      <span id="update_error" class="text-red-400"></span>
+    </div>
+    <button type="submit" id='update'>Update Car</button>
+  </div>
+  {% endblock %}
+
+  {% block script %}
+  <script>
+    const confirm_text = "Are you sure you want to remove this car?";
+    function fillinputs(owner_uid, vehicle_make, vehicle_model, uid) {
+      document.getElementById('update_uid').value = owner_uid
+      document.getElementById('update_make').value = vehicle_make
+      document.getElementById('update_model').value = vehicle_model
+      document.getElementById('update_license_plate').value = uid
+    }
+
+    function getuid(button, req_type) {
+      uid = button.parentElement.previousSibling.previousSibling.innerText;
+      if (req_type === 'update') {
+        uid = button.parentElement.previousSibling.previousSibling.previousSibling.previousSibling.innerText;
+      }
+      const updateVehicle = document.getElementById('update')
+
+      if (req_type === 'remove') {
+        const delRequest = () => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('DELETE', '/api/vehicle/' + uid)
+          xhr.send()
+          setTimeout(() => window.location.reload(), 250)
+        }
+        delRequest('remove')
+      }
+
+      const putRequest = (type) => {
+        const error_text = document.getElementById('update_error')
+        const make = document.getElementById('update_make').value
+        const model = document.getElementById('update_model').value
+        const license = document.getElementById('update_license_plate').value
+        const xhr = new XMLHttpRequest();
+
+        if (!make || !model || !license) {
+          return error_text.innerText = "Fill in all Information!"
+        }
+
+        xhr.open('PUT', '/api/vehicle/' + uid)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify({
+          "type": type,
+          "vehicle_make": make,
+          "vehicle_model": model,
+          "uid": license
+        }))
+        setTimeout(() => window.location.reload(), 250)
+      }
+      updateVehicle.onclick = () => putRequest('update');
+
+    }
+
+  </script>
+  {% endblock %}

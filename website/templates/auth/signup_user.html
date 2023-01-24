@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<section class="my-10 flex flex-col justify-center items-center">
+  <div class="w-10/12 max-w-md">
+    <a href="/signup" class="mb-4 text-sm inline-flex gap-2">
+      <img src="/img/chevron_left.svg" alt="Chevron Left Icon" class="w-5 h-5 text-gray-900">
+      Back to selection
+    </a>
+
+    {% with alerts = get_flashed_messages() %}
+    {% if alerts %}
+    {% for alert in alerts %}
+    <div class="w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+      <div class="w-5 h-5">
+        <img src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">
+      </div>
+
+      <p class="grow">
+        {{alert}}
+      </p>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="px-6 py-8 rounded-lg bg-gray-100">
+      <h1 class="mb-4 text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">Become a SGCARWASH member</h1>
+
+      <form action="/signup" method="POST" class="space-y-4 md:space-y-6">
+        <div>
+          <label for="full_name" class="font-light">Full Name</label>
+          <input type="text" name="full_name" id="full_name" placeholder="Mickey Mouse"
+            value="{{ request.form['full_name'] }}"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="phone_number" class="font-light">Phone Number</label>
+          <input type="tel" name="phone_number" id="phone_number" placeholder="6451 5115"
+            value="{{ request.form['phone_number'] }}"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="email" class="font-light">Email Address</label>
+          <input id="email" type="email" name="email" placeholder="name@example.com" value="{{ request.form['email'] }}"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="password" class="font-light">Password</label>
+          <input type="password" name="password" id="password" placeholder="••••••••"
+            value="{{ request.form['password'] }}"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="password_confirm" class="font-light">Confirm Password</label>
+          <input type="password" name="password_confirm" id="password_confirm" placeholder="••••••••"
+            value="{{ request.form['password_confirm'] }}"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <div>
+          <label for="card_number" class="font-light">Card Number</label>
+          <input type="text" name="card_number" id="card_number" placeholder="1234 5678 9012 3456"
+            value="{{ request.form['card_number'] }}"
+            class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
+        </div>
+
+        <button type="submit" class="px-5 py-2.5 w-full rounded-lg
+                                     text-white text-center font-medium bg-blue-600
+                                     hover:bg-blue-700 focus:outline-none
+                                     focus:ring-4 focus:ring-blue-300">
+          Create account
+        </button>
+
+        <p class="text-sm font-light text-gray-500">
+          Already have an account?
+          <a href="{{ url_for('auth.login') }}" class="font-medium text-blue-600 hover:underline">Login here</a>
+        </p>
+        </for>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+  const phone_number = document.getElementById('phone_number')
+  const card_number = document.getElementById('card_number')
+  phone_number.addEventListener('input', maskPhoneNumber)
+  card_number.addEventListener('input', maskCardNumber)
+
+  function maskPhoneNumber({ target: { value } }) {
+    const maskedValue = value.replace(/\s/g, "").match(/.{1,4}/g)?.join(" ").substr(0, 9) || ""
+    phone_number.value = maskedValue
+  }
+
+  function maskCardNumber({ target: { value } }) {
+    const maskedValue = value.replace(/\s/g, "").match(/.{1,4}/g)?.join(" ").substr(0, 19) || ""
+    card_number.value = maskedValue
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Contractor Listings{% endblock %}
+
+{% block content %}
+<section class="p-4 w-full">
+  <h1 class="mb-4 text-xl text-center font-bold text-gray-900 md:text-2xl">Contractor Listings</h1>
+
+  {% if contractors|length == 0 %}
+  <div class="flex flex-col items-center gap-4">
+    <img src="/img/no_car.gif" alt="No Cars Available" class="w-full max-w-lg">
+    <span class="text-center font-light">Sorry, there are no contractors listed now. Please check again later.</span>
+  </div>
+  {% endif %}
+
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div class="w-full max-w-sm bg-white rounded-lg border border-blue-100">
+      <a href="/cars/idkbro">
+        <img class="rounded-t-lg"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/2018_Toyota_Camry_%28ASV70R%29_Ascent_sedan_%282018-08-27%29_01.jpg/1200px-2018_Toyota_Camry_%28ASV70R%29_Ascent_sedan_%282018-08-27%29_01.jpg"
+          alt="Toyota Camry" />
+
+        <div class="p-5">
+          <h5 class="text-2xl text-gray-900 font-medium tracking-tight">2018 Toyota Camry</h5>
+          <p class="mb-2 text-sm text-gray-400 truncate inline-flex gap-1">
+            <img src="/img/map_pin.svg" alt="Map Icon" class="w-5 h-5">
+            180 Ang Mo Kio Avenue 8
+          </p>
+
+          <p class="mb-2 text-gray-600">Clean exterior, Refuel tank with RON95, Purchase Snacks</p>
+          <div class="w-full text-blue-700 inline-flex justify-end">
+            <span class="text-lg font-medium">$150</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    {#% for contractor in contractors.values() %}
+    <div class="w-full max-w-sm bg-white rounded-lg border border-blue-100">
+      <a href="/cars/{{ contractor.uid }}">
+        <img class="rounded-t-lg"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/2018_Toyota_Camry_%28ASV70R%29_Ascent_sedan_%282018-08-27%29_01.jpg/1200px-2018_Toyota_Camry_%28ASV70R%29_Ascent_sedan_%282018-08-27%29_01.jpg"
+          alt="Toyota Camry" />
+
+        <div class="p-5">
+          <h5 class="text-2xl text-gray-900 font-medium tracking-tight">2018 Toyota Camry</h5>
+          <p class="mb-2 text-sm text-gray-400 truncate inline-flex gap-1">
+            <img src="/img/map_pin.svg" alt="Map Icon" class="w-5 h-5">
+            180 Ang Mo Kio Avenue 8
+          </p>
+
+          <p class="mb-2 text-gray-600">Clean exterior, Refuel tank with RON95, Purchase Snacks</p>
+          <div class="w-full text-blue-700 inline-flex justify-end">
+            <span class="text-lg font-medium">$150</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %#}
+  </div>
+</section>
+{% endblock %}

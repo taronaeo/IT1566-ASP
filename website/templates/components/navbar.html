@@ -1,0 +1,86 @@
+<!-- ! Mobile sidenav backdrop -->
+<div id="overlay" class="hidden fixed top-0 left-64 w-full h-screen bg-black/50 z-10" onclick="toggleSidenav()"></div>
+
+<nav class="w-full bg-white
+            sticky top-0 left-0
+            border-b-[1px] border-blue-200">
+
+  <!-- ! Top section of navbar -->
+  <div class="w-full h-14 mx-auto container
+              flex items-center justify-between">
+
+    <!-- ! Mobile sidenav button -->
+    <button onclick="toggleSidenav()" class="p-4 md:hidden ">
+      <img class="h-6" src="/img/bars.svg" alt="Sidenav">
+    </button>
+
+    <!-- ! Logo -->
+    <div class="py-5">
+      <a href="/">
+        <img class="h-4" src="/img/logo.svg" alt="Logo">
+      </a>
+    </div>
+
+    <!-- ! User Profile -->
+    <!-- TODO: Change from Profile icon to Sign Up | Login -->
+    <div class="p-4">
+      <img class="h-6" src="/img/profile.svg" alt="Profile">
+    </div>
+  </div>
+
+  <!-- ! Bottom section of navbar -->
+  <div id="sidenav" class="px-3 py-6 md:py-0
+                           top-0 left-0 bg-white
+                           w-64 h-screen md:w-full md:h-auto
+                           fixed hidden md:relative md:block">
+
+    <!-- ! Navbar Links -->
+    <div class="flex flex-col
+                mx-auto container
+                md:flex-row md:gap-4">
+
+      <a class="md:hidden" href="/">
+        <img class="w-36 py-4" src="/img/logo.svg" alt="Logo">
+      </a>
+
+      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="{{ url_for('views.home') }}">
+        Home
+      </a>
+
+      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="{{ url_for('listing.cars') }}">
+        Car Listings
+      </a>
+
+      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2"
+        href="{{ url_for('listing.contractors') }}">
+        Contractor Listings
+      </a>
+
+      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="/products">
+        Products
+      </a>
+
+      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="/promotions">
+        Promotions
+      </a>
+
+      <span class="py-4 text-xs text-gray-400 md:hidden">Custom coded with ❤️ by Aaron</span>
+    </div>
+  </div>
+</nav>
+
+{% block script %}
+<script>
+  const body = document.getElementById('body')
+  const overlay = document.getElementById('overlay')
+  const sidenav = document.getElementById('sidenav')
+
+  function toggleSidenav() {
+    body.classList.toggle('fixed')
+    body.classList.toggle('w-full')
+    body.classList.toggle('left-64')
+    overlay.classList.toggle('hidden')
+    sidenav.classList.toggle('hidden')
+  }
+</script>
+{% endblock %}
