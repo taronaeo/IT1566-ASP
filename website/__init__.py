@@ -7,9 +7,9 @@
 """
 
 import shelve
-from flask import Flask, flash, url_for, redirect
+from flask import Flask, flash, url_for, redirect, render_template
+from flask_login import LoginManager, current_user
 from flask_restful import Api
-from flask_login import LoginManager
 
 DB_BASE_LOCATION = "instance/sgdetailmart"
 DB_USER_LOCATION = f"{DB_BASE_LOCATION}_user"
@@ -50,6 +50,10 @@ def create_app():
   api.add_resource(ListingApiEndpoint, "/api/listing", "/api/listing/<string:uid>")
 
   from .models import User
+
+  @app.errorhandler(404)
+  def handleNotFound(error):
+    return render_template('/404.html', user=current_user), 404
 
   @login_manager.user_loader
   def load_user(email):
