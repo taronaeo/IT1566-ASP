@@ -7,7 +7,7 @@
 """
 
 import shelve
-from flask import Flask, flash, url_for, redirect, render_template
+from flask import Flask, flash, url_for, request, redirect, render_template
 from flask_login import LoginManager, current_user
 from flask_restful import Api
 
@@ -63,6 +63,7 @@ def create_app():
   @login_manager.unauthorized_handler
   def unauthorised_access():
     flash('Please login to continue')
-    return redirect(url_for('auth.login', next=next))
+    next_url = url_for(request.endpoint, **request.view_args) # type: ignore
+    return redirect(url_for('auth.login', next=next_url))
 
   return app
