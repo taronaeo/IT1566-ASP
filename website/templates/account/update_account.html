@@ -1,57 +1,244 @@
 {% extends 'base.html' %}
 
-{% block title %}Create Account{% endblock %}
+{% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<div class="container mx-auto flex flex-col items-center px-4 py-8">
-  <img src="logo.jpeg" class="w-32 mb-8" alt="Logo">
-  <div class="w-full max-w-sm">
-    <h2 class="text-2xl font-bold mb-4">Update Account Information</h2>
-    <form>
-      <div class="mb-4">
-        <label class="block font-bold mb-2" for="full_name">Full Name</label>
-        <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="text" id="full_name" placeholder="John Tan"
-          value="{{ user.full_name }}">
+<section class="container h-auto flex flex-row relative">
+    <div class="grid grid-cols-5 container mx-32 border-slate-300 border-r-2">
+      <div class=" h-full container col-span-1 text-white text-lg font-normal shadow-md bg-gray-800">
+        <div class = 'fixed'>
+        <ul>
+          <li class="h-16 border-blue-600 border-l-4 mt-4 mb-4 ml-1 rounded">
+            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-700 hover:text-white transition duration-300 ease-out" href="#profile" data-mdb-ripple="true" data-mdb-ripple-color="dark">Profile Info</a>
+          </li>
+          <li class="h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded">
+            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-600 hover:text-white transition duration-300 ease-out" href="#wallet" data-mdb-ripple="true" data-mdb-ripple-color="dark">Wallet Management</a>
+          </li>
+          <li class="h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded">
+            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-600 hover:text-white transition duration-300 ease-out" href="#delete" data-mdb-ripple="true" data-mdb-ripple-color="dark">Delete Account</a>
+          </li>
+        </ul>
+        </div>
       </div>
-      <div class="mb-4">
-        <label class="block font-bold mb-2" for="home_address">Home Address</label>
-        <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="text" id="home_address"
-          placeholder="Ang Mio Kio Street 201" value="{{ user.home_address }}">
+      <div class="h-auto col-span-4 bg-slate-200 px-6 py-8">
+            <h2 id = 'profile' class="text-2xl text-center font-semibold m-auto mb-4 border-b-2 border-amber-300 w-96 pb-3 ">Profile Information</h2>
+    
+              <div class="h-auto w-2/3 mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
+                <form>
+                  <div class="hidden w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" id = 'alert'>
+                      <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon"><span id = 'alert-msg'></span>
+                  </div>
+
+                  <div class="mb-4"> 
+                    <label class="block font-normal mb-2" for="full_name">Full Name</label>
+                    <input class="hidden w-full border-2 border-gray-300 px-3 py-2 rounded-lg shadow-sm" type="text" id="full_name" placeholder="John Tan" value="{{user.full_name}}">
+                  </div>
+                  <div class = 'mb-4'>
+                    <span class = 'ml-6 text-lg font-semibold' id = 'fname'></span>
+                  </div>
+                  <div class="mb-4">
+                    <label class="block font-normal mb-2" for="phone_number">Contact Number</label>
+                    <input class="hidden w-full border-2 border-gray-300 px-3 py-2 rounded-lg shadow-sm" type="tel" id="phone_number" placeholder="8391 2912" value="{{user.phone_number}}">
+                  </div>
+                  <div class = 'mb-4'>
+                    <span class = 'ml-6 text-lg font-semibold' id = 'contact'></span>
+                  </div>
+                </form>
+                <div class="text-center ">
+                  <button class=" w-32 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit' type="button" onclick="swap_span_to_input(),swap_buttons_to_confirm()">  
+                    <img class = 'inline mb-1 -ml-2 mr-2 h-6'src = "/img/edit.svg">Edit
+                  </button>
+                </div>
+
+                <div class="text-right">
+                  <button class=" hidden w-28 px-4 py-2 font-bold text-blue-500 bg-white border-2 border-blue-500 rounded-md hover:text-white hover:border-white duration-200 ease-out hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'cancel' type = 'button' onclick="swap_input_to_span()">  
+                    Cancel
+                  </button>
+                  <button class=" hidden w-28 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'confirm' type="submit" onclick="put_request()">  
+                    Confirm
+                  </button>
+                </div>
+
+              </div>
+    
+              <h2 class="text-2xl text-center font-semibold m-auto mb-4 mt-8 border-b-2 border-amber-300 w-96 pb-3" id = 'wallet'>Wallet Management</h2>
+    
+              <div class="h-auto w-2/3 mx-auto drop-shadow-lg bg-white p-6 rounded-lg text-center ">
+                <p class = 'text-left'>Manage your e-wallet. Top-up funds, withdraw balance as well as view past transanctions.</p>
+                <button class="mt-3 w-32 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+                  <a href = '/wallet'>
+                    <img class = 'h-6 inline mb-1 -ml-2 mr-2' src = '/img/wallet.svg'>Wallet
+                  </a>
+                </button>
+              </div>
+
+              <h2 class="text-2xl text-center font-semibold m-auto mb-4 mt-8 border-b-2 border-amber-300 w-96 pb-3" id = 'delete'>Delete Account</h2>
+              <div class = 'h-auto w-2/3 mx-auto drop-shadow-lg bg-white p-6 rounded-lg'>
+                <p class = 'font-semibold'>Permanently Delete Your Account</p>
+              
+                  <div class=" w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg">
+                    <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">WARNING: This action cannot be undone!
+                  </div> 
+                  <div class = 'text-center'>
+                    <button class="mt-3 w-32 px-4 py-2 font-bold text-white bg-orange-500  rounded-md hover:bg-orange-700 focus:outline-none focus:shadow-outline" id = 'delete-button' onclick = 'show_confirmation()'>
+                        <img class = 'h-6 inline mb-1 -ml-2 mr-2' src = '/img/delete.svg'>Delete
+                    </button>
+                  </div>
+              </div>
       </div>
-      <div class="mb-4">
-        <label class="block font-bold mb-2" for="contact-number">Contact Number</label>
-        <input class="w-full px-3 py-2 rounded-lg shadow-sm" type="tel" id="phone_number" placeholder="8391 2912"
-          value="{{ user.phone_number }}">
+      </div> 
+    </div>
+    <div class = 'hidden w-full fixed z-40 inset-0 bg-slate-500/50 ' id = 'popup-overlay'>
+      <div class = 'bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
+        <span id = 'confirmation-text'>
+        Are you sure you want to <span class = 'font-semibold'>Permanently</span> delete your account?
+        </span> 
+        <span id = 'success-delete' class = 'hidden font-semibold'>Account Successfully Deleted, Redirecting to Home Page</span>
+        <div class=" w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg" id = 'delete-warning'>
+            <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">WARNING: This action cannot be undone!
+          </div>
+          <div class = 'text-center'>
+            <button class="mt-3 w-32 px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 duration-200 ease-out rounded-md hover:bg-orange-700 focus:outline-none focus:shadow-outline" id = 'cancel-button' onclick = 'cancel_delete()'>
+                Cancel
+            </button>
+            <button onclick = 'delRequest()' class="mt-3 w-32 px-4 py-2 font-bold border-2 border-orange-500 text-white bg-orange-500   rounded-md hover:bg-orange-700 focus:outline-none focus:shadow-outline" id = 'confirm-button'>
+              Confirm
+            </button>
+          </div>
+
+      
       </div>
-    </form>
-  </div>
-  <div class="mb-8">
-    <button
-      class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-      type="submit" onclick="update_user()">
-      Update
-    </button>
-  </div>
-</div>
-{% endblock %}
+      
+    </div>
 
-{% block script %}
-<script>
-  function update_user() {
-    const fullname = document.getElementById('full_name').value
-    const home_address = document.getElementById('home_address').value
-    const phone_number = document.getElementById('phone_number').value
+  </section>
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('PUT', '/api/user/{{ user.email }}')
-    xhr.setRequestHeader('Content-Type', 'application/json')
-    xhr.send(JSON.stringify({
-      "full_name": fullname,
-      "home_address": home_address,
-      "phone_number": phone_number,
-    }))
+  <script>
 
-    setTimeout(() => window.location.reload(), 250)
-  }
-</script>
-{% endblock %}
+    const userapi_url = {{ url_for("userapiendpoint")|tojson }};
+    const user_email = {{user.email|tojson}};
+
+    function delRequest(){
+      let confirmation_text = document.getElementById('confirmation-text');
+      let success_delete = document.getElementById('success-delete');
+      let cancel_button = document.getElementById('cancel-button');
+      let confirm_button= document.getElementById('confirm-button');
+
+      success_delete.classList.remove('hidden');
+
+      confirmation_text.classList.add('hidden');
+      cancel_button.classList.add('hidden');
+      confirm_button.classList.add('hidden');
+
+
+      fetch(`${userapi_url}/${user_email}`, {
+                "method": "DELETE",
+                "redirect": 'follow',
+                "headers": {"Content-Type": "application/json"},
+            })
+            .then(setTimeout(() => window.location.href = '/', 1500))
+    }
+
+    function put_request(){ 
+      let alert_msg = document.getElementById('alert-msg');
+      let alert_div = document.getElementById('alert');
+
+      const input_name = document.getElementById('full_name').value;
+      const input_number = document.getElementById('phone_number').value;
+
+      if(!input_name||!input_number){
+        alert_div.classList.remove('hidden');
+        alert_msg.innerText = "All fields must be filled in!";
+        return
+      }
+      else if(input_name==={{user.full_name|tojson}} && input_number === {{user.phone_number|tojson}}){
+        alert_div.classList.remove('hidden');
+        alert_msg.innerText = "New profile information must be different!";
+        return
+      }
+
+      let data = {
+        "full_name": input_name,
+        "phone_number": input_number
+      }
+      
+      fetch(`${userapi_url}/${user_email}`, {
+                "method": "PUT",
+                "redirect": 'follow',
+                "headers": {"Content-Type": "application/json"},
+                "body": JSON.stringify(data),
+            })
+            .then(setTimeout(() => window.location.reload(), 250))
+    }
+
+    function show_confirmation(){
+      let overlay = document.getElementById('popup-overlay');
+      overlay.classList.remove('hidden')
+    }
+    function cancel_delete(){
+      let overlay = document.getElementById('popup-overlay');
+      overlay.classList.add('hidden')
+    }
+
+    let fname = document.getElementById('fname');
+    let contact = document.getElementById('contact');
+    fname.innerText = {{user.full_name|tojson}};
+    contact.innerText = {{user.phone_number|tojson}};
+
+    function swap_span_to_input(){
+      let span_name = document.getElementById('fname');
+      let span_number = document.getElementById('contact');
+      let input_name = document.getElementById('full_name');
+      let input_number = document.getElementById('phone_number');
+
+      span_name.classList.add('hidden');
+      span_number.classList.add('hidden');
+
+      input_name.classList.remove('hidden');
+      input_number.classList.remove('hidden');  
+
+
+    }
+
+    function swap_input_to_span(){
+      let span_name = document.getElementById('fname');
+      let span_number = document.getElementById('contact');
+      let input_name = document.getElementById('full_name');
+      let input_number = document.getElementById('phone_number');
+
+      span_name.classList.remove('hidden');
+      span_number.classList.remove('hidden');
+
+      input_name.classList.add('hidden');
+      input_number.classList.add('hidden');  
+
+      let edit_button = document.getElementById('edit');
+      let cancel_button = document.getElementById('cancel');
+      let confirm_button = document.getElementById('confirm');
+
+      edit_button.classList.remove('hidden');
+
+      cancel_button.classList.add('hidden');
+      confirm_button.classList.add('hidden')
+
+      let alert_div = document.getElementById('alert');
+      alert_div.classList.add('hidden')
+        
+
+    }
+
+    function swap_buttons_to_confirm(){
+      let edit_button = document.getElementById('edit');
+      let cancel_button = document.getElementById('cancel');
+      let confirm_button = document.getElementById('confirm');
+
+      edit_button.classList.add('hidden');
+
+      cancel_button.classList.remove('hidden');
+      confirm_button.classList.remove('hidden')
+        
+    }
+
+  
+  </script>
+  {% endblock %}

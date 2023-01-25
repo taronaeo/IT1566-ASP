@@ -9,7 +9,6 @@ parser.add_argument('email', type=str, required=True)
 parser.add_argument('password', type=str, required=True)
 parser.add_argument('password_confirm', type=str, required=True)
 parser.add_argument('full_name', type=str, required=True)
-parser.add_argument('home_address', type=str, required=True)
 parser.add_argument('phone_number', type=str, required=True)
 parser.add_argument('vehicles', type=list, required=False)
 parser.add_argument('bank_information', type=str, required=False)
@@ -44,10 +43,8 @@ class UserApiEndpoint(Resource):
           args['email'],
           args['password'],
           args['full_name'],
-          args['home_address'],
           args['phone_number'],
-          uid=args['email'],
-          vehicles=[],
+          uid = args['email'],
           bank_information=args['bank_information'],
           training_complete=args['training_complete'],
           background_check=args['background_check'],
@@ -67,7 +64,6 @@ class UserApiEndpoint(Resource):
 
       user = db[uid]
       user.full_name = args['full_name'] or user.full_name
-      user.home_address = args['home_address'] or user.home_address
       user.phone_number = args['phone_number'] or user.phone_number
 
       db[uid] = user

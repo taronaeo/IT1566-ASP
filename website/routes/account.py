@@ -37,4 +37,4 @@ def get_account():
 def update_account():
   with shelve.open(DB_USER_LOCATION) as user_db:
     return render_template('/account/update_account.html',
-                            user=current_user)
+                            user=user_db[current_user.email])
