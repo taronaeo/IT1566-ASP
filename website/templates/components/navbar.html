@@ -1,8 +1,8 @@
 <!-- ! Mobile sidenav backdrop -->
-<div id="overlay" class="hidden fixed top-0 left-64 w-full h-screen bg-black/50 z-10" onclick="toggleSidenav()"></div>
+<div id="overlay" class="hidden fixed top-0 left-64 w-full h-screen bg-black/50 z-20" onclick="toggleSidenav()"></div>
 
 <nav class="w-full bg-white
-            sticky top-0 left-0
+            sticky top-0 left-0 z-10
             border-b-[1px] border-blue-200">
 
   <!-- ! Top section of navbar -->
@@ -15,7 +15,7 @@
     </button>
 
     <!-- ! Logo -->
-    <div class="py-5">
+    <div class="px-4 py-5">
       <a href="/">
         <img class="h-4" src="/img/logo.svg" alt="Logo">
       </a>
@@ -29,13 +29,12 @@
   </div>
 
   <!-- ! Bottom section of navbar -->
-  <div id="sidenav" class="px-3 py-6 md:py-0
-                           top-0 left-0 bg-white
+  <div id="sidenav" class="top-0 left-0 bg-white
                            w-64 h-screen md:w-full md:h-auto
                            fixed hidden md:relative md:block">
 
     <!-- ! Navbar Links -->
-    <div class="flex flex-col
+    <div class="flex flex-col px-4 py-6 md:py-0
                 mx-auto container
                 md:flex-row md:gap-4">
 
