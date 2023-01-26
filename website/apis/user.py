@@ -17,8 +17,8 @@ parser.add_argument('background_check', type=bool, required=False)
 
 put_parser = reqparse.RequestParser()
 put_parser.add_argument('full_name', type=str, required=False)
-put_parser.add_argument('home_address', type=str, required=False)
 put_parser.add_argument('phone_number', type=str, required=False)
+put_parser.add_argument('password', type=str, required = False)
 
 class UserApiEndpoint(Resource):
   def get(self, uid):
@@ -65,7 +65,7 @@ class UserApiEndpoint(Resource):
       user = db[uid]
       user.full_name = args['full_name'] or user.full_name
       user.phone_number = args['phone_number'] or user.phone_number
-
+      user.password = args['password'] or user.password
       db[uid] = user
       return user.__dict__
 

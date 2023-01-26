@@ -4,17 +4,21 @@
 
 {% block content %}
 <section class="container h-auto flex flex-row relative">
-    <div class="grid grid-cols-5 container mx-32 border-slate-300 border-r-2">
+    <div class="grid grid-cols-5 container xl:mx-32 lg:mx-16 sm:mx-0 border-slate-300 border-r-2">
       <div class=" h-full container col-span-1 text-white text-lg font-normal shadow-md bg-gray-800">
+        
         <div class = 'fixed'>
         <ul>
-          <li class="h-16 border-blue-600 border-l-4 mt-4 mb-4 ml-1 rounded">
+          <li class="w-1 h-16 border-blue-600 border-l-4 mt-4 mb-4 ml-1 rounded xl:w-auto lg:w-4 md:w-3 sm:w-2">
             <a class="flex items-center py-4 px-6 h-full hover:bg-gray-700 hover:text-white transition duration-300 ease-out" href="#profile" data-mdb-ripple="true" data-mdb-ripple-color="dark">Profile Info</a>
           </li>
-          <li class="h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded">
-            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-600 hover:text-white transition duration-300 ease-out" href="#wallet" data-mdb-ripple="true" data-mdb-ripple-color="dark">Wallet Management</a>
+          <li class="w-1 h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded xl:w-auto lg:w-4 md:w-3 sm:w-2">
+            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-600 hover:text-white transition duration-300 ease-out" href="#acc" data-mdb-ripple="true" data-mdb-ripple-color="dark">Account Details</a>
           </li>
-          <li class="h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded">
+          <li class="w-1 h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded xl:w-auto lg:w-4 ">
+            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-600 hover:text-white transition duration-300 ease-out" href="#wallet" data-mdb-ripple="true" data-mdb-ripple-color="dark">E-Wallet</a>
+          </li>
+          <li class="w-1 h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded xl:w-auto lg:w-4 md:w-3 sm:w-2">
             <a class="flex items-center py-4 px-6 h-full hover:bg-gray-600 hover:text-white transition duration-300 ease-out" href="#delete" data-mdb-ripple="true" data-mdb-ripple-color="dark">Delete Account</a>
           </li>
         </ul>
@@ -60,8 +64,55 @@
                 </div>
 
               </div>
+              <h2 class="text-2xl text-center font-semibold m-auto mb-4 mt-8 border-b-2 border-amber-300 w-96 pb-3" id = 'wallet'>Account Details</h2>
     
-              <h2 class="text-2xl text-center font-semibold m-auto mb-4 mt-8 border-b-2 border-amber-300 w-96 pb-3" id = 'wallet'>Wallet Management</h2>
+              <div class="h-auto w-2/3 mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
+                <form>
+                  <div class=" w-full flex flex-row gap-1 p-4 mb-4 text-sm text-gray-600 bg-slate-200 rounded-lg">
+                    NOTE: Email cannot be changed
+                  </div> 
+                  <div id = 'password-alert-div' class=" hidden w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg">
+                    <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon"><span id = 'password-alert'></span>
+                  </div> 
+
+                  <div class="mb-4"> 
+                    <label class="block font-normal mb-2" for="email">Email</label>
+                  </div>
+                  <div class = 'mb-4'>
+                    <span class = 'ml-6 text-lg font-semibold' id = 'email'>{{user.email}}</span>
+                  </div>
+
+                  <div class="mb-4">
+                    <label class="block font-normal mb-2" for="password">Password</label>
+                    <input class="hidden w-full border-2 border-gray-300 px-3 py-2 rounded-lg shadow-sm" type="text" id="password-input" placeholder="••••••••" value="{{user.password}}">
+                  </div>
+                  <div class="mb-4">
+                    <label class="hidden block font-normal mb-2" for="password" id = 'password-confirm-label' >Password Confirm</label>
+                    <input class="hidden w-full border-2 border-gray-300 px-3 py-2 rounded-lg shadow-sm" type="text" id="password-confirm-input" placeholder="••••••••" value="{{user.password}}">
+                  </div>
+                  <div class = 'mb-4'>
+                    <span class = 'ml-6 text-xl' id = 'pass'>• • • • • • • •</span>
+                  </div>
+                </form>
+                <div class="text-center ">
+                  <button class=" w-32 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit-password' type="button" onclick="edit_password()">  
+                    <img class = 'inline mb-1 -ml-2 mr-2 h-6'src = "/img/edit.svg">Edit
+                  </button>
+                  <div id = 'reveal' class = "mt-4 italic text-sm font-light">(Password revealed when editing)</div>
+                </div>
+
+                <div class="text-right">
+                  <button class=" hidden w-28 px-4 py-2 font-bold text-blue-500 bg-white border-2 border-blue-500 rounded-md hover:text-white hover:border-white duration-200 ease-out hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'cancel-password' type = 'button' onclick="cancel_password_change()">  
+                    Cancel
+                  </button>
+                  <button class=" hidden w-28 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'confirm-password' type="submit" onclick="put_request_password()">  
+                    Confirm
+                  </button>
+                </div>
+
+              </div>
+    
+              <h2 class="text-2xl text-center font-semibold m-auto mb-4 mt-8 border-b-2 border-amber-300 w-96 pb-3" id = 'wallet'>E-Wallet</h2>
     
               <div class="h-auto w-2/3 mx-auto drop-shadow-lg bg-white p-6 rounded-lg text-center ">
                 <p class = 'text-left'>Manage your e-wallet. Top-up funds, withdraw balance as well as view past transanctions.</p>
@@ -117,6 +168,90 @@
 
     const userapi_url = {{ url_for("userapiendpoint")|tojson }};
     const user_email = {{user.email|tojson}};
+
+    function put_request_password(){
+      let alert_div = document.getElementById('password-alert-div');
+      let alert_msg = document.getElementById('password-alert');
+      const password_input = document.getElementById('password-input').value;
+      const password_confirm = document.getElementById('password-confirm-input').value;
+
+      if (password_confirm != password_input){
+        alert_div.classList.remove('hidden');
+        alert_msg.innerText = "Password confirmation must be the same as Password!"; 
+        return
+      } 
+      else if (!password_confirm || !password_confirm ){
+        alert_div.classList.remove('hidden');
+        alert_msg.innerText = "All fields must be filled in!";
+        return
+      }
+      else if (password_input === {{user.password|tojson}}){
+        alert_div.classList.remove('hidden');
+        alert_msg.innerText = "New password cannot be the same as your previous password!";
+        return
+      }
+
+      let data = {
+        "password": password_input
+      }
+      
+      fetch(`${userapi_url}/${user_email}`, {
+                "method": "PUT",
+                "redirect": 'follow',
+                "headers": {"Content-Type": "application/json"},
+                "body": JSON.stringify(data),
+            })
+            .then(setTimeout(() => window.location.reload(), 250))
+
+    }
+    function edit_password(){
+      let password_input = document.getElementById('password-input');
+      let reveal_text = document.getElementById('reveal');
+      let password_span = document.getElementById('pass');
+      let password_confirm_label = document.getElementById('password-confirm-label');
+      let password_confirm_input = document.getElementById('password-confirm-input');
+      let edit_password_button = document.getElementById('edit-password');
+      let cancel_button = document.getElementById('cancel-password');
+      let confirm_button = document.getElementById('confirm-password');
+      
+      
+      cancel_button.classList.remove('hidden');
+      confirm_button.classList.remove('hidden');
+      password_input.classList.remove('hidden');
+      password_confirm_input.classList.remove('hidden');
+      password_confirm_label.classList.remove('hidden');
+
+
+      edit_password_button.classList.add('hidden');
+      password_span.classList.add('hidden');
+      reveal_text.classList.add('hidden');
+
+    }
+
+    function cancel_password_change(){
+      let password_input = document.getElementById('password-input');
+      let reveal_text = document.getElementById('reveal');
+      let password_span = document.getElementById('pass');
+      let password_confirm_label = document.getElementById('password-confirm-label');
+      let password_confirm_input = document.getElementById('password-confirm-input');
+      let edit_password_button = document.getElementById('edit-password');
+      let cancel_button = document.getElementById('cancel-password');
+      let confirm_button = document.getElementById('confirm-password');
+      let alert_div = document.getElementById('password-alert-div');
+      
+      
+      cancel_button.classList.add('hidden');
+      confirm_button.classList.add('hidden');
+      password_input.classList.add('hidden');
+      password_confirm_input.classList.add('hidden');
+      password_confirm_label.classList.add('hidden');
+      alert_div.classList.add('hidden');
+
+
+      edit_password_button.classList.remove('hidden');
+      password_span.classList.remove('hidden');
+      reveal_text.classList.remove('hidden');
+    }
 
     function delRequest(){
       let confirmation_text = document.getElementById('confirmation-text');
