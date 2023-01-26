@@ -4,6 +4,8 @@
 
 {% block content %}
 <section class="p-4 w-full">
+  {{ url_for(request.endpoint) }}
+
   <h1 class="mb-4 text-xl text-center font-bold text-gray-900 md:text-2xl">Car Listings</h1>
 
   {% if cars|length == 0 %}

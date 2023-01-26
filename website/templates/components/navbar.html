@@ -7,7 +7,7 @@
 
   <!-- ! Top section of navbar -->
   <div class="w-full h-14 mx-auto container
-              flex items-center justify-between">
+              flex flex-row items-center justify-between">
 
     <!-- ! Mobile sidenav button -->
     <button onclick="toggleSidenav()" class="p-4 md:hidden ">
@@ -22,9 +22,16 @@
     </div>
 
     <!-- ! User Profile -->
-    <!-- TODO: Change from Profile icon to Sign Up | Login -->
     <div class="p-4">
-      <img class="h-6" src="/img/profile.svg" alt="Profile">
+      <div class="hidden md:block flex flex-row text-sm text-gray-700 items-center">
+        {% if 'AnonymousUserMixin' in user.__class__.__name__ %}
+        <a href="{{ url_for('auth.login') }}" class="px-2 hover:text-blue-500">Login</a>
+        <a href="{{ url_for('auth.signup') }}" class="px-2 hover:text-blue-500">Sign Up</a>
+        {% else %}
+        <span class="px-2">{{ user.full_name }}</span>
+        <a href="{{ url_for('auth.logout') }}" class="px-2 text-red-700">Logout</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 
@@ -42,26 +49,48 @@
         <img class="w-36 py-4" src="/img/logo.svg" alt="Logo">
       </a>
 
-      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="{{ url_for('views.home') }}">
+      <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2"
+        href="{{ url_for('views.home') }}">
         Home
       </a>
 
-      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="{{ url_for('listing.cars') }}">
+      <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2"
+        href="{{ url_for('listing.cars') }}">
         Car Listings
       </a>
 
-      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2"
+      <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2"
+        href="{{ url_for('listing.create_car') }}">
+        Create Car Listing
+      </a>
+
+      <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2"
         href="{{ url_for('listing.contractors') }}">
         Contractor Listings
       </a>
 
-      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="/products">
+      <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2"
+        href="{{ url_for('listing.create_contractor') }}">
+        Create Contractor Listing
+      </a>
+
+      <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2" href="/products">
         Products
       </a>
 
-      <a class="py-4 text-sm text-gray-700 hover:text-blue-500 md:p-0 md:pb-2" href="/promotions">
+      <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2" href="/promotions">
         Promotions
       </a>
+
+      <hr class="h-px my-2 bg-gray-200 border-0" />
+
+      {% if 'AnonymousUserMixin' in user.__class__.__name__ %}
+      <a href="{{ url_for('auth.login') }}" class="md:hidden py-4 text-sm text-gray-700">Login</a>
+      <a href="{{ url_for('auth.signup') }}" class="md:hidden py-4 text-sm text-gray-700">Sign Up</a>
+      {% else %}
+      <span class="md:hidden py-4 text-sm text-gray-700">Welcome back, {{ user.full_name }}</span>
+      <a href="{{ url_for('auth.logout') }}" class="md:hidden py-4 text-sm text-red-700">Logout</a>
+      {% endif %}
 
       <span class="py-4 text-xs text-gray-400 md:hidden">Custom coded with ❤️ by Aaron</span>
     </div>
