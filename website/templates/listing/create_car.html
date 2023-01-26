@@ -32,7 +32,7 @@
 
     <div>
       <label for="vehicle_img" class="font-light">Vehicle Image</label>
-      <label for="vehicle_img"
+      <label id="vehicle_img_box" for="vehicle_img"
         class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
         <div class="flex flex-col items-center justify-center py-6">
           <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
@@ -133,6 +133,7 @@
 <script>
   const form = document.getElementById('form')
   const title = document.getElementById('title')
+  const vehicle_img_box = document.getElementById('vehicle_img_box')
   const vehicle_img = document.getElementById('vehicle_img')
   const vehicle_location = document.getElementById('vehicle_location')
   const requirements = document.getElementById('requirements')
@@ -149,6 +150,10 @@
 
   function updateImage() {
     const [file] = vehicle_img.files
+    vehicle_img_box.classList.add('bg-cover')
+    vehicle_img_box.classList.add('bg-center')
+    vehicle_img_box.classList.add('bg-no-repeat')
+    vehicle_img_box.classList.add(`bg-[url('${URL.createObjectURL(file)}')]`)
     preview_vehicle_img.src = !file ? "/img/car_silhouette.png" : URL.createObjectURL(file)
   }
 
