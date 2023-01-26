@@ -1,8 +1,30 @@
 # Query user account
-GET http://localhost:3000/api/user/224444A@mymail.nyp.edu.sg
+GET http://localhost:3000/api/user/a@email.com
 
 ###
+PUT http://127.0.0.1:3000/api/user/a@email.com
+Content-Type: application/json
 
+
+{
+  "full_name": "Dog",
+  "phone_number": 12345678
+}
+###
+POST http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+  "email": "a@email.com",
+  "password": "aaa",
+  "password_confirm": "aaa",
+  "full_name": "Dexter Teo",
+  "phone_number": "43251234",
+  "uid": "1234 5678 1234 5678"
+}
+
+
+###
 # Create user account
 POST http://localhost:3000/api/user
 Content-Type: application/json
@@ -10,7 +32,6 @@ Content-Type: application/json
 {
   "email": "224444A@mymail.nyp.edu.sg",
   "full_name": "224444A",
-  "home_address": "180 Ang Mo Kio Ave 8, Singapore 569830",
   "phone_number": "64515115",
   "password": "64515115@NYP",
   "password_confirm": "64515115@NYP"
