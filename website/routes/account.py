@@ -27,14 +27,14 @@ def get_wallet():
 @account.route('/account')
 @login_required
 def get_account():
-  with shelve.open(DB_USER_LOCATION) as user_db:
+  with shelve.open(DB_USER_LOCATION) as db_user:
     return render_template('/account/account.html',
                             user=current_user,
-                            users=user_db)
+                            users=db_user)
 
 @account.route('/account/update')
 @login_required
 def update_account():
-  with shelve.open(DB_USER_LOCATION) as user_db:
+  with shelve.open(DB_USER_LOCATION) as db_user:
     return render_template('/account/update_account.html',
-                            user=user_db[current_user.email])
+                            user=db_user[current_user.email])
