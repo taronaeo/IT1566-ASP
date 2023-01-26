@@ -4,7 +4,7 @@
 
 {% block content %}
 <section class="p-4 w-full">
-  {{ url_for(request.endpoint) }}
+  <!-- {{ url_for(request.endpoint) }} -->
 
   <h1 class="mb-4 text-xl text-center font-bold text-gray-900 md:text-2xl">Car Listings</h1>
 
@@ -18,11 +18,13 @@
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
     {% for car in cars.values() %}
     <div class="w-full max-w-sm bg-white rounded-lg border border-blue-100">
-      <a href="/cars/{{ car.uid }}">
-        <img class="rounded-t-lg" src="{{ car.vehicle_img }}" alt="Vehicle Outlook" />
+      <a href="/cars/{{ car.uid }}" class="flex flex-col justify-center">
+        <img class="aspect-video object-scale-down rounded-t-lg" src="/uploads/{{ car.vehicle_img }}"
+          alt="Vehicle Outlook" />
 
         <div class="p-5">
-          <h5 class="text-2xl text-gray-900 font-medium tracking-tight">{{ car.vehicle_make }} {{ car.vehicle_model }}
+          <h5 class="truncate text-2xl text-gray-900 font-medium tracking-tight">
+            {{ car.title }}
           </h5>
           <p class="mb-2 text-sm text-gray-400 truncate inline-flex gap-1">
             <img src="/img/map_pin.svg" alt="Map Icon" class="w-5 h-5">

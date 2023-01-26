@@ -6,10 +6,12 @@
   `py main.py`
 """
 
-import shelve
+import os
 from flask import Flask, flash, url_for, request, redirect, render_template
 from flask_login import LoginManager, current_user
 from flask_restful import Api
+
+UPLOAD_DIR = os.path.join(os.getcwd(), 'website', 'static', 'uploads')
 
 DB_BASE_LOCATION = "instance/sgdetailmart"
 DB_USER_LOCATION = f"{DB_BASE_LOCATION}_user"

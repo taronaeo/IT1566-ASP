@@ -1,91 +1,174 @@
 {% extends 'base.html' %}
 
-{% block title %}Create Car listings{% endblock %}
+{% block title %}Create Car Listing{% endblock %}
 
 {% block content %}
-<form method="POST">
-    <h1 style="text-decoration: underline; color: blue; opacity: 0.75;">Create Car Listing</h2>
-    <div class="form-group">
-        <label for="CarMake">Car Make</label>
-        <br>
-        <input
-            type="text" 
-            class="form-control"
-            name="CarMake" 
-            id="CarMake"
-            placeholder="Enter Make of Car"
-        /> 
-        <br>
-        <br>
-        <label for="CarModel">Car Model</label>
-        <br>
-        <input
-            type="text"
-            class="form-control"
-            name="CarModel" 
-            id="CarModel"
-            placeholder="Enter Model of Car"
-        />
-        <br>
-        <br>
-        <label for="LicensePlate">License Plate</label>
-        <br>
-        <input
-            type="text"
-            class="form-control"
-            name="LicensePlate" 
-            id="LicensePlate"
-            placeholder="Enter License Plate"
-        />
-        <br>
-        <br>
-        <label for="CarAge">Car Age</label>
-        <br>
-        <input
-            type="text"
-            class="form-control"
-            name="CarAge" 
-            id="CarAge"
-            placeholder="Enter Car Age"
-        />
-        <br>
-        <br>
-        <label for="HomeAddy">Home Address</label>
-        <br>
-        <input
-            type="address"
-            class="form-control"
-            name="HomeAddy" 
-            id="HomeAddy"
-            placeholder="Enter your Home Address "
-        />
-        <br>
-        <br>
-        <label for="CustContactNo.">Contact No.</label>
-        <br>
-        <input
-            type="tel"
-            class="form-control"
-            name="CustContactNo." 
-            id="CustContactNo."
-            placeholder="Enter your Contact No. "
-        />
-        <br>
-        <br>
-        <label for="ProPrice">Proposed Price</label>
-        <br>
-        <input
-            type="number"
-            class="form-control"
-            name="ProPrice" 
-            id="ProPrice"
-            placeholder="Enter your Price"
-        />
-        <br>
-        <br>
-        <input type="submit" value="Create Listing">
+<section class="py-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+  {% with alerts = get_flashed_messages() %}
+  {% if alerts %}
+  {% for alert in alerts %}
+  <div class="p-4 col-span-1 md:col-span-2 flex flex-row gap-1 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+    <div class="w-5 h-5">
+      <img src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">
     </div>
 
+    <p class="grow">
+      {{alert}}
+    </p>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
 
+  <form id="form" action="" method="POST" enctype="multipart/form-data" class="space-y-4 md:space-y-6">
+    <h1 class="text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">List My Car</h1>
 
+    <div>
+      <label for="title" class="font-light">Listing Title</label>
+      <input type="text" name="title" id="title" placeholder="Need an urgent wash for Christmas, etc..."
+        class="p-2.5 w-full rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+      <p class="mt-2 font-light text-sm text-gray-500">Good to include a catchy title.</p>
+    </div>
+
+    <div>
+      <label for="vehicle_img" class="font-light">Vehicle Image</label>
+      <label for="vehicle_img"
+        class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+        <div class="flex flex-col items-center justify-center py-6">
+          <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+          <p class="mb-2 text-sm text-gray-500">Click to upload</p>
+          <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+        </div>
+        <input type="file" name="vehicle_img" id="vehicle_img" accept="image/png, image/jpeg" class="hidden">
+      </label>
+      <p class="mt-2 font-light text-sm text-gray-500">
+        Take a photo of the exterior outlook of the vehicle. Try to focus on any dirty and grime that needs to be
+        cleaned.
+      </p>
+    </div>
+
+    <div>
+      <label for="vehicle_plate" class="font-light">Vehicle Plate</label>
+      <input type="text" name="vehicle_plate" id="vehicle_plate" placeholder="SMX6065G"
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+      <p class="mt-2 font-light text-sm text-gray-500">
+        License plate of the vehicle. This will be used to identify your vehicle in the carpark.
+      </p>
+    </div>
+
+    <div>
+      <label for="vehicle_location" class="font-light">Vehicle Location</label>
+      <input type="text" name="vehicle_location" id="vehicle_location"
+        placeholder="180 Ang Mo Kio Avenue 8, Deck 5B, Lot 436"
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+      <p class="mt-2 font-light text-sm text-gray-500">
+        Location of where the vehicle is parked. Do include the Deck and Lot numbers as well for convenience.
+      </p>
+    </div>
+
+    <div>
+      <label for="requirements" class="font-light">Requirements</label>
+      <textarea type="text" name="requirements" id="requirements" rows="4"
+        placeholder="Clean vehicle exterior, Detail interior, Wax seal paintwork, etc..."
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600"></textarea>
+      <p class="mt-2 font-light text-sm text-gray-500">
+        State your requirements clearly so that contractors can understand your needs.
+      </p>
+    </div>
+
+    <div>
+      <label for="price" class="font-light">Price</label>
+      <input type="text" name="price" id="price" placeholder="50"
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+      <p class="mt-2 font-light text-sm text-gray-500">
+        How much are you willing to pay for the job?
+      </p>
+    </div>
+  </form>
+
+  <div class="w-full max-w-sm flex flex-col gap-4">
+    <div class="space-y-4 md:space-y-6">
+      <h1 class="text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">Preview</h1>
+
+      <div class="bg-white rounded-lg border border-blue-100">
+        <a href="#" class="flex flex-col justify-center">
+          <img id="preview_vehicle_img" class="aspect-video object-scale-down rounded-t-lg"
+            src="/img/car_silhouette.png" alt="Vehicle Outlook" />
+
+          <div class="p-5">
+            <h5 id="preview_title" class="truncate text-2xl text-gray-900 font-medium tracking-tight">Example Title
+            </h5>
+            <p class="mb-2 text-sm text-gray-400 truncate inline-flex gap-1">
+              <img src="/img/map_pin.svg" alt="Map Icon" class="w-5 h-5">
+              <span id="preview_vehicle_location">Location</span>
+            </p>
+
+            <p id="preview_requirements" class="mb-2 text-gray-600">Requirements</p>
+            <div class="w-full text-blue-700 inline-flex justify-end">
+              <span id="preview_price" class="text-lg font-medium">$0.00</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="space-y-4 md:space-y-6">
+      <h1 class="text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">Ready to list?</h1>
+      <div class="flex flex-col md:flex-row gap-2">
+        <button id="button_discard"
+          class="w-full px-5 py-2.5 text-sm text-white font-medium bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 focus:outline-none">
+          Discard Changes
+        </button>
+        <button id="button_submit"
+          class="w-full px-5 py-2.5 text-sm text-white font-medium bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+          Create Listing
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+  const form = document.getElementById('form')
+  const title = document.getElementById('title')
+  const vehicle_img = document.getElementById('vehicle_img')
+  const vehicle_location = document.getElementById('vehicle_location')
+  const requirements = document.getElementById('requirements')
+  const price = document.getElementById('price')
+
+  const preview_title = document.getElementById('preview_title')
+  const preview_vehicle_img = document.getElementById('preview_vehicle_img')
+  const preview_vehicle_location = document.getElementById('preview_vehicle_location')
+  const preview_requirements = document.getElementById('preview_requirements')
+  const preview_price = document.getElementById('preview_price')
+
+  const button_discard = document.getElementById('button_discard')
+  const button_submit = document.getElementById('button_submit')
+
+  function updateImage() {
+    const [file] = vehicle_img.files
+    preview_vehicle_img.src = !file ? "/img/car_silhouette.png" : URL.createObjectURL(file)
+  }
+
+  function updatePreview() {
+    preview_title.innerText = title.value || "Example Title"
+    preview_vehicle_location.innerText = vehicle_location.value || "Location"
+    preview_requirements.innerText = requirements.value || "Requirements"
+    preview_price.innerText = `$${Number(price.value).toFixed(2)}` || "$0.00"
+  }
+
+  title.addEventListener('input', updatePreview)
+  vehicle_img.addEventListener('input', updateImage)
+  vehicle_location.addEventListener('input', updatePreview)
+  requirements.addEventListener('input', updatePreview)
+  price.addEventListener('input', updatePreview)
+
+  button_submit.addEventListener('click', () => form.submit())
+  button_discard.addEventListener('click', () => {
+    const yes = confirm("Are you sure?")
+    if (yes) window.location.href = "{{ url_for('listing.cars') }}"
+  })
+</script>
 {% endblock %}

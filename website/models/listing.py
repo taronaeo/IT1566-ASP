@@ -11,21 +11,19 @@ class Listing():
     self,
     uid: str, # Randomly generated UID
     owner_uid: str, # User email address
+    title: str,
     vehicle_img: str,
-    vehicle_make: str,
-    vehicle_model: str,
     vehicle_plate: str,
     vehicle_location: str,
     requirements: str,
     price: float,
     transactions: list,
-    created_at
+    created_at: float,
   ):
     self.uid = uid # Randomly generated UID
     self.owner_uid = owner_uid # User email address
+    self.title = title
     self.vehicle_img = vehicle_img
-    self.vehicle_make = vehicle_make
-    self.vehicle_model = vehicle_model
     self.vehicle_plate = vehicle_plate
     self.vehicle_location = vehicle_location
     self.requirements = requirements
@@ -36,9 +34,8 @@ class Listing():
   @staticmethod
   def create_listing(
     owner_uid: str,
+    title: str,
     vehicle_img: str,
-    vehicle_make: str,
-    vehicle_model: str,
     vehicle_plate: str,
     vehicle_location: str,
     requirements: str,
@@ -49,9 +46,8 @@ class Listing():
     listing = Listing(
       uid,
       owner_uid,
+      title,
       vehicle_img,
-      vehicle_make,
-      vehicle_model,
       vehicle_plate,
       vehicle_location,
       requirements,
