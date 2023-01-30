@@ -52,3 +52,5 @@ def create_contractor():
 def update_contractor(uid: str):
   return render_template('/listing/update_contractor.html',
                           user=current_user)
+
+
