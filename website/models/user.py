@@ -12,11 +12,11 @@ import shelve
 from .. import DB_USER_LOCATION
 from flask_login import UserMixin
 
-class BankCard():
-  def __init__(self, number, exp_month, exp_year):
-    self.number = number
-    self.exp_month = exp_month
-    self.exp_year = exp_year
+# class BankCard():
+#   def __init__(self, number, exp_month, exp_year):
+#     self.number = number
+#     self.exp_month = exp_month
+#     self.exp_year = exp_year
 
 class User(UserMixin):
   def __init__(
@@ -26,8 +26,6 @@ class User(UserMixin):
     phone_number,
     password,
     uid = None,
-    card_information = None,
-    bank_information = None,
     background_check = None,
     training_complete = None
   ):
@@ -37,8 +35,6 @@ class User(UserMixin):
     self.full_name = full_name
     self.phone_number = phone_number
     self.password = password
-    self.card_information = card_information
-    self.bank_information = bank_information
     self.background_check = background_check
     self.training_complete = training_complete
 
@@ -58,21 +54,17 @@ class User(UserMixin):
     return NotImplemented
 
   @staticmethod
-  def create_user(
+  def create(
     email,
     full_name,
     phone_number,
     password,
-    card_information,
-    bank_information,
   ) -> User:
     user = User(
       email,
       full_name,
       phone_number,
       password,
-      card_information,
-      bank_information,
     )
 
     with shelve.open(DB_USER_LOCATION) as db:

@@ -26,6 +26,8 @@ def login():
     return redirect(url_for('views.home'))
 
   if request.method == 'POST':
+    next_url = request.args.get('next')
+
     email = request.form.get('email')
     password = request.form.get('password')
 
@@ -41,25 +43,9 @@ def login():
 
     if user.password == password:
       login_user(user, remember=True)
-      return redirect(url_for('account.get_account'))
+      return redirect(next_url or url_for('views.home'))
 
   return render_template('/auth/login.html',
-                          user=current_user)
-
-@auth.route('/signup/user')
-def signup_user():
-  if not isinstance(current_user, AnonymousUserMixin):
-    return redirect(url_for('views.home'))
-
-  return render_template('/auth/signup_user.html',
-                          user=current_user)
-
-@auth.route('/signup/contractor')
-def signup_contractor():
-  if not isinstance(current_user, AnonymousUserMixin):
-    return redirect(url_for('views.home'))
-
-  return render_template('/auth/signup_contractor.html',
                           user=current_user)
 
 @auth.route('/signup', methods=['GET', 'POST'])
@@ -68,47 +54,38 @@ def signup():
     return redirect(url_for('views.home'))
 
   if request.method == 'POST':
+    next_url = request.args.get('next')
+
     full_name = request.form.get('full_name')
     phone_number = request.form.get('phone_number')
     email = request.form.get('email')
     password = request.form.get('password')
     password_confirm = request.form.get('password_confirm')
-    card_number = request.form.get('card_number')
-    bank_account = request.form.get('bank_account')
 
     if not full_name or \
         not phone_number or \
         not email or \
         not password or \
-        not password_confirm or \
-        not (card_number or bank_account):
+        not password_confirm:
       flash('All fields must not be empty')
-      return redirect(request.referrer)
+      return redirect(url_for('auth.signup'))
 
     if not re.match(r'^\d{4}\s\d{4}$', phone_number):
       flash('Invalid phone number')
-      return redirect(request.referrer)
+      return redirect(url_for('auth.signup'))
 
     if not re.match(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", email):
       flash('Invalid email address')
-      return redirect(request.referrer)
+      return redirect(url_for('auth.signup'))
 
     if password != password_confirm:
       flash('Password and Confirm Password must be the same')
-      return redirect(request.referrer)
+      return redirect(url_for('auth.signup'))
 
-    if card_number and len(card_number) < 19:
-      flash('Invalid card number')
-      return redirect(request.referrer)
-
-    if bank_account and len(bank_account) < 12:
-      flash('Invalid bank account number')
-      return redirect(request.referrer)
-
-    user = User.create_user(email, full_name, phone_number, password, card_number, bank_account)
+    user = User.create(email, full_name, phone_number, password)
     Wallet.create_wallet(email)
     login_user(user, remember=True)
-    return redirect(url_for('account.get_account'))
+    return redirect(next_url or url_for('views.home'))
 
   return render_template('/auth/signup.html',
                           user=current_user)
