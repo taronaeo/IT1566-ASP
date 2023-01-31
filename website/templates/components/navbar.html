@@ -24,7 +24,7 @@
     <!-- ! User Profile -->
     <div class="p-4">
       <div class="hidden md:block flex flex-row text-sm text-gray-700 items-center">
-        {% if 'AnonymousUserMixin' in user.__class__.__name__ %}
+        {% if user.is_anonymous %}
         <a href="{{ url_for('auth.login') }}" class="px-2 hover:text-blue-500">Login</a>
         <a href="{{ url_for('auth.signup') }}" class="px-2 hover:text-blue-500">Sign Up</a>
         {% else %}
@@ -84,7 +84,7 @@
 
       <hr class="h-px my-2 bg-gray-200 border-0" />
 
-      {% if 'AnonymousUserMixin' in user.__class__.__name__ %}
+      {% if user.is_anonymous %}
       <a href="{{ url_for('auth.login') }}" class="md:hidden py-4 text-sm text-gray-700">Login</a>
       <a href="{{ url_for('auth.signup') }}" class="md:hidden py-4 text-sm text-gray-700">Sign Up</a>
       {% else %}

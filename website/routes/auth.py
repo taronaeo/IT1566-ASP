@@ -10,7 +10,7 @@ import re
 from ..models import User, Wallet
 
 from flask import Blueprint, flash, url_for, request, redirect, render_template
-from flask_login import AnonymousUserMixin, current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user, login_required
 
 auth = Blueprint('auth', __name__)
 
@@ -22,7 +22,7 @@ def logout():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-  if not isinstance(current_user, AnonymousUserMixin):
+  if not current_user.is_anonymous: # type: ignore
     return redirect(url_for('views.home'))
 
   if request.method == 'POST':
@@ -54,7 +54,7 @@ def login():
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
-  if not isinstance(current_user, AnonymousUserMixin):
+  if current_user.is_anonymous: # type: ignore
     return redirect(url_for('views.home'))
 
   if request.method == 'POST':
@@ -86,6 +86,11 @@ def signup():
 
     if not re.match(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", email):
       flash('Invalid email address')
+      return redirect_to
+
+    user = User.query_user(email)
+    if user:
+      flash('Email already exists. Please login instead')
       return redirect_to
 
     if password != password_confirm:
