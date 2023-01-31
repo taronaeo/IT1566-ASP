@@ -26,11 +26,13 @@ class User(UserMixin):
     phone_number,
     password,
     uid = None,
+    access_level = 'User',
     background_check = None,
     training_complete = None
   ):
     super().__init__()
     self.uid = uid or email
+    self.access_level = access_level
     self.email = email
     self.full_name = full_name
     self.phone_number = phone_number
