@@ -27,7 +27,7 @@
       <form method="POST" class="space-y-4 md:space-y-6">
         <div>
           <label for="email" class="font-light">Email Address</label>
-          <input id="email" type="email" name="email" placeholder="name@example.com"
+          <input id="email" type="email" name="email" placeholder="name@example.com" value="{{ request.args['email'] }}"
             class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
         </div>
 

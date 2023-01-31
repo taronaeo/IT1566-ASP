@@ -28,20 +28,20 @@
         <div>
           <label for="full_name" class="font-light">Full Name</label>
           <input type="text" name="full_name" id="full_name" placeholder="Mickey Mouse"
-            value="{{ request.form['full_name'] }}"
+            value="{{ request.args['full_name'] }}"
             class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
         </div>
 
         <div>
           <label for="phone_number" class="font-light">Phone Number</label>
           <input type="tel" name="phone_number" id="phone_number" placeholder="6451 5115"
-            value="{{ request.form['phone_number'] }}"
+            value="{{ request.args['phone_number'] }}"
             class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
         </div>
 
         <div>
           <label for="email" class="font-light">Email Address</label>
-          <input id="email" type="email" name="email" placeholder="name@example.com" value="{{ request.form['email'] }}"
+          <input id="email" type="email" name="email" placeholder="name@example.com" value="{{ request.args['email'] }}"
             class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" />
         </div>
 
