@@ -96,3 +96,45 @@ def create_contractor():
 def update_contractor(uid: str):
   return render_template('/listing/update_contractor.html',
                           user=current_user)
+
+@listing.route('/job/jobstart')
+def jobstart():
+  if request.method == 'POST':
+    vehicle_img = request.files.get('vehicle_img')
+    
+
+    if not vehicle_img:
+        
+      flash('All fields must not be empty')
+      return redirect(request.url)
+
+    if not check_filename(vehicle_img.filename):
+      flash('Invalid file type. Only PNG and JPG files are accepted')
+      return redirect(request.url)
+
+    filename = secure_filename(vehicle_img.filename) # type: ignore
+    vehicle_img.save(f'{UPLOAD_DIR}/{filename}')
+
+  
+  return render_template('/job/jobstart.html', user=current_user)
+
+@listing.route('/job/jobend')
+def jobend():
+  if request.method == 'POST':
+    vehicle_img = request.files.get('vehicle_img')
+    
+
+    if not vehicle_img:
+        
+      flash('All fields must not be empty')
+      return redirect(request.url)
+
+    if not check_filename(vehicle_img.filename):
+      flash('Invalid file type. Only PNG and JPG files are accepted')
+      return redirect(request.url)
+
+    filename = secure_filename(vehicle_img.filename) # type: ignore
+    vehicle_img.save(f'{UPLOAD_DIR}/{filename}')
+
+  
+  return render_template('/job/jobend.html', user=current_user)
