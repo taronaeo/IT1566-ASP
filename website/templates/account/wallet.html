@@ -3,14 +3,15 @@
 {% block title %}Account Wallet{% endblock %}
 
 {% block content %}
+<div class="py-4"></div>
 <div class="container mx-auto px-4">
   <header class="py-6 bg-gray-200 border-b border-gray-300">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Account Wallet</h1>
+    <h1 class="text-center text-3xl font-bold text-gray-800 mb-2">{{user.full_name}}'s Wallet</h1>
   </header>
   <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
     <h2 class="text-2xl font-bold text-gray-800 mb-4">Account Balance</h2>
     <p class="text-gray-600 mb-4">Your current account balance is:</p>
-    <h3 class="text-4xl font-bold text-gray-800 mb-4">${{ wallet.balance }}</h3>
+    <h3 class="text-4xl font-bold text-gray-800 mb-4">${{wallet.balance}}</h3>
     <div class="flex items-center justify-between">
       <button id="topup" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-4">
         Top up
@@ -58,6 +59,7 @@
       </tbody>
     </table>
   </div>
+</div>
   {% endblock %}
 
   {% block script %}
