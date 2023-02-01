@@ -3,9 +3,7 @@
 {% block title %}Car Listings{% endblock %}
 
 {% block content %}
-<section class="p-4 w-full">
-  <!-- {{ url_for(request.endpoint) }} -->
-
+<section>
   <h1 class="mb-4 text-xl text-center font-bold text-gray-900 md:text-2xl">Car Listings</h1>
 
   {% if cars|length == 0 %}
@@ -17,7 +15,7 @@
 
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
     {% for car in cars.values() | sort(attribute='created_at') | reverse %}
-    <div class="w-full max-w-sm bg-white rounded-lg border border-blue-100">
+    <div class="w-full md:max-w-sm bg-white rounded-lg border border-blue-100">
       <a href="/cars/{{ car.uid }}" class="flex flex-col justify-center">
         <img class="aspect-video object-scale-down rounded-t-lg" src="/uploads/{{ car.vehicle_img }}"
           alt="Vehicle Outlook" />
