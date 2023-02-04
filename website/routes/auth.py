@@ -54,7 +54,7 @@ def login():
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
-  if current_user.is_anonymous: # type: ignore
+  if not current_user.is_anonymous: # type: ignore
     return redirect(url_for('views.home'))
 
   if request.method == 'POST':
