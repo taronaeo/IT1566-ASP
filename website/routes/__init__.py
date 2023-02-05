@@ -12,3 +12,7 @@ from .auth import auth
 from .account import account
 from .vehicle import vehicle
 from .listing import listing
+
+
+#* BETA WORK
+from .chat import chat
