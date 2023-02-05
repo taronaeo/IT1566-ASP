@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ listing_data.title }} @ {{ listing_data.vehicle_location }}{% endblock %}
+
+{% block content %}
+<section class="flex flex-col gap-4">
+  <div class="inline-flex flex-row items-center space-x-1 md:space-x-2 text-xs font-light">
+    <a href="{{ url_for('listing.cars') }}" class="text-gray-700 hover:text-blue-600">Car Listings</a>
+    <img src="/img/chevron_right.svg" alt="Chevron Right Icon" class="w-5 h-5">
+    <a href="#" class="text-gray-700 hover:text-blue-600">{{ listing_data.title }}</a>
+  </div>
+
+  <img src="/uploads/{{ listing_data.vehicle_img }}" alt="Vehicle Outlook" class="aspect-video object-cover rounded-lg">
+
+  <div class="grid gap-8 grid-cols-1 md:grid-cols-3">
+    <div class="col-span-1 md:col-span-2">
+      <h1 class="text-xl text-gray-700 md:text-2xl">{{ listing_data.title }}</h1>
+      <p class="font-bold text-2xl text-gray-900 md:text-3xl">S${{ listing_data.price }}</p>
+
+      <hr class="h-px my-4 bg-gray-300 border-0" />
+
+      <h3 class="mb-4 text-xl text-gray-900 md:text-2xl">Requirements</h3>
+      <p class="text-gray-900">
+        {{ listing_data.requirements }}
+      </p>
+    </div>
+
+    <div class="col-span-1">
+      <div class="w-full p-5 flex flex-col gap-4 bg-white border border-gray-200 rounded-lg shadow">
+        <a href="#" class="flex flex-row gap-2">
+          <p class="font-medium text-md text-gray-900">@{{ listing_creator.full_name }}</p>
+        </a>
+
+        <button
+          class="w-full px-5 py-2.5 text-sm text-white font-medium bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+          Take this job
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}Create Car Listing{% endblock %}
 
 {% block content %}
-<section class="py-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
   {% with alerts = get_flashed_messages() %}
   {% if alerts %}
   {% for alert in alerts %}
@@ -20,7 +20,7 @@
   {% endif %}
   {% endwith %}
 
-  <form id="form" action="" method="POST" enctype="multipart/form-data" class="space-y-4 md:space-y-6">
+  <form id="form" method="POST" enctype="multipart/form-data" class="space-y-4 md:space-y-6">
     <h1 class="text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">List My Car</h1>
 
     <div>
