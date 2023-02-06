@@ -10,31 +10,99 @@
     <a href="#" class="text-gray-700 hover:text-blue-600">{{ listing_data.title }}</a>
   </div>
 
-  <img src="/uploads/{{ listing_data.vehicle_img }}" alt="Vehicle Outlook" class="aspect-video object-cover rounded-lg">
+  <img src="/uploads/{{ listing_data.vehicle_img }}" alt="Vehicle Outlook" draggable="false"
+    class="md:max-h-96 aspect-video object-cover rounded-lg">
 
-  <div class="grid gap-8 grid-cols-1 md:grid-cols-3">
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+    <!-- Title, Price, Description -->
     <div class="col-span-1 md:col-span-2">
-      <h1 class="text-xl text-gray-700 md:text-2xl">{{ listing_data.title }}</h1>
-      <p class="font-bold text-2xl text-gray-900 md:text-3xl">S${{ listing_data.price }}</p>
+      <h1 class="text-xl md:text-2xl">{{ listing_data.title }}</h1>
+      <p class="mb-4 font-bold text-3xl text-gray-900 md:text-4xl">S${{ listing_data.price }}</p>
 
-      <hr class="h-px my-4 bg-gray-300 border-0" />
+      <div class="w-full inline-flex flex-row items-center gap-2">
+        <img src="/img/location.svg" alt="Location Icon" class="w-5 h-5">
+        <p class="text-sm text-gray-500">{{ listing_data.vehicle_location }}</p>
+      </div>
 
-      <h3 class="mb-4 text-xl text-gray-900 md:text-2xl">Requirements</h3>
-      <p class="text-gray-900">
-        {{ listing_data.requirements }}
-      </p>
+      <hr class="my-4 h-px border-0 bg-gray-300" />
+
+      <h3 class="mb-4 font-bold text-xl md:text-2xl">Requirements</h3>
+      <p class="text-gray-700">{{ listing_data.requirements }}</p>
     </div>
 
-    <div class="col-span-1">
-      <div class="w-full p-5 flex flex-col gap-4 bg-white border border-gray-200 rounded-lg shadow">
-        <a href="#" class="flex flex-row gap-2">
-          <p class="font-medium text-md text-gray-900">@{{ listing_creator.full_name }}</p>
+    <!-- Accept Listing, Chat -->
+    <div class="row-span-1 md:row-span-2">
+      <div class="w-full p-5 flex flex-col gap-4 bg-white border border-gray-200 rounded-lg">
+        <a href="/profile/{{ listing_creator.uid }}"
+          class="flex flex-row items-center gap-2 font-medium text-md text-gray-900">
+          <img alt="Profile Picture" class="w-10 h-10"
+            src="https://ui-avatars.com/api/?name={{ listing_creator.full_name }}&format=svg&rounded=true">
+          <span>@{{ listing_creator.full_name }}</span>
         </a>
 
-        <button
-          class="w-full px-5 py-2.5 text-sm text-white font-medium bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+        <button class="w-full
+                        px-5 py-2.5
+                        text-sm text-white font-medium
+                        bg-blue-700 hover:bg-blue-800
+                        focus:ring-4 focus:ring-blue-300
+                        focus:outline-none">
           Take this job
         </button>
+
+        <p class="flex flex-row
+                  text-sm text-gray-400
+                  before:mx-2 after:mx-2
+                  before:my-auto after:my-auto
+                  before:flex-1 after:flex-1
+                  before:content-[''] after:content-['']
+                  before:border-dotted after:border-dotted
+                  before:border-b-2 after:border-b-2
+                  before:border-gray-400 after:border-gray-400">
+          OR
+        </p>
+
+        <textarea rows="4" placeholder="Message {{ listing_creator.full_name }}..."
+          class="p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 resize-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+
+        <button disabled class="w-full
+          px-5 py-2.5
+          text-sm text-white font-medium
+          bg-blue-700 hover:bg-blue-800
+          focus:outline-none focus:ring-4 focus:ring-blue-300
+          disabled:bg-blue-400 disabled:cursor-not-allowed">
+          Send message to @{{ listing_creator.full_name }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Meet the seller -->
+    <div class="col-span-1 md:col-span-2">
+      <h3 class="mb-4 flex flex-row
+                  font-bold text-xl md:text-2xl
+                  after:ml-4 after:my-auto
+                  after:flex-1 after:content-['']
+                  after:border-b-[1px]
+                  after:border-gray-300">
+        Meet the hirer
+      </h3>
+
+      <div class="flex flex-row gap-4">
+        <img alt="Profile Picture" class="w-20 h-20"
+          src="https://ui-avatars.com/api/?name={{ listing_creator.full_name }}&format=svg&rounded=true">
+
+        <div class="flex flex-col justify-center">
+          <p class="font-medium text-xl text-gray-900">{{ listing_creator.full_name }}</p>
+          <span class="text-sm md:text-md text-gray-500">@{{ listing_creator.email }}</span>
+
+          <div class="mt-1 flex flex-row items-center">
+            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
+            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
+            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
+            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
+            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
+            <span class="ml-2 text-sm text-blue-500">5.0</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
