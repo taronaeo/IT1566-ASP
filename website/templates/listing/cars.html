@@ -4,6 +4,22 @@
 
 {% block content %}
 <section>
+  {% with alerts = get_flashed_messages() %}
+  {% if alerts %}
+  {% for alert in alerts %}
+  <div class="p-4 col-span-1 md:col-span-2 flex flex-row gap-1 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+    <div class="w-5 h-5">
+      <img src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">
+    </div>
+
+    <p class="grow">
+      {{alert}}
+    </p>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
   <h1 class="mb-4 text-xl text-center font-bold text-gray-900 md:text-2xl">Car Listings</h1>
 
   {% if cars|length == 0 %}
