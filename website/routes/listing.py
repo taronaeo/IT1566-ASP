@@ -30,6 +30,9 @@ def view_car(uid: str):
   with shelve.open(DB_USER_LOCATION) as db_user, \
         shelve.open(DB_LISTING_LOCATION) as db_listing:
 
+    if uid not in db_listing:
+      abort(404)
+
     listing_data = db_listing[uid]
     listing_owner = db_listing[uid].owner_uid
     listing_creator = db_user[listing_owner]
@@ -44,6 +47,21 @@ def view_car(uid: str):
                             user=current_user,
                             listing_data=listing_data,
                             listing_creator=listing_creator)
+
+@listing.route('/cars/<uid>/delete')
+def delete(uid: str):
+  with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    if uid not in db_listing:
+      abort(404)
+
+    if current_user.uid != db_listing[uid].owner_uid: # type: ignore
+      flash('Unable to delete listing, unauthorised request')
+      abort(404)
+
+    del db_listing[uid]
+    flash('Listing successfully deleted')
+
+  return redirect(url_for('listing.cars'))
 
 @listing.route('/cars/create', methods=['GET', 'POST'])
 @login_required
