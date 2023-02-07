@@ -83,8 +83,8 @@ def create_car():
       flash('All fields must not be empty')
       return redirect(request.url)
 
-    if not 6 <= len(title) <= 30:
-      flash('Title must be within 6 to 30 characters long')
+    if not 6 <= len(title) <= 60:
+      flash('Title must be within 6 to 60 characters long')
       return redirect(request.url)
 
     if not 4 <= len(vehicle_plate) <= 8:
