@@ -45,6 +45,7 @@ def view_car(uid: str):
 
     return render_template('/listing/view_car.html',
                             user=current_user,
+                            listings=db_listing,
                             listing_data=listing_data,
                             listing_creator=listing_creator)
 

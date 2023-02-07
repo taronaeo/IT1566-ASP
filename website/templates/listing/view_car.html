@@ -17,7 +17,7 @@
     <!-- Title, Price, Description -->
     <div class="col-span-1 md:col-span-2">
       <h1 class="text-xl md:text-2xl">{{ listing_data.title }}</h1>
-      <p class="mb-4 font-bold text-3xl text-gray-900 md:text-4xl">S${{ listing_data.price }}</p>
+      <p class="mb-4 font-bold text-3xl text-gray-900 md:text-4xl">S${{ '%.2f' % listing_data.price }}</p>
 
       <div class="w-full inline-flex flex-row items-center gap-2">
         <img src="/img/location.svg" alt="Location Icon" class="w-5 h-5">
@@ -181,6 +181,45 @@
         </div>
       </div>
     </div>
+
+    <div class="col-span-1 md:col-span-3">
+      <h3 class="mb-4 flex flex-row
+                  font-bold text-xl md:text-2xl
+                  after:ml-4 after:my-auto
+                  after:flex-1 after:content-['']
+                  after:border-b-[1px]
+                  after:border-gray-300">
+        Other listings
+      </h3>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {% for listing in listings.values() if listing.uid != listing_data.uid %}
+        {% if loop.index <= 3 %}
+          <div class="w-full md:max-w-sm bg-white rounded-lg border border-blue-100">
+          <a href="/cars/{{ listing.uid }}" class="flex flex-col justify-center">
+            <img class="aspect-video object-scale-down rounded-t-lg" src="/uploads/{{ listing.vehicle_img }}"
+              alt="Vehicle Outlook" />
+
+            <div class="p-5">
+              <h5 class="truncate text-2xl text-gray-900 font-medium tracking-tight">
+                {{ listing.title }}
+              </h5>
+              <p class="mb-2 text-sm text-gray-400 truncate inline-flex gap-1">
+                <img src="/img/map_pin.svg" alt="Map Icon" class="w-5 h-5">
+                {{ listing.vehicle_location }}
+              </p>
+
+              <p class="mb-2 truncate text-gray-600">{{ listing.requirements }}</p>
+              <div class="w-full text-blue-700 inline-flex justify-end">
+                <span class="text-lg font-medium">S${{ '%.2f' % listing.price }}</span>
+              </div>
+            </div>
+          </a>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
   </div>
 </section>
 {% endblock %}
