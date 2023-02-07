@@ -18,17 +18,20 @@ from flask_login import current_user, login_required
 listing = Blueprint('listing', __name__)
 
 # ! CAR SECTION
+
+
 @listing.route('/cars')
 def cars():
   with shelve.open(DB_LISTING_LOCATION) as db_listing:
     return render_template('/listing/cars.html',
-                            user=current_user,
-                            cars=db_listing)
+                           user=current_user,
+                           cars=db_listing)
+
 
 @listing.route('/cars/<uid>')
 def view_car(uid: str):
   with shelve.open(DB_USER_LOCATION) as db_user, \
-        shelve.open(DB_LISTING_LOCATION) as db_listing:
+          shelve.open(DB_LISTING_LOCATION) as db_listing:
 
     if uid not in db_listing:
       abort(404)
@@ -44,10 +47,11 @@ def view_car(uid: str):
       abort(404)
 
     return render_template('/listing/view_car.html',
-                            user=current_user,
-                            listings=db_listing,
-                            listing_data=listing_data,
-                            listing_creator=listing_creator)
+                           user=current_user,
+                           listings=db_listing,
+                           listing_data=listing_data,
+                           listing_creator=listing_creator)
+
 
 @listing.route('/cars/<uid>/delete')
 def delete(uid: str):
@@ -55,7 +59,7 @@ def delete(uid: str):
     if uid not in db_listing:
       abort(404)
 
-    if current_user.uid != db_listing[uid].owner_uid: # type: ignore
+    if current_user.uid != db_listing[uid].owner_uid:  # type: ignore
       flash('Unable to delete listing, unauthorised request')
       abort(404)
 
@@ -63,6 +67,7 @@ def delete(uid: str):
     flash('Listing successfully deleted')
 
   return redirect(url_for('listing.cars'))
+
 
 @listing.route('/cars/create', methods=['GET', 'POST'])
 @login_required
@@ -76,11 +81,11 @@ def create_car():
     price = request.form.get('price')
 
     if not title or \
-        not vehicle_img or \
-        not vehicle_plate or \
-        not vehicle_location or \
-        not requirements or \
-        not price:
+            not vehicle_img or \
+            not vehicle_plate or \
+            not vehicle_location or \
+            not requirements or \
+            not price:
       flash('All fields must not be empty')
       return redirect(request.url)
 
@@ -102,36 +107,49 @@ def create_car():
       flash('Invalid price. It should be in decimal format')
       return redirect(request.url)
 
-    filename = secure_filename(vehicle_img.filename) # type: ignore
+    filename = secure_filename(vehicle_img.filename)  # type: ignore
     vehicle_img.save(f'{UPLOAD_DIR}/{filename}')
 
-    Listing.create_listing(current_user.email, title, filename, vehicle_plate.upper(), vehicle_location, requirements, price) # type: ignore
+    Listing.create_listing(
+        current_user.email,  # type: ignore
+        title,
+        filename,
+        vehicle_plate.upper(),
+        vehicle_location,
+        requirements,
+        price
+    )
     return redirect(url_for('listing.cars'))
 
   return render_template('/listing/create_car.html',
-                          user=current_user)
+                         user=current_user)
+
 
 @listing.route('/cars/<uid>/update')
 @login_required
 def update_car(uid: str):
   return render_template('/listing/update_car.html',
-                          user=current_user)
+                         user=current_user)
 
 # ! CONTRACTOR SECTION
+
+
 @listing.route('/contractors')
 def contractors():
   return render_template('/listing/contractors.html',
-                          user=current_user,
-                          contractors={})
+                         user=current_user,
+                         contractors={})
+
 
 @listing.route('/contractors/create')
 @login_required
 def create_contractor():
   return render_template('/listing/create_contractor.html',
-                          user=current_user)
+                         user=current_user)
+
 
 @listing.route('/contractors/<uid>/update')
 @login_required
 def update_contractor(uid: str):
   return render_template('/listing/update_contractor.html',
-                          user=current_user)
+                         user=current_user)
