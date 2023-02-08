@@ -38,3 +38,17 @@ def update_account():
   with shelve.open(DB_USER_LOCATION) as db_user:
     return render_template('/account/update_account.html',
                             user=db_user[current_user.email])
+
+@account.route('/account/admin-dashboard')
+@login_required
+def admin_dashboard():
+  with shelve.open(DB_USER_LOCATION) as db_user:
+    return render_template("/Admin/Admin-Dashboard.html",users=db_user,user=current_user)
+
+@account.route('/account/inbox')
+@login_required
+def get_inbox():
+  with shelve.open(DB_USER_LOCATION) as db_user:
+    return render_template('/account/chat.html',
+                            user=current_user,
+                            users=db_user)
