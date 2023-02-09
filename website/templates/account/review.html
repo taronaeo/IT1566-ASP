@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}TEST Reviews{% endblock %}
+
+{% block content %}
+
+<label for = "user">User uid:</label>
+<input id = "user" type = "text" class = 'border-black border-2' value = "{{user.uid}}" readonly>
+<label for = "avg-rating">Rating:</label>
+<input id  = "avg-rating" class = "border-black border-2" value="{{ user.avg_rating() }}" readonly>
+
+<br>
+Send Review for:
+
+<label for = "from-uid">From-UID</label>
+<input id = "from-uid" class = 'border-black border-2'>
+
+<label for = "to-uid">To-UID</label>
+<input id = "to-uid" class = 'border-black border-2'>
+
+<label for = "rating">Rating</label>
+<input id = "rating" class = 'border-black border-2'>
+
+<label for = 'comments'>Comments</label>
+<input id = 'comments' class = 'border-black border-2'>
+<br>
+<button id = 'submit-review' onclick="postReq()" class = 'border-black border-2 bg-slate-200'>Submit Review</button>
+
+<ul>
+{% for review in reviews.values() %}
+{% if review.to_uid == user.uid %}
+<li>Rating: {{review.rating}}</li>
+<li>Comment: {{review.comments}}</li>
+{%endif%}
+{%endfor%}
+</ul>
+{% endblock %}
+{% block script%}
+<script>
+    const btn = document.getElementById('submit-review');
+    const reviewapi_url = {{url_for("reviewapiendpoint")|tojson}};
+    console.log(reviewapi_url)
+    const userapi_url = {{url_for("userapiendpoint")|tojson}};
+    function postReq(){
+        const from_uid = document.getElementById('from-uid').value;
+        const to_uid = document.getElementById('to-uid').value;
+        const ratings = parseFloat(document.getElementById('rating').value);
+        const comments = document.getElementById('comments').value;
+        let data = {
+            "from_uid": from_uid,
+            "to_uid": to_uid,
+            "rating": ratings,
+            "comments": comments
+            }
+        console.log(data)
+        let data_review = {
+            "new_review": ratings
+        }
+
+        fetch(`${reviewapi_url}`,{
+            "method": "POST",
+            "redirect": "follow",
+            "headers": {"Content-Type": "application/json"},
+            "body": JSON.stringify(data)
+            })
+            .then(fetch(`${userapi_url}/${to_uid}`,{
+                "method":"PUT",
+                "headers":{"Content-Type":"application/json"},
+                "body": JSON.stringify(data_review),
+            })
+            .then(setTimeout( () => window.location.reload,250)))
+            
+    }
+
+
+</script>
+{% endblock %}
