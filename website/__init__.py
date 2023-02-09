@@ -15,6 +15,7 @@ UPLOAD_DIR = os.path.join(os.getcwd(), 'website', 'static', 'uploads')
 
 DB_BASE_LOCATION = "instance/sgdetailmart"
 DB_USER_LOCATION = f"{DB_BASE_LOCATION}_user"
+DB_CHAT_LOCATION = f"{DB_BASE_LOCATION}_chat"
 DB_WALLET_LOCATION = f"{DB_BASE_LOCATION}_wallet"
 DB_LISTING_LOCATION = f"{DB_BASE_LOCATION}_listing"
 DB_VEHICLE_LOCATION = f"{DB_BASE_LOCATION}_vehicle"
@@ -37,6 +38,9 @@ def create_app():
 
   from .routes import views, auth, account, vehicle, listing
 
+  #* BETA WORK
+  from .routes import chat
+
   from .apis.user import UserApiEndpoint
   from .apis.wallet import WalletApiEndpoint
   from .apis.vehicle import VehicleApiEndpoint
@@ -48,6 +52,9 @@ def create_app():
   app.register_blueprint(account, url_prefix='/')
   app.register_blueprint(vehicle, url_prefix='/')
   app.register_blueprint(listing, url_prefix='/')
+
+  #* BETA CODE
+  app.register_blueprint(chat, url_prefix='/')
   api.add_resource(UserApiEndpoint, "/api/user", "/api/user/<string:uid>")
   api.add_resource(WalletApiEndpoint, "/api/wallet", "/api/wallet/<string:owner_uid>")
   api.add_resource(VehicleApiEndpoint, "/api/vehicle", "/api/vehicle/<string:license_plate>")

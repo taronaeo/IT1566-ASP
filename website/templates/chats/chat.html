@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block content %}
+<label for="message">Your message:</label>
+<input type="text" id="message" class="border border-2 border-black">
+
+<label for="to">To</label>
+<input type="text" id="to" class="border border-2 border-black">
+<button type="submit" id="send">Send</button>
+
+<div id="messages"></div>
+
+<!-- {% for message in chats.values() | sort(attribute='sent_at') %}
+{% if message._to == user.uid or message._from == user.uid %}
+<pre class="mb-4 bg-gray-100">
+  Message UID: {{message.message_uid}}
+  Listing UID: {{message.listing_uid}}
+  From: {{message._from}}
+  To: {{message._to}}
+  Message: {{message.message}}
+  Sent At: {{message.sent_at}}
+</pre>
+{% endif %}
+{% endfor %} -->
+{% endblock %}
+
+{% block script %}
+<script>
+  let socket = null;
+
+  /**
+    * * Connect
+    * * recv_message
+    * * send_message
+    * * Disconnect
+    */
+
+  document.addEventListener('DOMContentLoaded', () => {
+    socket = io();
+    socket.on('connect', (data) => socket.emit('system', { data: 'User Connected: {{ user.full_name }}' }))
+    socket.on('disconnect', () => socket.emit('system', { data: 'User Disconnected: {{ user.full_name }}' }))
+
+    socket.on('recv_message', msg => {
+      if ([msg._to, msg._from].includes('{{ user.uid }}'))
+        document.getElementById('messages').innerHTML += `
+          <pre class="mb-4 bg-gray-100">
+            Message UID: ${msg.message_uid}
+            Listing UID: ${msg.listing_uid}
+            From: ${msg._from}
+            To: ${msg._to}
+            Message: ${msg.message}
+            Sent At: ${msg.sent_at}
+          </pre>
+        `
+
+      console.log(msg)
+    })
+  })
+
+  document.getElementById('send').addEventListener('click', () => {
+    const to = document.getElementById('to')
+    const message = document.getElementById('message')
+
+    socket.emit('message', {
+      listing_uid: 'ABC',
+      _from: '{{ user.uid }}',
+      _to: to.value,
+      message: message.value,
+    })
+
+    to.value = ''
+    message.value = ''
+  })
+</script>
+{% endblock %}
