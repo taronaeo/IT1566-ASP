@@ -10,8 +10,13 @@
     <a href="#" class="text-gray-700 hover:text-blue-600">{{ listing_data.title }}</a>
   </div>
 
-  <img src="/uploads/{{ listing_data.vehicle_img }}" alt="Vehicle Outlook" draggable="false"
-    class="md:max-h-96 aspect-video object-cover rounded-lg">
+  <div class="relative w-full h-64 md:h-96">
+    <img src="/uploads/{{ listing_data.vehicle_img }}" alt="Vehicle Outlook"
+      class="absolute w-full h-full aspect-video object-cover rounded-lg z-0">
+
+    <img src="/uploads/{{ listing_data.vehicle_img }}" alt="Vehicle Outlook"
+      class="absolute w-full h-full aspect-video object-contain rounded-lg z-10 backdrop-blur-md">
+  </div>
 
   <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
     <!-- Title, Price, Description -->
