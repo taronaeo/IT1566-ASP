@@ -1,97 +1,144 @@
 {% extends 'base.html' %}
 
-{% block title %}Update Car Listings{% endblock %}
+{% block title %}Editing {{ listing.title }}{% endblock %}
 
 {% block content %}
-<form method="POST">
-    <h1 style="text-decoration: underline; color: blue; opacity: 0.75;">Update Car Listing</h2>
-    <div class="form-group">
-        <label for="UpdCarMake">Update Car Make</label>
-        <br>
-        <input
-            type="text" 
-            class="form-control"
-            name="UpdCarMake" 
-            id="UpdCarMake"
-            placeholder="Update Make of Car"
-        /> 
-        <br>
-        <br>
-        <label for="UpdCarModel">Update Car Model</label>
-        <br>
-        <input
-            type="text"
-            class="form-control"
-            name="UpdCarModel" 
-            id="UpdCarModel"
-            placeholder="Update Model of Car"
-        />
-        <br>
-        <br>
-        <label for="UpdCarLicensePlate">Update Car License Plate</label>
-        <br>
-        <input
-            type="text"
-            class="form-control"
-            name="UpdLicensePlate" 
-            id="UpdLicensePlate"
-            placeholder="Update License Plate"
-        />
-        <br>
-        <br>
-        <label for="UpdCarAge">Update Car Age</label>
-        <br>
-        <input
-            type="number"
-            class="form-control"
-            name="UpdCarAge" 
-            id="UpdCarAge"
-            placeholder="Update Age of Car"
-        />
-        <br>
-        <br>
-        <label for="UpdHomeAddy">Update Home Address</label>
-        <br>
-        <input
-            type="address"
-            class="form-control"
-            name="UpdHomeAddy" 
-            id="UpdHomeAddy"
-            placeholder="Update your Home Address Here"
-        />
-        <br>
-        <br>
-        <label for="UpdCustContactNo.">Update Contact No.</label>
-        <br>
-        <input
-            type="tel"
-            class="form-control"
-            name="UpdCustContactNo." 
-            id="UpdCustContactNo."
-            placeholder="Update your Contact No."
-        />
-        <br>
-        <br>
-        <label for="UpdProPrice">Update Proposed Price</label>
-        <br>
-        <input
-            type="number"
-            class="form-control"
-            name="UpdProPrice" 
-            id="UpdProPrice"
-            placeholder="Update your Price"
-        />
-        <br>
-        <br>
-        <input type="submit" value="Update Car Listing">
-        <br>
-        <br>
-        <button type="button" value="Delete" onclick="deleteItem()">Delete Listing</button>
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {% with alerts = get_flashed_messages() %}
+  {% if alerts %}
+  {% for alert in alerts %}
+  <div class="p-4 col-span-1 md:col-span-2 flex flex-row gap-1 text-sm text-red-800 bg-red-100 rounded-lg"
+    role="alert">
+    <div class="w-5 h-5">
+      <img src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">
     </div>
 
+    <p class="grow">
+      {{alert}}
+    </p>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
 
+  <form id="form" method="POST" enctype="multipart/form-data" class="space-y-4 md:space-y-6">
+    <h1 class="text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">Edit My Listing</h1>
 
+    <div>
+      <label for="title" class="font-light">Listing Title</label>
+      <input type="text" name="title" id="title"
+        value="{{ listing.title }}"
+        placeholder="Need an urgent wash for Christmas, etc..."
+        class="p-2.5 w-full rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+      <p class="mt-2 font-light text-sm text-gray-500">Good to include a catchy title.</p>
+    </div>
 
+    <div>
+      <label for="vehicle_img" class="font-light">Vehicle Image</label>
+      <label id="vehicle_img_box" for="vehicle_img"
+        class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+        <div class="flex flex-col items-center justify-center py-6">
+          <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+          <p class="mb-2 text-sm text-gray-500">Click to change photo</p>
+          <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+        </div>
+        <input type="file" name="vehicle_img" id="vehicle_img" accept="image/png, image/jpeg" class="hidden">
+      </label>
+      <p class="mt-2 font-light text-sm text-gray-500">
+        Take a photo of the exterior outlook of the vehicle.
+        Try to focus on any dirty and grime that needs to be cleaned.
+      </p>
+    </div>
 
+    <div>
+      <label for="vehicle_plate" class="font-light">Vehicle Plate</label>
+      <input type="text" name="vehicle_plate" id="vehicle_plate"
+        value="{{ listing.vehicle_plate }}"
+        placeholder="SMX6065G"
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+      <p class="mt-2 font-light text-sm text-gray-500">
+        License plate of the vehicle. This will be used to identify your vehicle in the carpark.
+      </p>
+    </div>
 
+    <div>
+      <label for="vehicle_location" class="font-light">Vehicle Location</label>
+      <input type="text" name="vehicle_location" id="vehicle_location"
+        value="{{ listing.vehicle_location }}"
+        placeholder="180 Ang Mo Kio Avenue 8, Deck 5B, Lot 436"
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+      <p class="mt-2 font-light text-sm text-gray-500">
+        Location of where the vehicle is parked. Do include the Deck and Lot numbers as well for convenience.
+      </p>
+    </div>
+
+    <div>
+      <label for="requirements" class="font-light">Requirements</label>
+      <textarea type="text" name="requirements" id="requirements" rows="4"
+        placeholder="Clean vehicle exterior, Detail interior, Wax seal paintwork, etc..."
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+        {{- listing.requirements -}}
+      </textarea>
+      <p class="mt-2 font-light text-sm text-gray-500">
+        State your requirements clearly so that contractors can understand your needs.
+      </p>
+    </div>
+
+    <div>
+      <label for="price" class="font-light">Price</label>
+      <input type="text" name="price" id="price"
+        value="{{ '%.2f' % listing.price }}"
+        placeholder="50"
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+      <p class="mt-2 font-light text-sm text-gray-500">
+        How much are you willing to pay for the job?
+      </p>
+    </div>
+  </form>
+
+  <div class="w-full max-w-sm flex flex-col gap-4">
+    <div class="space-y-4 md:space-y-6">
+      <h1 class="text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">Preview</h1>
+
+      <div class="bg-white rounded-lg border border-blue-100">
+        <a href="#" class="flex flex-col justify-center">
+          <img id="preview_vehicle_img" class="aspect-video object-scale-down rounded-t-lg"
+            src="/uploads/{{ listing.vehicle_img }}" alt="Vehicle Outlook" />
+
+          <div class="p-5">
+            <h5 id="preview_title" class="truncate text-2xl text-gray-900 font-medium tracking-tight">
+              {{ listing.title }}
+            </h5>
+            <p class="mb-2 text-sm text-gray-400 truncate inline-flex gap-1">
+              <img src="/img/map_pin.svg" alt="Map Icon" class="w-5 h-5">
+              <span id="preview_vehicle_location">{{ listing.vehicle_location }}</span>
+            </p>
+
+            <p id="preview_requirements" class="mb-2 text-gray-600">{{ listing.requirements }}</p>
+            <div class="w-full text-blue-700 inline-flex justify-end">
+              <span id="preview_price" class="text-lg font-medium">${{ '%.2f' % listing.price }}</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="space-y-4 md:space-y-6">
+      <h1 class="text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">All updated?</h1>
+      <div class="flex flex-col md:flex-row gap-2">
+        <button id="button_discard"
+          class="w-full px-5 py-2.5 text-sm text-white font-medium bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 focus:outline-none">
+          Discard changes
+        </button>
+        <button id="button_submit"
+          class="w-full px-5 py-2.5 text-sm text-white font-medium bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+          Update listing
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
 {% endblock %}

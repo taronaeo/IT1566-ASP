@@ -29,7 +29,7 @@ def cars():
 
 
 @listing.route('/cars/<uid>')
-def view_car(uid: str):
+def view(uid: str):
   with shelve.open(DB_USER_LOCATION) as db_user, \
           shelve.open(DB_LISTING_LOCATION) as db_listing:
 
@@ -51,25 +51,9 @@ def view_car(uid: str):
                            listing_creator=listing_creator)
 
 
-@listing.route('/cars/<uid>/delete')
-def delete(uid: str):
-  with shelve.open(DB_LISTING_LOCATION) as db_listing:
-    if uid not in db_listing:
-      abort(404)
-
-    if current_user.uid != db_listing[uid].owner_uid:  # type: ignore
-      flash('Unable to delete listing, unauthorised request')
-      abort(404)
-
-    del db_listing[uid]
-    flash('Listing successfully deleted')
-
-  return redirect(url_for('listing.cars'))
-
-
 @listing.route('/cars/create', methods=['GET', 'POST'])
 @login_required
-def create_car():
+def create():
   if request.method == 'POST':
     title = request.form.get('title')
     vehicle_img = request.files.get('vehicle_img')
@@ -123,11 +107,32 @@ def create_car():
                          user=current_user)
 
 
-@listing.route('/cars/<uid>/update')
+@listing.route('/cars/<uid>/update', methods=['GET', 'POST'])
 @login_required
-def update_car(uid: str):
-  return render_template('/listing/update_car.html',
-                         user=current_user)
+def update(uid: str):
+  with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    if uid not in db_listing:
+      abort(404)
+
+    return render_template('/listing/update_car.html',
+                           user=current_user,
+                           listing=db_listing[uid])
+
+
+@listing.route('/cars/<uid>/delete')
+def delete(uid: str):
+  with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    if uid not in db_listing:
+      abort(404)
+
+    if current_user.uid != db_listing[uid].owner_uid:  # type: ignore
+      flash('Unable to delete listing, unauthorised request')
+      abort(404)
+
+    del db_listing[uid]
+    flash('Listing successfully deleted')
+
+  return redirect(url_for('listing.cars'))
 
 # ! CONTRACTOR SECTION
 
