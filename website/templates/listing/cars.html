@@ -29,29 +29,9 @@
   </div>
   {% endif %}
 
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-    {% for car in cars.values() | sort(attribute='created_at') | reverse %}
-    <div class="w-full md:max-w-sm bg-white rounded-lg border border-blue-100">
-      <a href="/cars/{{ car.uid }}" class="flex flex-col justify-center">
-        <img class="aspect-video object-scale-down rounded-t-lg" src="/uploads/{{ car.vehicle_img }}"
-          alt="Vehicle Outlook" />
-
-        <div class="p-5">
-          <h5 class="truncate text-2xl text-gray-900 font-medium tracking-tight">
-            {{ car.title }}
-          </h5>
-          <p class="mb-2 text-sm text-gray-400 truncate inline-flex gap-1">
-            <img src="/img/map_pin.svg" alt="Map Icon" class="w-5 h-5">
-            {{ car.vehicle_location }}
-          </p>
-
-          <p class="mb-2 truncate text-gray-600">{{ car.requirements }}</p>
-          <div class="w-full text-blue-700 inline-flex justify-end">
-            <span class="text-lg font-medium">S${{ '%.2f' % car.price }}</span>
-          </div>
-        </div>
-      </a>
-    </div>
+  <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
+    {% for listing in cars.values() | sort(attribute='created_at') | reverse %}
+    {{ card_listing(listing) }}
     {% endfor %}
   </div>
 </section>
