@@ -192,13 +192,18 @@
         Other listings
       </h3>
 
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
         {% for listing in listings.values() if listing.uid != listing_data.uid %}
-        {% if loop.index <= 3 %}
+        {% if loop.index <= 4 %}
           <div class="w-full md:max-w-sm bg-white rounded-lg border border-blue-100">
           <a href="/cars/{{ listing.uid }}" class="flex flex-col justify-center">
-            <img class="aspect-video object-scale-down rounded-t-lg" src="/uploads/{{ listing.vehicle_img }}"
-              alt="Vehicle Outlook" />
+            <div class="relative w-full h-52">
+              <img src="/uploads/{{ listing.vehicle_img }}" alt="Vehicle Outlook"
+                class="absolute w-full h-full aspect-video object-scale-down rounded-t-lg z-10 backdrop-blur-sm">
+
+              <img src="/uploads/{{ listing.vehicle_img }}" alt="Vehicle Outlook"
+                class="absolute w-full h-full aspect-video object-cover rounded-t-lg z-0">
+            </div>
 
             <div class="p-5">
               <h5 class="truncate text-2xl text-gray-900 font-medium tracking-tight">
