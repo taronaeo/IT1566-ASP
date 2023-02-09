@@ -16,9 +16,9 @@ account = Blueprint('account', __name__)
 
 @account.route('/account/wallet')
 def wallet():
-  with shelve.open(DB_USER_LOCATION) as db_user:
-    with shelve.open(DB_WALLET_LOCATION) as db_wallet:
+  with shelve.open(DB_USER_LOCATION) as db_user, shelve.open(DB_WALLET_LOCATION) as db_wallet:
       return render_template('/account/wallet.html', user=db_user[current_user.email],wallet=db_wallet[current_user.email])
+
 
 @account.route('/account')
 @login_required
