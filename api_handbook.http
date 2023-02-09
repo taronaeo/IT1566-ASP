@@ -167,3 +167,88 @@ GET http://localhost:3000/api/vehicle/SSS777S
 ###
 
 DELETE http://localhost:3000/api/vehicle/SSS777S
+
+###
+POST http://localhost:3000/api/review
+Content-Type: application/json
+
+{
+  "from_uid": "22222U@mymail.nyp.edu.sg",
+  "to_uid": "dexter@email.com",
+  "rating": 1,
+  "comments": "Bad Ah Neh!"
+}
+
+###
+POST http://localhost:3000/api/review
+Content-Type: application/json
+
+{
+  "from_uid": "22222U@mymail.nyp.edu.sg",
+  "to_uid": "dexter@email.com",
+  "rating": 3,
+  "comments": "Good Ah Neh!"
+}
+
+###
+PUT http://localhost:3000/api/review/ZUMON
+Content-Type: application/json
+
+{
+  "rating": 2
+}
+
+###
+GET http://localhost:3000/api/review/ZUMON
+
+###
+GET http://localhost:3000/api/review/ACD
+
+###
+POST http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+  "email": "222579U@mymail.nyp.edu.sg",
+  "full_name": "Dexter Teo",
+  "phone_number": "88888888",
+  "password": "aaa",
+  "password_confirm": "aaa"
+}
+
+###
+DELETE http://localhost:3000/api/user/22222@mymail.nyp.edu.sg
+###
+POST http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+  "email": "22222@mymail.nyp.edu.sg",
+  "full_name": "Tractor Teo",
+  "phone_number": "22222222",
+  "password": "bbb",
+  "password_confirm": "bbb"
+}
+
+###
+PUT http://localhost:3000/api/user/22222@mymail.nyp.edu.sg
+Content-Type: application/json
+
+{
+  "new-review": 3
+}
+###
+GET http://localhost:3000/api/user/22222@mymail.nyp.edu.sg
+
+###
+POST http://localhost:3000/api/review
+Content-Type: application/json
+
+{
+  "from_uid": "22222U@mymail.nyp.edu.sg",
+  "to_uid": "22222@mymail.nyp.edu.sg",
+  "rating": 3,
+  "comments": "Good Ah Neh!"
+}
+###
+DELETE http://localhost:3000/api/user/22222@mymail.nyp.edu.sg

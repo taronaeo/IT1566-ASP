@@ -11,7 +11,6 @@ parser.add_argument('password_confirm', type=str, required=True)
 parser.add_argument('full_name', type=str, required=True)
 parser.add_argument('phone_number', type=str, required=True)
 parser.add_argument('vehicles', type=list, required=False)
-parser.add_argument('bank_information', type=str, required=False)
 parser.add_argument('training_complete', type=bool, required=False)
 parser.add_argument('background_check', type=bool, required=False)
 
@@ -19,6 +18,7 @@ put_parser = reqparse.RequestParser()
 put_parser.add_argument('full_name', type=str, required=False)
 put_parser.add_argument('phone_number', type=str, required=False)
 put_parser.add_argument('password', type=str, required = False)
+put_parser.add_argument('new_review',type=float,required=False)
 
 class UserApiEndpoint(Resource):
   def get(self, uid):
@@ -41,11 +41,11 @@ class UserApiEndpoint(Resource):
 
         user = User(
           args['email'],
-          args['password'],
           args['full_name'],
+          args['password'],
           args['phone_number'],
+          
           uid = args['email'],
-          bank_information=args['bank_information'],
           training_complete=args['training_complete'],
           background_check=args['background_check'],
         )
@@ -66,6 +66,7 @@ class UserApiEndpoint(Resource):
       user.full_name = args['full_name'] or user.full_name
       user.phone_number = args['phone_number'] or user.phone_number
       user.password = args['password'] or user.password
+      user.ratings.append(args['new_review'])
       db[uid] = user
       return user.__dict__
 
