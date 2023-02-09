@@ -17,7 +17,7 @@
     <!-- Title, Price, Description -->
     <div class="col-span-1 md:col-span-2">
       <h1 class="text-xl md:text-2xl">{{ listing_data.title }}</h1>
-      <p class="mb-4 font-bold text-3xl text-gray-900 md:text-4xl">S${{ listing_data.price }}</p>
+      <p class="mb-4 font-bold text-3xl text-gray-900 md:text-4xl">S${{ '%.2f' % listing_data.price }}</p>
 
       <div class="w-full inline-flex flex-row items-center gap-2">
         <img src="/img/location.svg" alt="Location Icon" class="w-5 h-5">
@@ -39,7 +39,82 @@
             src="https://ui-avatars.com/api/?name={{ listing_creator.full_name }}&format=svg&rounded=true">
           <span>@{{ listing_creator.full_name }}</span>
         </a>
+        {% if listing_data.owner_uid == user.uid %}
+        <a href="#" class="w-full
+                        px-5 py-2.5
+                        text-sm text-white text-center font-medium
+                        bg-blue-700 hover:bg-blue-800
+                        focus:ring-4 focus:ring-blue-300
+                        focus:outline-none">
+          View chats
+        </a>
 
+        <ul class="w-full text-sm font-medium text-gray-900">
+          <li>
+            <a href="#" class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+              </svg>
+              Edit Listing
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+              Set to Private
+            </a>
+          </li>
+
+          <li>
+            <button id="button_delete" class="w-full px-4 py-2 flex flex-row gap-2 text-red-600 hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+              </svg>
+              Delete
+            </button>
+
+            <dialog id="dialog_delete" class="p-0 w-full max-w-xs md:max-w-md rounded-lg backdrop:bg-gray-900/50">
+              <form method="dialog" class="bg-white rounded-lg">
+                <div class="px-6 py-4 flex flex-row items-center justify-between border-b border-gray-100">
+                  <h3 class="text-xl font-bold text-gray-900">Are you sure?</h3>
+
+                  <button value="cancel">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="px-6 py-4">
+                  <p class="font-light text-base">You cannot undo this action.</p>
+
+                  <div class="mt-4 flex flex-row justify-end">
+                    <button value="cancel"
+                      class="z-10 px-5 py-2.5 font-medium text-sm text-blue-700 rounded-lg hover:text-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+                      Go back
+                    </button>
+
+                    <a href="{{ url_for('listing.delete', uid=listing_data.uid) }}"
+                      class="px-5 py-2.5 font-medium text-sm text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+                      Yes, delete
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </dialog>
+          </li>
+        </ul>
+        {% else %}
         <button class="w-full
                         px-5 py-2.5
                         text-sm text-white font-medium
@@ -72,6 +147,7 @@
           disabled:bg-blue-400 disabled:cursor-not-allowed">
           Send message to @{{ listing_creator.full_name }}
         </button>
+        {% endif %}
       </div>
     </div>
 
@@ -105,9 +181,43 @@
         </div>
       </div>
     </div>
-  </div>
+
+    <div class="col-span-1 md:col-span-3">
+      <h3 class="mb-4 flex flex-row
+                  font-bold text-xl md:text-2xl
+                  after:ml-4 after:my-auto
+                  after:flex-1 after:content-['']
+                  after:border-b-[1px]
+                  after:border-gray-300">
+        Other listings
+      </h3>
+
+      <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
+        {% for listing in listings.values() if listing.uid != listing_data.uid %}
+        {% if loop.index <= 4 %}
+          {{ card_listing(listing) }}
+          {% endif %}
+          {% endfor %}
+          </div>
+      </div>
+    </div>
 </section>
 {% endblock %}
 
 {% block script %}
+<script>
+  const button_delete = document.getElementById('button_delete');
+  const dialog_delete = document.getElementById('dialog_delete');
+
+  button_delete.addEventListener('click', () => dialog_delete.showModal());
+  dialog_delete.addEventListener('click', (e) => {
+    const rect = dialog_delete.getBoundingClientRect();
+    const inDialog = (rect.top <= e.clientY
+      && e.clientY <= rect.top + rect.height
+      && rect.left <= e.clientX
+      && e.clientX <= rect.left + rect.width);
+
+    if (!inDialog) dialog_delete.close();
+  })
+</script>
 {% endblock %}
