@@ -14,15 +14,11 @@ from flask_login import current_user, login_required
 
 account = Blueprint('account', __name__)
 
-@account.route('/wallet')
-@login_required
-def get_wallet():
-  with shelve.open(DB_WALLET_LOCATION) as wallet_db:
-    wallet = db[current_user.email] # type: ignore
+@account.route('/account/wallet')
+def wallet():
+  with shelve.open(DB_USER_LOCATION) as db_user, shelve.open(DB_WALLET_LOCATION) as db_wallet:
+      return render_template('/account/wallet.html', user=db_user[current_user.email],wallet=db_wallet[current_user.email])
 
-  return render_template('/account/wallet.html',
-                          user=current_user,
-                          wallet=wallet)
 
 @account.route('/account')
 @login_required
@@ -38,22 +34,20 @@ def update_account():
   with shelve.open(DB_USER_LOCATION) as db_user:
     return render_template('/account/update_account.html',
                             user=db_user[current_user.email])
-
-
-@account.route('/account/admin-dashboard')
-def dashboard():
-  with shelve.open(DB_USER_LOCATION) as db_user:
-    return render_template('/Admin/Dashboard.html', user=db_user)
-
+                        
 @account.route('/account/profile')
 def profile():
   with shelve.open(DB_USER_LOCATION) as db_user:
     with shelve.open(DB_WALLET_LOCATION) as db_wallet:
       with shelve.open(DB_LISTING_LOCATION) as db_listing:
         return render_template('/account/profile.html', user=db_user[current_user.email],wallet=db_wallet[current_user.email],cars=db_listing)
+                      
 
-@account.route('/account/wallet')
-def wallet():
+
+@account.route('/account/inbox')
+@login_required
+def get_inbox():
   with shelve.open(DB_USER_LOCATION) as db_user:
-    with shelve.open(DB_WALLET_LOCATION) as db_wallet:
-      return render_template('/account/wallet.html', user=db_user[current_user.email],wallet=db_wallet[current_user.email])
+    return render_template('/account/chat.html',
+                            user=current_user,
+                            users=db_user)
