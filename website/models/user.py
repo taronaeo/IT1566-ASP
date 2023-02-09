@@ -28,7 +28,8 @@ class User(UserMixin):
     uid = None,
     access_level = 'User',
     background_check = None,
-    training_complete = None
+    training_complete = None,
+    ratings = []
   ):
     super().__init__()
     self.uid = uid or email
@@ -39,6 +40,7 @@ class User(UserMixin):
     self.password = password
     self.background_check = background_check
     self.training_complete = training_complete
+    self.ratings = ratings
 
   def get_id(self):
     return self.email
@@ -50,6 +52,13 @@ class User(UserMixin):
         return None
 
       return db[email]
+
+  def avg_rating(self):
+    try:
+      ratings = sum(self.ratings) / len(self.ratings)
+    except ZeroDivisionError:
+      return 0
+    return ratings
 
   @staticmethod
   def update_user(background_check = None, training_complete = None):

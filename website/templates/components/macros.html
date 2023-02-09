@@ -1,0 +1,28 @@
+{% macro card_listing(listing) -%}
+<div class="w-full md:max-w-sm bg-white rounded-lg border border-blue-100">
+  <a href="/cars/{{ listing.uid }}" class="flex flex-col justify-center">
+    <div class="relative w-full h-52">
+      <img src="/uploads/{{ listing.vehicle_img }}" alt="Vehicle Outlook"
+        class="absolute w-full h-full aspect-video object-scale-down rounded-t-lg z-10 backdrop-blur-sm">
+
+      <img src="/uploads/{{ listing.vehicle_img }}" alt="Vehicle Outlook"
+        class="absolute w-full h-full aspect-video object-cover rounded-t-lg z-0">
+    </div>
+
+    <div class="p-5">
+      <h5 class="truncate text-2xl text-gray-900 font-medium tracking-tight">
+        {{ listing.title }}
+      </h5>
+      <p class="mb-2 text-sm text-gray-400 truncate inline-flex gap-1">
+        <img src="/img/map_pin.svg" alt="Map Icon" class="w-5 h-5">
+        {{ listing.vehicle_location }}
+      </p>
+
+      <p class="mb-2 truncate text-gray-600">{{ listing.requirements }}</p>
+      <div class="w-full text-blue-700 inline-flex justify-end">
+        <span class="text-lg font-medium">S${{ '%.2f' % listing.price }}</span>
+      </div>
+    </div>
+  </a>
+</div>
+{% endmacro %}

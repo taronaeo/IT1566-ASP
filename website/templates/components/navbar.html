@@ -1,35 +1,52 @@
 <!-- ! Mobile sidenav backdrop -->
-<div id="overlay" class="hidden fixed top-0 left-64 w-full h-screen bg-black/50 z-20" onclick="toggleSidenav()"></div>
+<div id="overlay" class="hidden fixed top-0 left-64 w-full h-screen bg-black/50 z-50" onclick="toggleSidenav()"></div>
 
 <nav class="w-full bg-white
-            sticky top-0 left-0 z-10
+            sticky top-0 left-0 z-40
             border-b-[1px] border-blue-200">
 
   <!-- ! Top section of navbar -->
-  <div class="w-full h-14 mx-auto container
+  <div class="w-full h-12 mx-auto container
               flex flex-row items-center justify-between">
 
     <!-- ! Mobile sidenav button -->
-    <button onclick="toggleSidenav()" class="p-4 md:hidden ">
-      <img class="h-6" src="/img/bars.svg" alt="Sidenav">
+    <button onclick="toggleSidenav()" class="p-4 md:hidden">
+      <img class="h-4" src="/img/bars.svg" alt="Sidenav">
     </button>
 
     <!-- ! Logo -->
-    <div class="px-4 py-5">
+    <div class="px-4 py-4">
       <a href="/">
         <img class="h-4" src="/img/logo.svg" alt="Logo">
       </a>
     </div>
 
     <!-- ! User Profile -->
-    <div class="p-4">
+    <div class="p-4 h-full aspect-square md:h-auto md:aspect-auto">
       <div class="hidden md:block flex flex-row text-sm text-gray-700 items-center">
         {% if user.is_anonymous %}
         <a href="{{ url_for('auth.login') }}" class="px-2 hover:text-blue-500">Login</a>
         <a href="{{ url_for('auth.signup') }}" class="px-2 hover:text-blue-500">Sign Up</a>
         {% else %}
-        <span class="px-2">{{ user.full_name }}</span>
-        <a href="{{ url_for('auth.logout') }}" class="px-2 text-red-700">Logout</a>
+        <div class="flex flex-row items-center">
+          <img alt="Profile Picture" class="w-5 h-5"
+            src="https://ui-avatars.com/api/?name={{ user.full_name }}&format=svg&rounded=true">
+
+          <span class="px-2">{{ user.full_name }}</span>
+
+          <a href="{{ url_for('listing.create_car') }}"
+            class="px-3 py-1.5 rounded-lg text-xs text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+            Create Listing
+          </a>
+
+          <a href="{{ url_for('auth.logout') }}" class="px-2 ml-2 border-l-[1px] border-slate-200 text-red-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+            </svg>
+          </a>
+        </div>
         {% endif %}
       </div>
     </div>
@@ -59,19 +76,18 @@
         Car Listings
       </a>
 
-      <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2"
-        href="{{ url_for('listing.create_car') }}">
-        Create Car Listing
-      </a>
+      <ul class="md:hidden block border-l border-slate-100">
+        <li class="block">
+          <a class="block py-2 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2 border-l pl-4"
+            href="{{ url_for('listing.create_car') }}">
+            Create Listing
+          </a>
+        </li>
+      </ul>
 
       <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2"
         href="{{ url_for('listing.contractors') }}">
         Contractor Listings
-      </a>
-
-      <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2"
-        href="{{ url_for('listing.create_contractor') }}">
-        Create Contractor Listing
       </a>
 
       <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2" href="/products">
@@ -81,6 +97,11 @@
       <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2" href="/promotions">
         Promotions
       </a>
+
+      <!-- <a href="{{ url_for('listing.create_car') }}"
+        class="py-4 flex flex-row items-center text-xs font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+        Create a listing
+      </a> -->
 
       <hr class="h-px my-2 bg-gray-200 border-0" />
 
@@ -104,7 +125,7 @@
   const sidenav = document.getElementById('sidenav')
 
   function toggleSidenav() {
-    body.classList.toggle('fixed')
+    body.classList.toggle('absolute')
     body.classList.toggle('w-full')
     body.classList.toggle('left-64')
     overlay.classList.toggle('hidden')
