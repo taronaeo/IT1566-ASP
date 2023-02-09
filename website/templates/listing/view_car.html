@@ -37,7 +37,7 @@
           class="flex flex-row items-center gap-2 font-medium text-md text-gray-900">
           <img alt="Profile Picture" class="w-10 h-10"
             src="https://ui-avatars.com/api/?name={{ listing_creator.full_name }}&format=svg&rounded=true">
-          <span>@{{ listing_creator.full_name }}</span>
+          <span>{{ listing_creator.full_name }}</span>
         </a>
         {% if listing_data.owner_uid == user.uid %}
         <a href="#" class="w-full
@@ -145,7 +145,7 @@
           bg-blue-700 hover:bg-blue-800
           focus:outline-none focus:ring-4 focus:ring-blue-300
           disabled:bg-blue-400 disabled:cursor-not-allowed">
-          Send message to @{{ listing_creator.full_name }}
+          Send message to {{ listing_creator.full_name }}
         </button>
         {% endif %}
       </div>
@@ -168,7 +168,7 @@
 
         <div class="flex flex-col justify-center">
           <p class="font-medium text-xl text-gray-900">{{ listing_creator.full_name }}</p>
-          <span class="text-sm md:text-md text-gray-500">@{{ listing_creator.email }}</span>
+          <span class="text-sm md:text-md text-gray-500">@{{ listing_creator.uid }}</span>
 
           <div class="mt-1 flex flex-row items-center">
             <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
@@ -192,14 +192,18 @@
         Other listings
       </h3>
 
-      <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
-        {% for listing in listings.values() if listing.uid != listing_data.uid %}
-        {% if loop.index <= 4 %}
-          {{ card_listing(listing) }}
-          {% endif %}
-          {% endfor %}
-          </div>
-      </div>
+      {% if listings | length <= 1 %}
+        <p class="text-gray-700">No others listings so far...</p>
+        {% endif %}
+
+        <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
+          {% for listing in listings.values() if listing.uid != listing_data.uid %}
+          {% if loop.index <= 4 %}
+            {{ card_listing(listing) }}
+            {% endif %}
+            {% endfor %}
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}

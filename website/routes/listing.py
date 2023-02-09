@@ -38,13 +38,11 @@ def view_car(uid: str):
 
     listing_data = db_listing[uid]
     listing_owner = db_listing[uid].owner_uid
-    listing_creator = db_user[listing_owner]
-
-    if uid not in db_listing:
-      abort(404)
 
     if listing_owner not in db_user:
       abort(404)
+
+    listing_creator = db_user[listing_owner]
 
     return render_template('/listing/view_car.html',
                            user=current_user,
@@ -111,7 +109,7 @@ def create_car():
     vehicle_img.save(f'{UPLOAD_DIR}/{filename}')
 
     Listing.create_listing(
-        current_user.email,  # type: ignore
+        current_user.uid,  # type: ignore
         title,
         filename,
         vehicle_plate.upper(),
@@ -156,14 +154,14 @@ def update_contractor(uid: str):
 
 # ! Job Start and end
 
+
 @listing.route('/job/jobstart')
 def jobstart():
   if request.method == 'POST':
     vehicle_img = request.files.get('vehicle_img')
-    
 
     if not vehicle_img:
-        
+
       flash('All fields must not be empty')
       return redirect(request.url)
 
@@ -171,20 +169,19 @@ def jobstart():
       flash('Invalid file type. Only PNG and JPG files are accepted')
       return redirect(request.url)
 
-    filename = secure_filename(vehicle_img.filename) # type: ignore
+    filename = secure_filename(vehicle_img.filename)  # type: ignore
     vehicle_img.save(f'{UPLOAD_DIR}/{filename}')
 
-  
   return render_template('/job/jobstart.html', user=current_user)
+
 
 @listing.route('/job/jobend')
 def jobend():
   if request.method == 'POST':
     vehicle_img = request.files.get('vehicle_img')
-    
 
     if not vehicle_img:
-        
+
       flash('All fields must not be empty')
       return redirect(request.url)
 
@@ -192,8 +189,7 @@ def jobend():
       flash('Invalid file type. Only PNG and JPG files are accepted')
       return redirect(request.url)
 
-    filename = secure_filename(vehicle_img.filename) # type: ignore
+    filename = secure_filename(vehicle_img.filename)  # type: ignore
     vehicle_img.save(f'{UPLOAD_DIR}/{filename}')
 
-  
   return render_template('/job/jobend.html', user=current_user)

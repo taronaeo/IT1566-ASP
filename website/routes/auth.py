@@ -14,15 +14,17 @@ from flask_login import current_user, login_user, logout_user, login_required
 
 auth = Blueprint('auth', __name__)
 
+
 @auth.route('/logout')
 @login_required
 def logout():
   logout_user()
   return redirect(url_for('auth.login', next=url_for('views.home')))
 
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-  if not current_user.is_anonymous: # type: ignore
+  if not current_user.is_anonymous:  # type: ignore
     return redirect(url_for('views.home'))
 
   if request.method == 'POST':
@@ -37,7 +39,7 @@ def login():
       flash('Enter an email and password')
       return redirect_to
 
-    user = User.query_user(email)
+    user = User.query_email(email)
     if not user:
       flash('Account does not exist')
       return redirect_to
@@ -50,11 +52,12 @@ def login():
     return redirect(next_url or url_for('views.home'))
 
   return render_template('/auth/login.html',
-                          user=current_user)
+                         user=current_user)
+
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
-  if not current_user.is_anonymous: # type: ignore
+  if not current_user.is_anonymous:  # type: ignore
     return redirect(url_for('views.home'))
 
   if request.method == 'POST':
@@ -67,16 +70,16 @@ def signup():
 
     next_url = request.args.get('next')
     redirect_to = redirect(url_for('auth.signup',
-                                    next=next_url,
-                                    full_name=full_name,
-                                    phone_number=phone_number,
-                                    email=email))
+                                   next=next_url,
+                                   full_name=full_name,
+                                   phone_number=phone_number,
+                                   email=email))
 
     if not full_name or \
-        not phone_number or \
-        not email or \
-        not password or \
-        not password_confirm:
+            not phone_number or \
+            not email or \
+            not password or \
+            not password_confirm:
       flash('All fields must not be empty')
       return redirect_to
 
@@ -88,7 +91,7 @@ def signup():
       flash('Invalid email address')
       return redirect_to
 
-    user = User.query_user(email)
+    user = User.query_email(email)
     if user:
       flash('Email already exists. Please login instead')
       return redirect_to
@@ -103,4 +106,4 @@ def signup():
     return redirect(next_url or url_for('views.home'))
 
   return render_template('/auth/signup.html',
-                          user=current_user)
+                         user=current_user)

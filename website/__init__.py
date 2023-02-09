@@ -23,6 +23,7 @@ DB_WALLET_TRANSACTION_LOCATION = f"{DB_BASE_LOCATION}_wallet_transaction"
 DB_LISTING_TRANSACTION_LOCATION = f"{DB_BASE_LOCATION}_listing_transaction"
 DB_REVIEW_LOCATION = f"{DB_BASE_LOCATION}_review_transaction"
 
+
 def create_app():
   app = Flask(__name__,
               static_url_path='',
@@ -30,15 +31,16 @@ def create_app():
               template_folder='templates')
   api = Api(app)
 
-  app.config['SECRET_KEY'] = 'abcdefghijklmnopqrstuvwxyz' # NOTE: To be changed when deploying
+  # NOTE: To be changed when deploying
+  app.config['SECRET_KEY'] = 'abcdefghijklmnopqrstuvwxyz'
 
   login_manager = LoginManager()
-  login_manager.login_view = "auth.login" # type: ignore
+  login_manager.login_view = "auth.login"  # type: ignore
   login_manager.init_app(app)
 
   from .routes import views, auth, account, vehicle, listing
 
-  #* BETA WORK
+  # * BETA WORK
   from .routes import chat
 
   from .apis.user import UserApiEndpoint
@@ -53,13 +55,17 @@ def create_app():
   app.register_blueprint(vehicle, url_prefix='/')
   app.register_blueprint(listing, url_prefix='/')
 
-  #* BETA CODE
+  # * BETA CODE
   app.register_blueprint(chat, url_prefix='/')
   api.add_resource(UserApiEndpoint, "/api/user", "/api/user/<string:uid>")
-  api.add_resource(WalletApiEndpoint, "/api/wallet", "/api/wallet/<string:owner_uid>")
-  api.add_resource(VehicleApiEndpoint, "/api/vehicle", "/api/vehicle/<string:license_plate>")
-  api.add_resource(ListingApiEndpoint, "/api/listing", "/api/listing/<string:uid>")
-  api.add_resource(ReviewApiEndpoint, "/api/review", "/api/review/<string:review_uid>")
+  api.add_resource(WalletApiEndpoint, "/api/wallet",
+                   "/api/wallet/<string:owner_uid>")
+  api.add_resource(VehicleApiEndpoint, "/api/vehicle",
+                   "/api/vehicle/<string:license_plate>")
+  api.add_resource(ListingApiEndpoint, "/api/listing",
+                   "/api/listing/<string:uid>")
+  api.add_resource(ReviewApiEndpoint, "/api/review",
+                   "/api/review/<string:review_uid>")
 
   from .models import User
 
@@ -68,14 +74,14 @@ def create_app():
     return render_template('/404.html', user=current_user), 404
 
   @login_manager.user_loader
-  def load_user(email):
-    return User.query_user(email)
+  def load_user(uid):
+    return User.query_uid(uid)
 
   # * BETA CODE
   @login_manager.unauthorized_handler
   def unauthorised_access():
     flash('Please login to continue')
-    next_url = url_for(request.endpoint, **request.view_args) # type: ignore
+    next_url = url_for(request.endpoint, **request.view_args)  # type: ignore
     return redirect(url_for('auth.login', next=next_url))
 
   return app
