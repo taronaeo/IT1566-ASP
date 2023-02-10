@@ -29,7 +29,8 @@ class User(UserMixin):
     access_level = 'User',
     background_check = None,
     training_complete = None,
-    ratings = []
+    ratings = [],
+    latest_msg = []
   ):
     super().__init__()
     self.uid = uid or email
@@ -41,6 +42,7 @@ class User(UserMixin):
     self.background_check = background_check
     self.training_complete = training_complete
     self.ratings = ratings
+    self.latest_msg = latest_msg
 
   def get_id(self):
     return self.email
@@ -63,6 +65,18 @@ class User(UserMixin):
   @staticmethod
   def update_user(background_check = None, training_complete = None):
     return NotImplemented
+
+  @staticmethod
+  def set_latest_msg(uid, last_msg):
+    with shelve.open(DB_USER_LOCATION) as db:
+      user = db[uid]
+      user.latest_msg.append(last_msg)
+      if len(user.latest_msg) > 0:
+        user.latest_msg.pop(0)
+      db[uid] = user
+      db.sync()
+      return user
+
 
   @staticmethod
   def create(

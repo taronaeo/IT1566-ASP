@@ -22,31 +22,32 @@
             <div class="text-xl">{{user.full_name}}'s chats</div>
           </div>
           
-          <div class="scrollbar-thin flex-auto h-16 overflow-y-auto">
+          <div id = "chats-container" class="scrollbar-thin flex-auto h-16 overflow-y-auto">
             
-            <a class="block border-b" href="">
-              <div class="border-l-2 bg-blue-200 border-blue-600 p-3 space-y-4">
-                
-                <div class="flex flex-row items-center space-x-2">
-                    
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 flex-none">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <p class="flex-grow font-bold truncate">Whoopies</p>
-                    
-                    <div class="text-sm text-gray-800">2hr</div>
-                    
-        
 
-                </div>
-                  
-                <div class="flex flex-row items-center space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-none">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-                  </svg>
-                  <div class="flex-grow truncate text-xs">WOW I AGREE!</div>
-                  
-                </div>
+            <a class="block border-b" href="">
+              <div  class="border-l-2 bg-blue-200 border-blue-600 p-3 space-y-4">
+                
+                <!--List Chats-->
+                
+                    <div class="flex flex-row items-center space-x-2">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 flex-none">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          <p class="flex-grow font-bold truncate">Whoopies</p>
+                          
+                          <div class="text-sm text-gray-800">2hr</div>
+          
+                      </div>
+                        
+                      <div class="flex flex-row items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-none">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                        </svg>
+                        <div class="flex-grow truncate text-xs">WOW I AGREE!</div>
+                      
+                    </div>
               
               </div>
               
@@ -93,46 +94,37 @@
         
         </div>
         <!--Chatbox Div-->
-        <div class="w-4/5 border-l border-r border-gray-200 flex flex-col">
+        <div id = 'msgbox' class="w-4/5 border-l border-r border-gray-200 flex flex-col">
           <div class="flex-none h-20 flex flex-row justify-between items-center p-4 border-b">
             <div class="text-bold flex flex-col space-y-1">
               <strong>Whoopies</strong>
-              <input type="text" placeholder="Add Conversation Title" class="outline-none border-b border-dashed placeholder-gray-300 text-sm text-black"/>
-            </div>
-            <div class="flex flex-row items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-              </svg>
-              
             </div>
           </div>
-          <div class="flex-auto overflow-y-auto" style="background-image: url(https://media.istockphoto.com/id/524716446/vector/seamless-abstract-geometric-hipster-pattern-90s.jpg?s=612x612&w=0&k=20&c=h4-mouqJxRC097gXFl1Hf18BNW7VDnmybj5TGLIsmiY=);">
+          <div class="flex-auto overflow-y-auto" id = "msgs-container" style="background-image: url(https://media.istockphoto.com/id/524716446/vector/seamless-abstract-geometric-hipster-pattern-90s.jpg?s=612x612&w=0&k=20&c=h4-mouqJxRC097gXFl1Hf18BNW7VDnmybj5TGLIsmiY=);">
             <!--Example of a message entry box (Receiving)-->
-            <div class="flex flex-row space-x-2 p-4">
-              <img alt="Profile Picture" class="flex-none w-8 h-8 "
-            src="https://ui-avatars.com/api/?name=&format=svg&rounded=true">
-              <div class="flex flex-col">
-                <div class="bg-gray-200 rounded p-5">Dexter Teo has such a small cock</div>
-                <div class="text-sm text-gray-500">2hrs ago</div>
-              </div>      
-            </div>
-
-
-            <div class="flex flex-row-reverse space-x-2 p-4 gap-2">
+            <div class=" flex flex-row-reverse space-x-2 p-4 gap-2">
               <img alt="Profile Picture" class="flex-none w-8 h-8 "
             src="https://ui-avatars.com/api/?name={{ user.full_name }}&format=svg&rounded=true">
               <div class="flex flex-col">
-                <div class="bg-blue-200 rounded p-5">WOW I AGREE!</div>
-                <div class="text-sm text-gray-500">2hrs ago</div>
+                <div class="bg-blue-200 rounded p-5">dog</div>
+                <div class="text-sm text-gray-500">12h</div>
               </div>      
             </div>
             
+            <div class=" flex flex-row space-x-2 p-4">
+              <img alt="Profile Picture" class="flex-none w-8 h-8 "
+            src="https://ui-avatars.com/api/?name=&format=svg&rounded=true">
+              <div class="flex flex-col">
+                <div class="bg-gray-200 rounded p-5">helo</div>
+                <div class="text-sm text-gray-500">2h</div>
+              </div>      
+            </div>
           
           </div>
           
           
           <div class="flex flex-col justify-centerflex-none h-40  ">
-            <textarea placeholder="Enter your messages here..."class=" outline-none border-2 border-b focus:border-blue-600 hover:border-blue-600 w-full h-full p-4 shadow-xl"></textarea>
+            <textarea id='message-area' placeholder="Enter your messages here..."class=" outline-none border-2 border-b focus:border-blue-600 hover:border-blue-600 w-full h-full p-4 shadow-xl resize-none"></textarea>
             <div class="flex flex-row justify-end py-2">
               <button class="flex flex-row space-x-2 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit' type="button" onclick="swap_span_to_input(),swap_buttons_to_confirm()">  
                 <P class="text-lg font-semibold">Send</P>
@@ -161,7 +153,61 @@
   
   
   </div>
+  <script>
     
+    let socket = null;
+
+    /**
+      * * Connect
+      * * recv_message - listing_uid, _from, _to
+      * * send_message
+      * * Disconnect
+      */
+  
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      socket = io();
+      socket.on('connect', (data) => socket.emit('system', { data: 'User Connected: {{ user.full_name }}' }))
+      socket.on('disconnect', () => socket.emit('system', { data: 'User Disconnected: {{ user.full_name }}' }))
+
+      socket.on('recv_message', msg => {
+          document.getElementById('messages').innerHTML += `
+            <pre class="mb-4 bg-gray-100">
+              Message UID: ${msg.message_uid}
+              Listing UID: ${msg.listing_uid}
+              From: ${msg._from}
+              To: ${msg._to}
+              Message: ${msg.message}
+              Sent At: ${msg.sent_at}
+            </pre>
+          `
+  
+        console.log(msg)
+      })
+    })
+  
+    document.getElementById('send').addEventListener('click', () => {
+      const to = document.getElementById('to')
+      const message = document.getElementById('message')
+  
+      socket.emit('message', {
+        listing_uid: 'ABC',
+        _from: '{{ user.uid }}',
+        _to: to.value,
+        message: message.value,
+      })
+  
+      to.value = ''
+      message.value = ''
+    })
+
+  document.getElementById('message-area').addEventListener('keypress', function(event){
+    if (event.key === "Enter"){
+      console.log(true)
+    }
+  })
+
+</script>
 </body>
 
 </html>

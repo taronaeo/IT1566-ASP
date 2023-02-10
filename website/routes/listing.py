@@ -197,3 +197,9 @@ def jobend():
 
   
   return render_template('/job/jobend.html', user=current_user)
+
+#! Products
+
+@listing.route('/products')
+def products():
+  return render_template('/listing/products.html', user=current_user)

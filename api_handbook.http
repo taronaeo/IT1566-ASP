@@ -202,7 +202,7 @@ Content-Type: application/json
 GET http://localhost:3000/api/review/ZUMON
 
 ###
-GET http://localhost:3000/api/review/ACD
+GET http://localhost:3000/api/user/dog@email.com
 
 ###
 POST http://localhost:3000/api/user
@@ -223,8 +223,8 @@ POST http://localhost:3000/api/user
 Content-Type: application/json
 
 {
-  "email": "22222@mymail.nyp.edu.sg",
-  "full_name": "Tractor Teo",
+  "email": "dog@email.com",
+  "full_name": "Dog",
   "phone_number": "22222222",
   "password": "bbb",
   "password_confirm": "bbb"
@@ -251,4 +251,4 @@ Content-Type: application/json
   "comments": "Good Ah Neh!"
 }
 ###
-DELETE http://localhost:3000/api/user/22222@mymail.nyp.edu.sg
+DELETE http://localhost:3000/api/user/dog@email.com

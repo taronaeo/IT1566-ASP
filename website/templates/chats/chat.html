@@ -3,8 +3,11 @@
 {% block title %}Chat{% endblock %}
 
 {% block content %}
-<label for="message">Your message:</label>
+
+
+<label for="to-name">Your message:</label>
 <input type="text" id="message" class="border border-2 border-black">
+
 
 <label for="to">To</label>
 <input type="text" id="to" class="border border-2 border-black">
@@ -28,6 +31,7 @@
 
 {% block script %}
 <script>
+
   let socket = null;
 
   /**
@@ -38,10 +42,11 @@
     */
 
   document.addEventListener('DOMContentLoaded', () => {
+    
     socket = io();
     socket.on('connect', (data) => socket.emit('system', { data: 'User Connected: {{ user.full_name }}' }))
     socket.on('disconnect', () => socket.emit('system', { data: 'User Disconnected: {{ user.full_name }}' }))
-
+    socket.emit('receive')
     socket.on('recv_message', msg => {
       if ([msg._to, msg._from].includes('{{ user.uid }}'))
         document.getElementById('messages').innerHTML += `

@@ -22,6 +22,7 @@ DB_VEHICLE_LOCATION = f"{DB_BASE_LOCATION}_vehicle"
 DB_WALLET_TRANSACTION_LOCATION = f"{DB_BASE_LOCATION}_wallet_transaction"
 DB_LISTING_TRANSACTION_LOCATION = f"{DB_BASE_LOCATION}_listing_transaction"
 DB_REVIEW_LOCATION = f"{DB_BASE_LOCATION}_review_transaction"
+DB_CONVO_LOCATION = f"{DB_BASE_LOCATION}_convo"
 
 def create_app():
   app = Flask(__name__,

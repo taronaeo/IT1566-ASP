@@ -1,0 +1,84 @@
+{%extends 'base.html'%}
+{%block title %}Car Accessories or Other Car Washing Products{%endblock%}
+
+{%block content%}
+
+<section>
+    <h1 class="mb-4 text-xl text-center font-bold text-gray-900 md:text-2xl">Products</h1>
+    <div class ="py-4 px-8 bg-slate-200 rounded">
+        <input type = 'text' class = 'p-2 w-full border-2 border-gray-300 rounded' placeholder = "Search for Car Accessories or Car Washing Products...">
+    </div>
+    <div class = 'border-2 p-4 my-4 rounded'>
+            <div class = "text-xl grid grid-cols-5 grid-rows-5">
+                <div class = 'underline py-8 mx-auto'>Car Cameras</div>
+                <div class = 'py-8 mx-auto'>Comfort Tyres</div>
+                <div class = 'py-8 mx-auto'>Battery</div>
+                <div class = 'py-8 mx-auto'>Car Shampoo</div>
+                <div class = 'py-8 mx-auto'>Performance Tyre</div>
+                <div class = 'py-8 mx-auto'>Engine Oil</div>
+                <div class = 'py-8 mx-auto'>Car Polish</div>
+                <div class = 'py-8 mx-auto'>SUV Tyres</div>
+                <div class = 'py-8 mx-auto'>Brake Kit</div>
+                <div class = 'py-8 mx-auto'>Paint Protection</div>
+                <div class = 'py-8 mx-auto'>Rims</div>
+                <div class = 'py-8 mx-auto'>Coilover</div>
+                <div class = 'py-8 mx-auto'>Multimedia Player</div>
+                <div class = 'py-8 mx-auto'>Component Speakers</div>
+                <div class = 'py-8 mx-auto'>Sound Processor</div>
+            </div>
+        </div>  
+        
+    </div>
+</section>
+
+{%endblock%}
+{%block script%}
+<script>
+const items = [
+    {
+        position: 0,
+        el: document.getElementById('carousel-item-1')
+    },
+    {
+        position: 1,
+        el: document.getElementById('carousel-item-2')
+    },
+    {
+        position: 2,
+        el: document.getElementById('carousel-item-3')
+    },
+    {
+        position: 3,
+        el: document.getElementById('carousel-item-4')
+    },
+];
+
+const options = {
+    defaultPosition: 1,
+    interval: 3000,
+    
+    indicators: {
+        activeClasses: 'bg-white dark:bg-gray-800',
+        inactiveClasses: 'bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800',
+        items: [
+            {
+                position: 0,
+                el: document.getElementById('carousel-indicator-1')
+            },
+            {
+                position: 1,
+                el: document.getElementById('carousel-indicator-2')
+            },
+            {
+                position: 2,
+                el: document.getElementById('carousel-indicator-3')
+            },
+            {
+                position: 3,
+                el: document.getElementById('carousel-indicator-4')
+            },
+        ]
+    }
+}
+</script>
+{%endblock%}
