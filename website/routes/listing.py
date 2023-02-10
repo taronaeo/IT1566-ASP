@@ -7,11 +7,13 @@
 """
 
 import shelve
+
 from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_LISTING_LOCATION
 from ..models import Listing
 from ..utils import check_filename
 
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
 from flask import Blueprint, abort, flash, url_for, request, redirect, render_template
 from flask_login import current_user, login_required
 
@@ -69,25 +71,50 @@ def create():
             not requirements or \
             not price:
       flash('All fields must not be empty')
-      return redirect(request.url)
+      return redirect(url_for('listing.create',
+                              title=title,
+                              vehicle_plate=vehicle_plate,
+                              vehicle_location=vehicle_location,
+                              requirements=requirements,
+                              price=price))
 
     if not 6 <= len(title) <= 60:
       flash('Title must be within 6 to 60 characters long')
-      return redirect(request.url)
+      return redirect(url_for('listing.create',
+                              title=title,
+                              vehicle_plate=vehicle_plate,
+                              vehicle_location=vehicle_location,
+                              requirements=requirements,
+                              price=price))
 
     if not 4 <= len(vehicle_plate) <= 8:
       flash('Vehicle plate seem to be invalid')
-      return redirect(request.url)
+      return redirect(url_for('listing.create',
+                              title=title,
+                              vehicle_plate=vehicle_plate,
+                              vehicle_location=vehicle_location,
+                              requirements=requirements,
+                              price=price))
 
     if not check_filename(vehicle_img.filename):
       flash('Invalid file type. Only PNG and JPG files are accepted')
-      return redirect(request.url)
+      return redirect(url_for('listing.create',
+                              title=title,
+                              vehicle_plate=vehicle_plate,
+                              vehicle_location=vehicle_location,
+                              requirements=requirements,
+                              price=price))
 
     try:
       price = float(price)
     except ValueError:
       flash('Invalid price. It should be in decimal format')
-      return redirect(request.url)
+      return redirect(url_for('listing.create',
+                              title=title,
+                              vehicle_plate=vehicle_plate,
+                              vehicle_location=vehicle_location,
+                              requirements=requirements,
+                              price=price))
 
     filename = secure_filename(vehicle_img.filename)  # type: ignore
     vehicle_img.save(f'{UPLOAD_DIR}/{filename}')

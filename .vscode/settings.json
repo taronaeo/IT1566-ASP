@@ -1,6 +1,9 @@
 {
+  "html.format.wrapAttributes": "preserve",
   "python.formatting.provider": "autopep8",
   "python.formatting.autopep8Args": ["--indent-size=2", "--ignore=E121"],
   "python.analysis.typeCheckingMode": "basic",
-  "html.format.wrapAttributes": "preserve",
+  // "python.analysis.diagnosticSeverityOverrides": {
+  //   "reportGeneralTypeIssues": "none"
+  // }
 }
