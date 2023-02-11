@@ -1,0 +1,401 @@
+{% extends 'base.html' %}
+<!-- this is just a scrapbook page for ratings.html,, remember to COPY PASTE over to ratings.html before committing ratings.html-->
+{% block title %} This is the ratings page {% endblock %}
+
+{% block content %}
+<div class="p-4 mx-auto container">
+    <div method="post" class="space-y-4 md:space-y-6">
+        <header class="flex items-center justify-between p-4">
+            <h1 class="text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">How was your experience?</h1>
+            <a href="/">
+            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                X
+            </button>
+            </a>
+        </header>
+
+        <hr class="border-gray-400 border-2 opacity-25 my-4"/>
+
+        <!-- star rating system-->
+            <div class="flex">
+                <button id = 'star1' class = 'inline mr-2 w-8'><img  src= "/img/empty star.svg"></button>
+                <button id = 'star2' class = 'inline mr-2 w-8'><img src= "/img/empty star.svg"></button>
+                <button id = 'star3' class = 'inline mr-2 w-8'><img src= "/img/empty star.svg"></button>
+                <button id = 'star4' class = 'inline mr-2 w-8'><img src= "/img/empty star.svg"></button>
+                <button id = 'star5' class = 'inline mr-2 w-8'><img src= "/img/empty star.svg"></button>
+              </div>
+              <div id = 'alert' class=" hidden inline-block gap-1 py-4 px-6 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
+                  <img  class = 'inline w-5'src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">
+                Leave a Rating!
+              </div>
+        <br>
+        
+        <!-- Write a review feature-->
+        <div>
+        <label for="review" class="font-bold text-xl">Write a review</label>
+        <textarea name="review" id="user-review" placeholder="Share more about your experience during the transaction" class="p-2 h-32 w-full rounded-lg font-dark text-black-500 bg-white border border-gray-500 opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-blue-700 resize-none"></textarea>
+            <div class="text-right">
+                <span id="count">0</span>/ 
+                <span id="limit">400</span>
+            </div>
+        </div>
+        <!-- submit review feature-->
+        <div>
+            <button onclick = "postReview()" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded float-right">
+            Submit Review
+            </button>
+        </div>
+      </div>
+</div>
+
+{% endblock %} 
+{% block script %}
+
+<script>
+
+  const reviewapi_url = {{url_for("reviewapiendpoint")|tojson}}
+  console.log(reviewapi_url)
+
+  let star1 = document.getElementById('star1');
+  let star2 = document.getElementById('star2');
+  let star3 = document.getElementById('star3');
+  let star4 = document.getElementById('star4');
+  let star5 = document.getElementById('star5');
+
+  function state0(){
+    star1.firstChild.src = "/img/empty star.svg";
+    star2.firstChild.src = "/img/empty star.svg";
+    star3.firstChild.src = "/img/empty star.svg";
+    star4.firstChild.src = "/img/empty star.svg";
+    star5.firstChild.src = "/img/empty star.svg";
+
+  }
+
+  function state1(){
+    star1.firstChild.src = "/img/full star.svg";
+    star2.firstChild.src = "/img/empty star.svg";
+    star3.firstChild.src = "/img/empty star.svg";
+    star4.firstChild.src = "/img/empty star.svg";
+    star5.firstChild.src = "/img/empty star.svg";
+
+  }
+
+  function state2(){
+    star1.firstChild.src = "/img/full star.svg";
+    star2.firstChild.src = "/img/full star.svg";
+    star3.firstChild.src = "/img/empty star.svg";
+    star4.firstChild.src = "/img/empty star.svg";
+    star5.firstChild.src = "/img/empty star.svg";
+  }
+
+  
+  function state3(){
+    star1.firstChild.src = "/img/full star.svg";
+    star2.firstChild.src = "/img/full star.svg";
+    star3.firstChild.src = "/img/full star.svg";
+    star4.firstChild.src = "/img/empty star.svg";
+    star5.firstChild.src = "/img/empty star.svg";
+  }
+
+  
+  function state4(){
+    star1.firstChild.src = "/img/full star.svg";
+    star2.firstChild.src = "/img/full star.svg";
+    star3.firstChild.src = "/img/full star.svg";
+    star4.firstChild.src = "/img/full star.svg";
+    star5.firstChild.src = "/img/empty star.svg";
+  }
+
+  
+  function state5(){
+    star1.firstChild.src = "/img/full star.svg";
+    star2.firstChild.src = "/img/full star.svg";
+    star3.firstChild.src = "/img/full star.svg";
+    star4.firstChild.src = "/img/full star.svg";
+    star5.firstChild.src = "/img/full star.svg";
+  }
+  let rating = 0;
+
+  let current_state;
+
+  star1.addEventListener('mouseover',()=>{
+    if(!(current_state)){
+      state1()
+    }
+    else if(current_state===1){
+      state1()
+    }
+    else if(current_state===2){
+      state2()
+    }
+    else if(current_state===3){
+      state3()
+    }
+    else if(current_state===4){
+      state4()
+    }
+    else if(current_state===5){
+      state5()
+    }
+  })
+  star1.addEventListener('mouseout',()=>{
+    if(!(current_state)){
+      state0()
+    }
+    else if(current_state===1){
+      state1()
+    }
+    else if(current_state===2){
+      state2()
+    }
+    else if(current_state===3){
+      state3()
+    }
+    else if(current_state===4){
+      state4()
+    }
+    else if(current_state===5){
+      state5()
+    }
+  })
+  star1.addEventListener('click', ()=>{
+    if(current_state===1){
+      current_state=0
+      state0()
+      return
+    }
+    current_state=1;
+    state1();
+  })
+
+
+
+
+  star2.addEventListener('mouseover',()=>{
+    state2()
+    if(!(current_state)){
+      state2()
+    }
+    else if(current_state===1){
+      state2()
+    }
+    else if(current_state===2){
+      state2()
+    }
+    else if(current_state===3){
+      state3()
+    }
+    else if(current_state===4){
+      state4()
+    }
+    else if(current_state===5){
+      state5()
+    }
+  })
+  star2.addEventListener('mouseout',()=>{
+    if(!(current_state)){
+      state0()
+    }
+    else if(current_state===1){
+      state1()
+    }
+    else if(current_state===2){
+      state2()
+    }
+    else if(current_state===3){
+      state3()
+    }
+    else if(current_state===4){
+      state4()
+    }
+    else if(current_state===5){
+      state5()
+    }
+  })
+  star2.addEventListener('click', ()=>{
+    if(current_state===2){
+      current_state=0
+      state0()
+      return
+    }
+    current_state=2;
+    state2();
+  })
+
+  
+
+
+  star3.addEventListener('mouseover',()=>{
+    state3()
+    if(!(current_state)){
+      state3()
+    }
+    else if(current_state===1||current_state===2||current_state===3){
+      state3()
+    }
+    else if(current_state===4){
+      state4()
+    }
+    else if(current_state===5){
+      state5()
+    }
+  })
+  star3.addEventListener('mouseout',()=>{
+    if(!(current_state)){
+      state0()
+    }
+    else if(current_state===1){
+      state1()
+    }
+    else if(current_state===2){
+      state2()
+    }
+    else if(current_state===3){
+      state3()
+    }
+    else if(current_state===4){
+      state4()
+    }
+    else if(current_state===5){
+      state5()
+    }
+  })
+  star3.addEventListener('click', ()=>{
+    if(current_state===3){
+      current_state=0
+      state0()
+      return
+    }
+    current_state=3;
+    state3();
+  })
+
+
+
+
+  star4.addEventListener('mouseover',()=>{
+    state4()
+    if(!(current_state)){
+      state4()
+    }
+    else if(current_state===1||current_state===2||current_state===3||current_state===4){
+      state4()
+    }
+    else if(current_state===5){
+      state5()
+    }
+  })
+  star4.addEventListener('mouseout',()=>{
+    if(!(current_state)){
+      state0()
+    }
+    else if(current_state===1){
+      state1()
+    }
+    else if(current_state===2){
+      state2()
+    }
+    else if(current_state===3){
+      state3()
+    }
+    else if(current_state===4){
+      state4()
+    }
+    else if(current_state===5){
+      state5()
+    }
+  })
+  star4.addEventListener('click', ()=>{
+    if(current_state===4){
+      current_state=0
+      state0()
+      return
+    }
+    current_state=4;
+    state4();
+  })
+
+
+
+
+  star5.addEventListener('mouseover',()=>{
+    state5()
+    if(!(current_state)){
+      state5()
+    }
+    else {
+      state5()
+    }
+  })
+  star5.addEventListener('mouseout',()=>{
+    if(!(current_state)){
+      state0()
+    }
+    else if(current_state===1){
+      state1()
+    }
+    else if(current_state===2){
+      state2()
+    }
+    else if(current_state===3){
+      state3()
+    }
+    else if(current_state===4){
+      state4()
+    }
+    else if(current_state===5){
+      state5()
+    }
+  })
+  star5.addEventListener('click', ()=>{
+    if(current_state===5){
+      current_state=0
+      state0()
+      return
+    }
+    current_state=5;
+    state5();
+  })
+
+  
+
+    const userReview = document.getElementById("user-review");
+    const count = document.getElementById("count");
+    const limit = document.getElementById("limit");
+
+    userReview.addEventListener("input", function() {
+        count.innerText = userReview.value.length;
+        if (userReview.value.length >= limit.innerText) {
+            userReview.value = userReview.value.substring(0, limit.innerText);
+        }   
+    });
+
+  function postReview(){
+    rating = current_state;
+    let comments = document.getElementById('user-review').value;
+    if(rating===0){
+      document.getElementById('alert').classList.remove('hidden')
+      return
+    }
+    let data = {
+      "from_uid": "{{user.uid}}",
+      "to_uid": "{{for_uid}}",
+      "rating": rating,
+      "comments": comments
+    }
+    fetch(`${reviewapi_url}`,{
+      "method": "POST",
+      "headers": {"Content-Type":"application/json"},
+      "body": JSON.stringify(data)
+    }).then(setTimeout(window.location.href = '/'),250)
+  }
+    
+</script>
+
+
+
+
+{% endblock %}
+
+
+

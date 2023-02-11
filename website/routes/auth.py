@@ -101,7 +101,7 @@ def signup():
       return redirect_to
 
     user = User.create(email, full_name, phone_number, password)
-    Wallet.create_wallet(email)
+    Wallet.create_wallet(user.uid)
     login_user(user, remember=True)
     return redirect(next_url or url_for('views.home'))
 
