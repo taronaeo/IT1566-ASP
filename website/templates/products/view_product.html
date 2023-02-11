@@ -5,7 +5,7 @@
 {% block content %}
 <section class="flex flex-col gap-4">
   <div class="inline-flex flex-row items-center space-x-1 md:space-x-2 text-xs font-light">
-    <a href="{{ url_for('products.products') }}" class="text-gray-700 hover:text-blue-600">Products</a>
+    <a href="{{ url_for('products.all_products') }}" class="text-gray-700 hover:text-blue-600">Products</a>
     <img src="/img/chevron_right.svg" alt="Chevron Right Icon" class="w-5 h-5">
     <a href="#" class="text-gray-700 hover:text-blue-600">{{ current_product.name }}</a>
   </div>
