@@ -29,7 +29,7 @@
 
 {%macro card_product(product) -%}
 <div class="flex flex-col justify-around  w-full h-36   md:max-w-sm bg-white rounded-lg border border-blue-100">
-  <a href = "{{url_for('listing.view_product', uid = product.uid)}}">
+  <a href = "{{url_for('products.view_product', uid = product.uid)}}">
   <div class = "grid grid-cols-5 grid-rows-4">
         <div class = "row-span-4 col-span-2">
                 <div class = " flex h-32 border-blue-100 border rounded m-1  p-1 ">

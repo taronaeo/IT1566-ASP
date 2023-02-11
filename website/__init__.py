@@ -40,7 +40,7 @@ def create_app():
   login_manager.login_view = "auth.login"  # type: ignore
   login_manager.init_app(app)
 
-  from .routes import views, auth, account, vehicle, listing
+  from .routes import views, auth, account, vehicle, listing, products
 
   # * BETA WORK
   from .routes import chat
@@ -57,6 +57,7 @@ def create_app():
   app.register_blueprint(account, url_prefix='/')
   app.register_blueprint(vehicle, url_prefix='/')
   app.register_blueprint(listing, url_prefix='/')
+  app.register_blueprint(products, url_prefix= '/')
 
   # * BETA CODE
   app.register_blueprint(chat, url_prefix='/')

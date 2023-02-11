@@ -5,7 +5,7 @@
 {% block content %}
 <section class="flex flex-col gap-4">
   <div class="inline-flex flex-row items-center space-x-1 md:space-x-2 text-xs font-light">
-    <a href="{{ url_for('listing.products') }}" class="text-gray-700 hover:text-blue-600">Products</a>
+    <a href="{{ url_for('products.products') }}" class="text-gray-700 hover:text-blue-600">Products</a>
     <img src="/img/chevron_right.svg" alt="Chevron Right Icon" class="w-5 h-5">
     <a href="#" class="text-gray-700 hover:text-blue-600">{{ current_product.name }}</a>
   </div>
@@ -44,7 +44,7 @@
 
         <ul class="w-full text-sm font-medium text-gray-900">
           <li>
-            <a href="{{ url_for('listing.update_product', uid=current_product.uid) }}"
+            <a href="{{ url_for('products.update_product', uid=current_product.uid) }}"
               class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 h-5">
@@ -87,7 +87,7 @@
                       Go back
                     </button>
 
-                    <a href="{{ url_for('listing.delete_product', uid=current_product.uid) }}"
+                    <a href="{{ url_for('products.delete_product', uid=current_product.uid) }}"
                       class="px-5 py-2.5 font-medium text-sm text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
                       Yes, delete
                     </a>
@@ -110,7 +110,7 @@
                   after:flex-1 after:content-['']
                   after:border-b-[1px]
                   after:border-gray-300">
-        Other listings
+        Other Products
       </h3>
 
 
