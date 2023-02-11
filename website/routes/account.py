@@ -9,7 +9,7 @@
 import shelve
 from .. import DB_USER_LOCATION, DB_WALLET_LOCATION, DB_LISTING_LOCATION, DB_REVIEW_LOCATION
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for,abort
 from flask_login import current_user, login_required
 
 account = Blueprint('account', __name__)
@@ -17,7 +17,7 @@ account = Blueprint('account', __name__)
 @account.route('/account/wallet')
 def wallet():
   with shelve.open(DB_USER_LOCATION) as db_user, shelve.open(DB_WALLET_LOCATION) as db_wallet:
-      return render_template('/account/wallet.html', user=db_user[current_user.email],wallet=db_wallet[current_user.email])
+      return render_template('/account/wallet.html',user=current_user,wallet=db_wallet[current_user.uid])
 
 
 @account.route('/account')
@@ -33,7 +33,7 @@ def get_account():
 def update_account():
   with shelve.open(DB_USER_LOCATION) as db_user:
     return render_template('/account/update_account.html',
-                            user=db_user[current_user.email])
+                            user=current_user)
                         
 @account.route('/account/profile')
 def profile():
@@ -41,7 +41,25 @@ def profile():
     with shelve.open(DB_WALLET_LOCATION) as db_wallet:
       with shelve.open(DB_LISTING_LOCATION) as db_listing:
         with shelve.open(DB_REVIEW_LOCATION) as db_review:
-          return render_template('/account/profile.html', user=db_user[current_user.email],wallet=db_wallet[current_user.email],cars=db_listing, reviews=db_review)
+          return render_template('/account/profile.html', user=current_user,wallet=db_wallet[current_user.uid],cars=db_listing, reviews=db_review, db_user = db_user)
+
+
+@account.route('/account/profile/<string:uid>')
+def other_profile(uid):
+  with shelve.open(DB_USER_LOCATION) as db_user:
+    with shelve.open(DB_WALLET_LOCATION) as db_wallet:
+      with shelve.open(DB_LISTING_LOCATION) as db_listing:
+        with shelve.open(DB_REVIEW_LOCATION) as db_review:
+          if uid == current_user.uid:
+            return redirect(url_for('account.profile',
+                                    user=current_user,
+                                    wallet=db_wallet[uid],
+                                    cars=db_listing,
+                                    reviews=db_review,
+                                    db_user = db_user))
+          if uid not in db_user:
+            abort(404)
+          return render_template('/account/external_profile.html', user=current_user,wallet=db_wallet[uid],cars=db_listing, reviews=db_review, profile_user = db_user[uid], db_user = db_user)
 
 
 @account.route('/account/inbox')
@@ -49,7 +67,7 @@ def profile():
 def get_inbox():
   with shelve.open(DB_USER_LOCATION) as db_user:
     with shelve.open(DB_WALLET_LOCATION) as db_wallet:
-      return render_template('/account/wallet.html', user=db_user[current_user.email],wallet=db_wallet[current_user.email])
+      return render_template('/account/wallet.html', user=current_user,wallet=db_wallet[current_user.uid])
 
 @account.route('/review')
 def review():
