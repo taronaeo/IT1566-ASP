@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Account Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div class="container mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-4">Account Management</h1>
+    <table class="table-auto w-full">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">UID</th>
+          <th class="px-4 py-2">Name</th>
+          <th class="px-4 py-2">Contact Number</th>
+          <th class="px-4 py-2">Email Address</th>
+          <th class="px-4 py-2">Home Address</th>
+          <th class="px-4 py-2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key, record in users.items() %}
+        <tr>
+          <td class="px-4 py-2">{{ record.email }}</td>
+          <td class="px-4 py-2">{{ record.full_name }}</td>
+          <td class="px-4 py-2">{{ record.phone_number }}</td>
+          <td class="px-4 py-2">{{ record.email }}</td>
+          <td class="px-4 py-2">{{ record.home_address }}</td>
+          <td class="px-4 py-2 flex justify-around">
+            <a href="/UpdateAcc?email={{ record.email }}"><button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Update</button></a>
+            <button data-email="{{ record.email }}"
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+              onclick="delete_user('{{ record.email }}')">Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const delete_user = (email) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('DELETE', `/api/user/${email}`)
+      xhr.send(null)
+
+      setTimeout(() => window.location.reload(), 250)
+    }
+  </script>
+</body>
+
+</html>
+{% endblock %}
