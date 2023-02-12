@@ -16,9 +16,10 @@ class Wallet():
     self.balance = balance
     self.transactions = transactions
     self.payment_methods = payment_methods
+  
   @staticmethod
-  def create_wallet(email: str) -> Wallet:
-    wallet = Wallet(email, 0, [],[])
+  def create_wallet(uid: str) -> Wallet:
+    wallet = Wallet(uid, 0, [],[])
 
     with shelve.open(DB_WALLET_LOCATION) as db:
       db[uid] = wallet
@@ -46,7 +47,7 @@ class WalletTransaction():
     transaction_type: str,
     transaction_amount: float,
     transaction_remarks: str,
-    transaction_timestamp: str,
+    transaction_timestamp: float,
   ):
     self.transaction_type = transaction_type
     self.transaction_amount = transaction_amount
