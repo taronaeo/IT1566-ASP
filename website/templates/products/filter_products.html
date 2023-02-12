@@ -7,7 +7,7 @@
 
     <div class =" md:w-full  mx-auto py-4 px-8 bg-slate-200 rounded">
         <label class = 'block text-lg text-center mb-2 text-gray-800 font-semibold' for='product-categories'>Categories</label>
-        <hr class = "border-slate-400 border mb-4">
+        <hr class = "text-center border-blue-500 border mb-4 mx-12 md:mx-64">
         <select class = 'w-64 md:w-2/3 text-center mx-auto block py-2 border-gray-300 shadow border rounded' id = "product-categories">
             <option {{"selected='selected'" if category == 'Car Camera'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Car Camera')}}">Car Camera</option>
             <option {{"selected='selected'" if category == 'Tyres'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Tyres')}}">Tyres</option>

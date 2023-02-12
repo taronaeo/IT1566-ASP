@@ -43,6 +43,11 @@
       
 
         <div class = 'w-11/12 md:w-3/4 bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
+          <div id = "card-alert-div" class="hidden w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
+            <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">
+            <span id = "card-alert"></span>
+          </div> 
+
           <div class="flex items-start justify-between pb-5 md:p-5 rounded-t">
             <h3 class="text-xl font-semibold">
                 Add new card
@@ -64,24 +69,24 @@
               </select>
             </div>
             <label for="cardno">Credit card number:</label>
-            <input name = "card_number" axlength="16" minlength="16"required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardno" type="text">
+            <input name = "card_number" maxlength="19" minlength="19" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardno" type="text">
             <label for="cardno">Cardholder Name:</label>
-            <input name = "card_name" required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardname" type="text">
+            <input name = "card_name" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardname" type="text">
             
             <div>
             <label class="" for="cvv">CVV:</label> 
-            <input name="cvv" required minlength="3" maxlength="3" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cvv" type="text">
+            <input name="cvv"  minlength="3" maxlength="3" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cvv" type="text">
             </div>
             <div>
               <label class="" for="expiration">Expiration:</label>
               <div class="flex flex-row space-x-2 md:space-x-4">
                 
-                <input name = "exp_month" maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
+                <input id = "exp_month" name = "exp_month" maxlength="2"  class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
                 <div class="">
                   <p class="text-3xl md:text-4xl">/</p>
                 </div>
             
-                <input name = "exp_yr" maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
+                <input id = "exp_yr" name = "exp_yr" maxlength="2" class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
               
                           
               </div>
@@ -89,7 +94,7 @@
               </form>
             </div>
               <div>
-                <button id = "add-card" class = "text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add Card</button>
+                <button id = "add-card" class = "text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type = "button">Add Card</button>
               </div>
             
           </div> 
@@ -212,6 +217,12 @@
 
   {% block script %}
   <script>
+    const input = document.getElementById("cardno");
+    input.addEventListener("input", () => {input.value = formatNumber(input.value.replaceAll(" ", ""))});
+    const formatNumber = (number) => number.split("").reduce((seed, next, index) => {
+      if (index !== 0 && !(index % 4)) seed += " ";
+      return seed + next;
+    }, "");
 
     const cancel_checkout = document.getElementById('cancel-checkout');
   
@@ -336,8 +347,68 @@
       }
     })
 
+    let card_alert_div = document.getElementById('card-alert-div');
+    let card_alert_text = document.getElementById('card-alert');
+
     const submit_button = document.getElementById('add-card');
-    submit_button.addEventListener('click', ()=>form.submit())
+    submit_button.addEventListener('click', ()=>{
+      let bank_input = document.getElementById('select-bank').value;
+      let card_number_input = document.getElementById('cardno').value;
+      let card_name_input = document.getElementById('cardname').value;
+      let cvv_input = document.getElementById('cvv').value;
+      let exp_month_input = Number(document.getElementById('exp_month').value);
+      let exp_year_input = Number(document.getElementById('exp_yr').value);
+
+      if(!(card_number_input||card_name_input||cvv_input||exp_month_input||exp_year_input)){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Fields Cannot be Blank!"
+        return
+      }
+      if(card_number_input.length!=19){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Credit Card";
+        return
+        
+      }
+      card_number_input = card_number_input.replace(/\s+/g, "")
+
+      if(isNaN(card_number_input)){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Credit Card";
+        return
+      }
+      card_name_input = card_name_input.replace(/\s+/g, "")
+      if(!(/^[a-zA-Z]+$/.test(card_name_input))){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Name";
+        return
+      }
+      
+      if(!(Number(cvv_input))){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid CVV";
+        return
+      }
+
+      if(isNaN(exp_month_input)||isNaN(exp_year_input)){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Expiry Date";
+        return
+      }
+      if(Number(exp_month_input)>12){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Expiry Month";
+        return
+      }
+      if(Number(exp_year_input)<23){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Expiry Year";
+        return
+      }
+    
+
+      form.submit()
+    })
   
     const methods = document.getElementById('methods');
     const hide_methods = document.getElementById('hide-methods');
