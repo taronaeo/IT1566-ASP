@@ -2,13 +2,13 @@
 GET http://localhost:3000/api/user/a@email.com
 
 ###
-PUT http://127.0.0.1:3000/api/user/a@email.com
+PUT http://127.0.0.1:3000/api/user/MPLAF
 Content-Type: application/json
 
 
 {
-  "full_name": "Dog",
-  "phone_number": 12345678
+  "background_check": true,
+  "training_complete": true
 }
 ###
 POST http://localhost:3000/api/user

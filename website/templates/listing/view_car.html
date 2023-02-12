@@ -21,7 +21,7 @@
   {% endwith %}
 
   <div class="inline-flex flex-row items-center space-x-1 md:space-x-2 text-xs font-light">
-    <a href="{{ url_for('listing.cars') }}" class="text-gray-700 hover:text-blue-600">Car Listings</a>
+    <a href="{{ url_for('car_listing.cars') }}" class="text-gray-700 hover:text-blue-600">Car Listings</a>
     <img src="/img/chevron_right.svg" alt="Chevron Right Icon" class="w-5 h-5">
     <a href="#" class="text-gray-700 hover:text-blue-600">{{ listing_data.title }}</a>
   </div>
@@ -74,7 +74,7 @@
 
         <ul class="w-full text-sm font-medium text-gray-900">
           <li>
-            <a href="{{ url_for('listing.update', uid=listing_data.uid) }}"
+            <a href="{{ url_for('car_listing.update', uid=listing_data.uid) }}"
               class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 h-5">
@@ -87,7 +87,7 @@
 
           <li>
             {% if listing_data.status == 'LISTED' %}
-            <a href="{{ url_for('listing.update_status', uid=listing_data.uid, status='DELISTED') }}"
+            <a href="{{ url_for('car_listing.update_status', uid=listing_data.uid, status='DELISTED') }}"
               class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 h-5">
@@ -97,7 +97,7 @@
               Set to Private
             </a>
             {% elif listing_data.status == 'DELISTED' %}
-            <a href="{{ url_for('listing.update_status', uid=listing_data.uid, status='LISTED') }}"
+            <a href="{{ url_for('car_listing.update_status', uid=listing_data.uid, status='LISTED') }}"
               class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 h-5">
@@ -142,7 +142,7 @@
                       Go back
                     </button>
 
-                    <a href="{{ url_for('listing.delete', uid=listing_data.uid) }}"
+                    <a href="{{ url_for('car_listing.delete', uid=listing_data.uid) }}"
                       class="px-5 py-2.5 font-medium text-sm text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
                       Yes, delete
                     </a>
@@ -153,14 +153,15 @@
           </li>
         </ul>
         {% else %}
-        <button class="w-full
+        <a href="{{ url_for('car_listing.accept', uid=listing_data.uid) }}"
+          class="w-full
                         px-5 py-2.5
-                        text-sm text-white font-medium
+                        text-sm text-white text-center font-medium
                         bg-blue-700 hover:bg-blue-800
                         focus:ring-4 focus:ring-blue-300
                         focus:outline-none">
           Take this job
-        </button>
+        </a>
 
         <p class="flex flex-row
                   text-sm text-gray-400
@@ -189,7 +190,7 @@
       </div>
     </div>
 
-    <!-- Meet the seller -->
+    <!-- Meet the hirer -->
     <div class="col-span-1 md:col-span-2">
       <h3 class="mb-4 flex flex-row
                   font-bold text-xl md:text-2xl
@@ -209,12 +210,22 @@
           <span class="text-sm md:text-md text-gray-500">@{{ listing_creator.uid }}</span>
 
           <div class="mt-1 flex flex-row items-center">
-            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
-            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
-            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
-            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
-            <img src="/img/star.svg" alt="Star Icon" class="w-4 h-4">
-            <span class="ml-2 text-sm text-blue-500">5.0</span>
+            <span class="mr-2 text-sm text-blue-500">{{ '%.1f' % rating }}</span>
+            {% for star in range(rating_stars) %}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-4 h-4 text-blue-500 fill-blue-500">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+            </svg>
+            {% endfor %}
+
+            {% for star in range(5 - rating_stars) %}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-4 h-4 text-blue-500">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+            </svg>
+            {% endfor %}
           </div>
         </div>
       </div>

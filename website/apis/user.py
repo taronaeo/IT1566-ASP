@@ -12,11 +12,13 @@ parser.add_argument('full_name', type=str, required=True)
 parser.add_argument('phone_number', type=str, required=True)
 parser.add_argument('vehicles', type=list, required=False)
 parser.add_argument('training_complete', type=bool, required=False)
-parser.add_argument('background_check', type=bool, required=False)
+parser.add_argument('background_check', type=str, required=False)
 
 put_parser = reqparse.RequestParser()
 put_parser.add_argument('full_name', type=str, required=False)
 put_parser.add_argument('email', type=str, required=False)
+put_parser.add_argument('access_level', type=str, required=False)
+put_parser.add_argument('background_check', type=str, required=False)
 put_parser.add_argument('phone_number', type=str, required=False)
 put_parser.add_argument('password', type=str, required = False)
 put_parser.add_argument('new_review',type=float,required=False)
@@ -65,9 +67,12 @@ class UserApiEndpoint(Resource):
       user = db[uid]
       user.full_name = args['full_name'] or user.full_name
       user.email = args['email'] or user.email
+      user.background_check = args['background_check'] or user.background_check
+      user.access_level = args['access_level'] or user.access_level
       user.phone_number = args['phone_number'] or user.phone_number
       user.password = args['password'] or user.password
-      user.ratings.append(args['new_review'])
+      if args['new_review']:
+        user.ratings.append(args['new_review'])
       db[uid] = user
       return user.__dict__
 
