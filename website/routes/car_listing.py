@@ -155,7 +155,8 @@ def create():
         vehicle_plate.upper(),
         vehicle_location,
         requirements,
-        price
+        price,
+        ''
     )
     return redirect(url_for('car_listing.cars'))
 

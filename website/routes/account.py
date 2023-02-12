@@ -8,7 +8,7 @@
 
 import shelve
 
-from .. import DB_USER_LOCATION, DB_WALLET_LOCATION, DB_LISTING_LOCATION, DB_REVIEW_LOCATION, DB_PRODUCTS_LOCATION
+from .. import DB_USER_LOCATION, DB_WALLET_LOCATION, DB_CAR_LISTING_LOCATION, DB_REVIEW_LOCATION, DB_PRODUCTS_LOCATION
 
 
 from flask import Blueprint, render_template, request, redirect, url_for, abort

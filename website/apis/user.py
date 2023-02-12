@@ -71,7 +71,8 @@ class UserApiEndpoint(Resource):
       user.access_level = args['access_level'] or user.access_level
       user.phone_number = args['phone_number'] or user.phone_number
       user.password = args['password'] or user.password
-      user.ratings.append(args['new_review'])
+      if args['new_review']:
+        user.ratings.append(args['new_review'])
       db[uid] = user
       return user.__dict__
 
