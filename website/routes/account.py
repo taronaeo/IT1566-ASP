@@ -116,7 +116,7 @@ def other_profile(uid):
           if uid == current_user.uid:
             return redirect(url_for('account.profile',
                                     user=current_user,
-                                    wallet=db_wallet[uid],
+                                    wallet=db_wallet[uid],  
                                     cars=db_listing,
                                     reviews=db_review,
                                     db_user = db_user))
