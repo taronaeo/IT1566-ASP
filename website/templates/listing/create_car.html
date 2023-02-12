@@ -23,12 +23,15 @@
   <form id="form" method="POST" enctype="multipart/form-data" class="space-y-4 md:space-y-6">
     <h1 class="text-xl font-bold text-gray-900 md:mb-6 md:text-2xl">List My Car</h1>
 
-    <div>
-      <label for="title" class="font-light">Listing Title</label>
-      <input type="text" name="title" id="title" placeholder="Need an urgent wash for Christmas, etc..."
-        class="p-2.5 w-full rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
-      <p class="mt-2 font-light text-sm text-gray-500">Good to include a catchy title.</p>
-    </div>
+    {{ input(
+    'Listing Title',
+    'text',
+    'title',
+    'title',
+    '',
+    'Need an urgent wash for Christmas, etc...',
+    'Good to include a catchy title.')
+    }}
 
     <div>
       <label for="vehicle_img" class="font-light">Vehicle Image</label>
@@ -47,43 +50,44 @@
       </p>
     </div>
 
-    <div>
-      <label for="vehicle_plate" class="font-light">Vehicle Plate</label>
-      <input type="text" name="vehicle_plate" id="vehicle_plate" placeholder="SMX6065G"
-        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
-      <p class="mt-2 font-light text-sm text-gray-500">
-        License plate of the vehicle. This will be used to identify your vehicle in the carpark.
-      </p>
-    </div>
+    {{ input(
+    'Vehicle Plate',
+    'text',
+    'vehicle_plate',
+    'vehicle_plate',
+    '',
+    'SMX6065G',
+    'License plate of the vehicle. This will be used to identify your vehicle in the carpark.')
+    }}
 
-    <div>
-      <label for="vehicle_location" class="font-light">Vehicle Location</label>
-      <input type="text" name="vehicle_location" id="vehicle_location"
-        placeholder="180 Ang Mo Kio Avenue 8, Deck 5B, Lot 436"
-        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
-      <p class="mt-2 font-light text-sm text-gray-500">
-        Location of where the vehicle is parked. Do include the Deck and Lot numbers as well for convenience.
-      </p>
-    </div>
+    {{ input(
+    'Vehicle Location',
+    'text',
+    'vehicle_location',
+    'vehicle_location',
+    '',
+    '180 Ang Mo Kio Avenue 8, Deck 5B, Lot 436',
+    'Location of where the vehicle is parked. Do include the Deck and Lot numbers as well for convenience.')
+    }}
 
-    <div>
-      <label for="requirements" class="font-light">Requirements</label>
-      <textarea type="text" name="requirements" id="requirements" rows="4"
-        placeholder="Clean vehicle exterior, Detail interior, Wax seal paintwork, etc..."
-        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600"></textarea>
-      <p class="mt-2 font-light text-sm text-gray-500">
-        State your requirements clearly so that contractors can understand your needs.
-      </p>
-    </div>
+    {{ textarea(
+    'Requirements',
+    'requirements',
+    'requirements',
+    '',
+    'Clean vehicle exterior, Detail interior, Wax seal paintwork, etc...',
+    'State your requirements clearly so that contractors can understand your needs.')
+    }}
 
-    <div>
-      <label for="price" class="font-light">Price</label>
-      <input type="text" name="price" id="price" placeholder="50"
-        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
-      <p class="mt-2 font-light text-sm text-gray-500">
-        How much are you willing to pay for the job?
-      </p>
-    </div>
+    {{ input(
+    'Price',
+    'text',
+    'price',
+    'price',
+    '',
+    '50.00',
+    'How much are you willing to pay for the job?')
+    }}
   </form>
 
   <div class="w-full max-w-sm flex flex-col gap-4">

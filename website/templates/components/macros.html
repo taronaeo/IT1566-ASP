@@ -1,3 +1,36 @@
+{% macro input(title, type, id, name, value, placeholder, helper_text) %}
+<div>
+  <label for="{{ id }}" class="font-light">{{ title }}</label>
+  <input type="{{ type }}" name="{{ name }}" id="{{ id }}"
+    value="{{ value }}"
+    placeholder="{{ placeholder }}"
+    class="p-2.5 w-full rounded-lg
+            font-light text-gray-900 bg-white
+            border border-gray-300
+            focus:outline-none focus:border-blue-600
+            focus:ring-1 focus:ring-blue-600">
+  <p class="mt-2 font-light text-sm text-gray-500">{{ helper_text }}</p>
+</div>
+{% endmacro %}
+
+{% macro textarea(title, id, name, value, placeholder, helper_text) %}
+<div>
+  <label for="{{ id }}" class="font-light">{{ title }}</label>
+  <textarea name="{{ name }}" id="{{ id }}" rows="4"
+    placeholder="{{ placeholder }}"
+    class="p-2.5 w-full rounded-lg
+            font-light text-gray-900 bg-white
+            border border-gray-300
+            focus:outline-none focus:border-blue-600
+            focus:ring-1 focus:ring-blue-600">
+    {{- value -}}
+  </textarea>
+  <p class="mt-2 font-light text-sm text-gray-500">
+    {{ helper_text }}
+  </p>
+</div>
+{% endmacro %}
+
 {% macro card_listing(listing) -%}
 <div class="w-full md:max-w-sm bg-white rounded-lg border border-blue-100">
   <a href="{{ url_for('listing.view', uid=listing.uid) }}" class="flex flex-col justify-center">
@@ -29,27 +62,27 @@
 
 {%macro card_product(product) -%}
 <div class="flex flex-col justify-around  w-full h-36   md:max-w-sm bg-white rounded-lg border border-blue-100">
-  <a href = "{{url_for('products.view_product', uid = product.uid)}}">
-  <div class = "grid grid-cols-5 grid-rows-4">
-        <div class = "row-span-4 col-span-2">
-                <div class = " flex h-32 border-blue-100 border rounded m-1  p-1 ">
-                  <img src="/uploads/{{ product.product_img }}" alt="Product Photo"
-                    class="w-30 h-30">
-                </div>
+  <a href="{{url_for('products.view_product', uid = product.uid)}}">
+    <div class="grid grid-cols-5 grid-rows-4">
+      <div class="row-span-4 col-span-2">
+        <div class=" flex h-32 border-blue-100 border rounded m-1  p-1 ">
+          <img src="/uploads/{{ product.product_img }}" alt="Product Photo"
+            class="w-30 h-30">
         </div>
-        <div class = "grid row-span-4 col-span-3">
-            <div class = "grid grid-cols 1 grid-rows-5" >
-              <div class = "col-span-1 row-span-4 min-w-0">
-                <h5 class = "text-md font-semibold leading-snug truncate">{{product.name}}</h5>
-                <p class = " font-light text-sm mt-2 truncate ">{{product.description}}</p>
-                <p class = "font-light text-sm mt-9">Category: {{product.category}}</p>
-              </div>
-                <div class="text-right col-span-1 row-span-1">
-                  <span class=" text-blue-700 text-right text-lg font-medium mr-1">S${{ '%.2f' % product.price }}</span>
-                </div>
-            </div>
+      </div>
+      <div class="grid row-span-4 col-span-3">
+        <div class="grid grid-cols 1 grid-rows-5">
+          <div class="col-span-1 row-span-4 min-w-0">
+            <h5 class="text-md font-semibold leading-snug truncate">{{product.name}}</h5>
+            <p class=" font-light text-sm mt-2 truncate ">{{product.description}}</p>
+            <p class="font-light text-sm mt-9">Category: {{product.category}}</p>
+          </div>
+          <div class="text-right col-span-1 row-span-1">
+            <span class=" text-blue-700 text-right text-lg font-medium mr-1">S${{ '%.2f' % product.price }}</span>
+          </div>
         </div>
-  </div>
+      </div>
+    </div>
   </a>
 </div>
 {%endmacro%}
