@@ -1,8 +1,8 @@
 import shelve
 import datetime
-
+import json
 from .. import DB_WALLET_LOCATION
-from ..models import Wallet, WalletTransaction
+from ..models import Wallet, WalletTransaction, WalletCard
 from flask_restful import Resource, reqparse
 
 parser = reqparse.RequestParser()
@@ -13,13 +13,15 @@ parser.add_argument('transactions', type=str, required = False)
 
 put_parser = reqparse.RequestParser()
 put_parser.add_argument('type', type=str, required=True)
-put_parser.add_argument('amount', type=float, required=True)
+put_parser.add_argument('card', type=str, required=False)
+put_parser.add_argument('amount', type = float, required = False )
+
 
 class WalletApiEndpoint(Resource):
   def get(self, owner_uid):
     with shelve.open(DB_WALLET_LOCATION) as db:
       try:
-        return db[owner_uid].to_json()
+        return db[owner_uid].__dict__
       except KeyError:
         return { "message": "Wallet not found." }, 404
 
@@ -46,17 +48,28 @@ class WalletApiEndpoint(Resource):
         return { "code": 404, "message": "Wallet not found." }, 404
 
       wallet = db[owner_uid]
-      if args['type'] == 'increment':
+      
+      if args['type'] == "card_del":
+        args['card'] = args['card'].replace("'", '"') #convert ' to " to prevent error
+        card_dict = dict(json.loads(args['card'])) #convert json to dict
+        Wallet.del_card(
+          owner_uid,
+          card_dict
+          )
+        return db[owner_uid]
+
+      elif args['type'] == 'Top Up':
         wallet.balance += args['amount']
         transaction = WalletTransaction('topup', args['amount'], '-', timestamp)
         wallet.transactions.append(transaction)
-      else:
+
+      elif args['type'] == 'Withdraw':
         wallet.balance -= args['amount']
         transaction = WalletTransaction('withdraw', args['amount'], '-', timestamp)
         wallet.transactions.append(transaction)
 
       db[owner_uid] = wallet
-      return wallet.to_json()
+      return wallet.__dict__
 
   def delete(self,owner_uid):
     with shelve.open(DB_WALLET_LOCATION) as db:

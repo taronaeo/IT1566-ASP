@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Account Wallet{% endblock %}
+
+{% block content %}
+<form id = 'form' method = "POST">
+  <label for = "bank">Bank</label>
+  <input value = "{{payment_method['bank']}}" id = 'bank' name = 'bank' class = 'border'>
+  
+  <label for = "card_name">card_name</label>
+  <input value ="{{payment_method['card_name']}}" id = 'card_name' name = 'card_name' class = 'border'>
+
+  <label for = "card_number">card_number</label>
+  <input value = "{{payment_method['card_number']}}" id = 'card_number' name = 'card_number' class = 'border'>
+
+  <label for = "cvv">cvv</label>
+  <input value = "{{payment_method['cvv']}}" id = 'cvv' name = 'cvv' class = 'border'>
+
+  <label for = "expiry_date">expiry</label>
+  <input value = "{{payment_method['expiry_date']}}" id = 'expiry_date' name = 'expiry_date' class = 'border'>
+
+  <button id = "submit" >
+    submit
+  </button>
+  
+</form>
+  {% endblock %}
+
+  {% block script %}
+  <script>
+    const form =document.getElementById('form');
+    document.getElementById('submit').addEventListener('click',()=> form.submit())
+
+
+  
+      </script>
+  {% endblock %}
