@@ -221,7 +221,7 @@ def update_status(uid: str, status: str):
       return abort(404)
 
     Listing.set_status(uid, status)
-    flash(f'Listing {status.lower}')
+    flash(f'Listing {status.lower()}')
     return redirect(url_for('listing.view', uid=uid))
 
 
