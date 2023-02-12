@@ -21,27 +21,28 @@ account = Blueprint('account', __name__)
 @account.route('/account/wallet', methods=['GET', 'POST'])
 def wallet():
   with shelve.open(DB_USER_LOCATION) as db_user, shelve.open(DB_WALLET_LOCATION) as db_wallet:
-      if request.method == 'POST':
-        bank = request.form.get('bank')
-        card_number = request.form.get('card_number')
-        card_number = card_number.replace(" ","")
-        card_name = request.form.get('card_name')
-        cvv = int(request.form.get('cvv'))
-        exp_month = str(request.form.get('exp_month'))
-        exp_yr = str(request.form.get('exp_yr'))
+    if request.method == 'POST':
+      bank = request.form.get('bank')
+      card_number = request.form.get('card_number')
+      card_number = card_number.replace(" ", "")
+      card_name = request.form.get('card_name')
+      cvv = int(request.form.get('cvv'))
+      exp_month = str(request.form.get('exp_month'))
+      exp_yr = str(request.form.get('exp_yr'))
 
-        exp_date = exp_month + '/' + exp_yr
+      exp_date = exp_month + '/' + exp_yr
 
-        WalletCard.create_card(
-            current_user.uid,
-            bank,
-            card_name,
-            card_number,
-            cvv,
-            exp_date
-        )
-        return redirect(url_for('account.wallet'))
-      return render_template('/account/wallet.html', user=current_user,wallet=db_wallet[current_user.uid])
+      WalletCard.create_card(
+          current_user.uid,
+          bank,
+          card_name,
+          card_number,
+          cvv,
+          exp_date
+      )
+      return redirect(url_for('account.wallet'))
+    return render_template('/account/wallet.html', user=current_user, wallet=db_wallet[current_user.uid])
+
 
 @account.route('/account/wallet/payment/<wallet_uid>/<trans_type>/<amount>', methods=['GET', 'POST'])
 def wallet_payment(wallet_uid, trans_type, amount):
@@ -53,7 +54,7 @@ def wallet_payment(wallet_uid, trans_type, amount):
     if request.method == 'POST':
       bank = request.form.get('bank')
       card_number = request.form.get('card_number')
-      card_number = card_number.replace(" ","")
+      card_number = card_number.replace(" ", "")
       card_name = request.form.get('card_name')
       cvv = int(request.form.get('cvv'))
       exp_month = str(request.form.get('exp_month'))
@@ -137,9 +138,9 @@ def review():
 @account.route('/admin/dashboard')
 @login_required
 def get_dashboard():
-  userCount=0
-  listingCount=0
-  productCount=0
+  userCount = 0
+  listingCount = 0
+  productCount = 0
   with shelve.open(DB_USER_LOCATION) as db_user:
 
     with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
@@ -150,14 +151,14 @@ def get_dashboard():
           for listing in db_listing.values():
             listingCount += 1
           for product in db_products.values():
-            productCount +=1
+            productCount += 1
           return render_template('/admin/dashboard.html',
-                                  user=current_user,
-                                  users=db_user,
-                                  userCount=userCount,
-                                  listingCount=listingCount,
-                                  wallet=db_wallet,
-                                  productCount=productCount )
+                                 user=current_user,
+                                 users=db_user,
+                                 userCount=userCount,
+                                 listingCount=listingCount,
+                                 wallet=db_wallet,
+                                 productCount=productCount)
 
 
 @account.route('/ratingfor/<uid>')
