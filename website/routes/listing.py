@@ -8,10 +8,9 @@
 
 import shelve
 
-from .. import UPLOAD_DIR, DB_CAR_LISTING_LOCATION
-from ..utils import check_filename
+from .. import UPLOAD_DIR, DB_CAR_LISTING_LOCATION, DB_WALLET_LOCATION
+from ..models import WalletTransaction
 
-from werkzeug.utils import secure_filename
 from flask import Blueprint, flash, url_for, request, redirect, render_template
 from flask_login import current_user
 
@@ -80,8 +79,11 @@ def jobstart(uid):
 @listing.route('/cars/<string:uid>/end', methods=['GET', 'POST'])
 def jobend(uid):
   if request.method == 'POST':
-    with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
+    with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing, \
+      shelve.open(DB_WALLET_LOCATION) as db_wallet:
       listing = db_listing[uid]
+      contractor_wallet = db_wallet[current_user.uid]
+      listing_owner_wallet = db_wallet[listing.owner_uid]
 
       front_of_vehicle_img = request.files.get('front_of_vehicle_img')
       left_of_vehicle_img = request.files.get('left_of_vehicle_img')
@@ -126,9 +128,28 @@ def jobend(uid):
         interior4_img.save(f'{UPLOAD_DIR}/{uid}_interior4.jpg')
         listing.interior_photos.append(f'{uid}_interior4.jpg')
 
+      contractor_wallet.balance += listing.price
+      WalletTransaction.create_transaction(
+        current_user.uid,
+        'topup',
+        listing.price,
+        f'Job Completion {listing.uid}'
+      )
+
+      listing_owner_wallet.balance -= listing.price
+      WalletTransaction.create_transaction(
+        listing.owner_uid,
+        'withdraw',
+        listing.price,
+        f'Listing Completion {listing.uid}'
+      )
+
       listing.status = 'COMPLETED'
+      db_wallet[current_user.uid] = contractor_wallet
+      db_wallet[listing.owner_uid] = listing_owner_wallet
       db_listing[uid] = listing
+
       flash('Successfully ended job')
-      return redirect(url_for('car_listing.cars', uid=uid))
+      return redirect(url_for('car_listing.cars'))
 
   return render_template('/job/jobend.html', user=current_user)
