@@ -6,6 +6,7 @@
   ! `py main.py`
 """
 
+import re
 import shelve
 
 from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_LISTING_LOCATION
@@ -24,10 +25,23 @@ listing = Blueprint('listing', __name__)
 
 @listing.route('/cars')
 def cars():
+  query = request.args.get('query', '').strip()
+
   with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    listings = db_listing.values()
+
+    if query:
+      listings = filter(lambda x: re.search(
+        query,
+        x.title,
+        re.IGNORECASE
+      ), db_listing.values())
+      listings = list(listings)
+
     return render_template('/listing/cars.html',
                            user=current_user,
-                           cars=db_listing)
+                           cars=listings,
+                           query=query)
 
 
 @listing.route('/cars/<uid>')
