@@ -3,68 +3,137 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
-<h1>This is the home page</h1>
+<!-- search bar [given the time we have left if its too much to implement with the backend, just scrap this-->
+<!-- do last after fixing image and content sections-->
+<div class="p-4 mx-auto container">
+  <div>
+    <div class="bg-slate-100 bg-black rounded-lg shadow-lg p-8 mb-8 py-6 bg-gray-200 border-b border-gray-300 ">
+      <br>
+      <h1 class="text-xl text-white font-bold">Find your next wash</h1>
+      <form class="relative mx md:mx-1">
+        <div class="inline-flex mx-auto container ">
+          <input type="text" class=" w-full p-2 rounded-lg text-gray-900  placeholder-gray-300 border-b focus:outline-none focus:shadow-outline" placeholder="Vehicle Make or Model">
+          <button class="bg-blue-500 p-2 text-white rounded-lg px-8 ml-3">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- advertisement block-->
+  <!-- note to self: commit image and then come back here to style it-->
+  <div class="border-2 border-gray-300 w-full">
+    <div class="w-auto h-auto">
+      <img src="car-washing-ad1.jpg">
+    </div>
+  </div>
+
+  <!-- content block--> 
+  <!-- for entirety of grid-->
+   <!-- for entirety of grid-->
+ <div class="flex flex-col h-full border-2 border-gray-300">
+  <div class="grid grid-rows-8 ">
+    <!--contractors for hire grid-->
+    <div class="">  
+      <div class="pl-5 bg-slate-200 p-3 shadow-lg w-full font-bold bg-red-400">
+        <a href="/cars" > URGENT WASHES > </a>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="p-4 bg-white shadow-lg">
+          <a href="templink.html" class="flex flex-col items-center text-center">
+            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+            <h3 class="text-center font-medium mb-2">Luxury Sedan</h3>
+          </a>
+        </div>
+      
+        <div class="p-4 bg-white shadow-lg rounded">
+          <a href="templink.html" class="flex flex-col items-center text-center">
+            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+            <h3 class="text-center font-medium mb-2">Hatchback</h3>
+          </a>
+        </div>
+      
+        <div class="p-4 bg-white shadow-lg rounded">
+          <a href="templink.html" class="flex flex-col items-center text-center">
+            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+            <h3 class="text-center font-medium mb-2">Sports</h3>
+          </a>
+        </div>
+
+        <div class="p-4 bg-white shadow-lg rounded">
+          <a href="templink.html" class="flex flex-col items-center text-center">
+            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+            <h3 class="text-center font-medium mb-2">SUV</h3>
+          </a>
+        </div>
+
+        <div class="p-4 bg-white shadow-lg rounded">
+          <a href="templink.html" class="flex flex-col items-center text-center">
+            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+            <h3 class="text-center font-medium mb-2">Mid-sized sedan</h3>
+          </a>
+        </div>
+
+        <div class="p-4 bg-white shadow-lg rounded">
+          <a href="templink.html" class="flex flex-col items-center text-center">
+            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+            <h3 class="text-center font-medium mb-2">MPV</h3>
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- for the fucking border-->
+    <!-- <div class="w-px h-screen border-r border-gray-500"> -->
+      <!-- popular contractors grid-->
+       <div class=" "> 
+        <div  class="bg-slate-200 p-3 shadow-lg w-full font-bold bg-blue-400">
+          <a href="/cars" > CARS FOR WASH > </a>
+        </div>  
+        <div class="grid grid-cols-3 gap-4">
+          <div class="p-4 bg-white shadow-lg">
+            <a href="templink.html" class="flex flex-col items-center text-center">
+              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+              <h3 class="text-center font-medium mb-2">Luxury Sedan</h3>
+            </a>
+          </div>
+        
+          <div class="p-4 bg-white shadow-lg rounded">
+            <a href="templink.html" class="flex flex-col items-center text-center">
+              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+              <h3 class="text-center font-medium mb-2">Hatchback</h3>
+            </a>
+          </div>
+        
+          <div class="p-4 bg-white shadow-lg rounded">
+            <a href="templink.html" class="flex flex-col items-center text-center">
+              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+              <h3 class="text-center font-medium mb-2">Sports</h3>
+            </a>
+          </div>
+  
+          <div class="p-4 bg-white shadow-lg rounded">
+            <a href="templink.html" class="flex flex-col items-center text-center">
+              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+              <h3 class="text-center font-medium mb-2">SUV</h3>
+            </a>
+          </div>
+  
+          <div class="p-4 bg-white shadow-lg rounded">
+            <a href="templink.html" class="flex flex-col items-center text-center">
+              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+              <h3 class="text-center font-medium mb-2">Mid-sized sedan</h3>
+            </a>
+          </div>
+  
+          <div class="p-4 bg-white shadow-lg rounded">
+            <a href="templink.html" class="flex flex-col items-center text-center">
+              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
+              <h3 class="text-center font-medium mb-2">MPV</h3>
+            </a>
+          </div>
+        </div>
+
+  </div>
+</div>
+</div>
 {% endblock %}
