@@ -29,11 +29,13 @@
         <a href="{{ url_for('auth.signup') }}" class="px-2 hover:text-blue-500">Sign Up</a>
         {% else %}
         <div class="flex flex-row items-center">
-          <img alt="Profile Picture" class="w-5 h-5"
+
+          <a class="flex" href="/account/profile">
+              <img alt="Profile Picture" class="w-5 h-5"
             src="https://ui-avatars.com/api/?name={{ user.full_name }}&format=svg&rounded=true">
 
-          <span class="px-2">{{ user.full_name }}</span>
-
+              <span class="px-2">{{ user.full_name }}</span>
+            </a>
           <a href="{{ url_for('car_listing.create') }}"
             class="px-3 py-1.5 rounded-lg text-xs text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
             Create Listing
@@ -108,7 +110,9 @@
       <a href="{{ url_for('auth.login') }}" class="md:hidden py-4 text-sm text-gray-700">Login</a>
       <a href="{{ url_for('auth.signup') }}" class="md:hidden py-4 text-sm text-gray-700">Sign Up</a>
       {% else %}
+      <a href = "/account/profile">
       <span class="md:hidden py-4 text-sm text-gray-700">Welcome back, {{ user.full_name }}</span>
+    </a>
       <a href="{{ url_for('auth.logout') }}" class="md:hidden py-4 text-sm text-red-700">Logout</a>
       {% endif %}
 

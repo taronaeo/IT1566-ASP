@@ -6,7 +6,7 @@
 
       <div class="h-auto"> 
             <div class = " lg:w-4/5 border-t-2 border-blue-500 mx-auto"><img class="mx-auto rounded w-48 my-6" src="https://ui-avatars.com/api/?name={{user.full_name }}&format=svg&rounded=true" ></div>
-              <div class="lg:w-4/5 bg-slate-200 border h-auto w-auto mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
+              <div class="lg:w-4/5 bg-slate-100 border h-auto w-auto mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
                 <div class="shadow hidden w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" id = 'alert'>
                   <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon"><span id = 'alert-msg'></span>
               </div>
@@ -48,7 +48,7 @@
               
 
 
-      <div class="lg:w-4/5 mt-12 bg-slate-200 border h-auto w-auto mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
+      <div class="lg:w-4/5 mt-12 bg-slate-100 border h-auto w-auto mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
         <h2 class = "font-semibold text-lg text-center">Account Details</h2>
         <hr class = "border border-blue-500 mt-2 ">
               <div class="h-auto mx-auto drop-shadow-lg rounded-lg">
@@ -98,15 +98,19 @@
       </div>
 
 
-     <div class="lg:w-4/5 mt-12 bg-slate-200 border h-auto w-auto mx-auto drop-shadow-lg bg-white rounded-lg">
+     <div class="lg:w-4/5 mt-12 bg-slate-100 border h-auto w-auto mx-auto drop-shadow-lg bg-white rounded-lg">
+      
+
+
         <h2 class = "font-semibold text-lg text-center p-6">Delete Account</h2>
         <hr class = "border border-blue-500 mx-6 ">
               <div class = 'h-auto p-6 mx-auto drop-shadow-lgrounded-lg'>
+                <div class=" shadow mx-6 flex flex-row gap-1 p-4 mb-4 text-sm text-blue-500 border bg-white rounded-lg">
+                  <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">WARNING: This action cannot be undone!
+                </div> 
                 <p class = 'font-semibold'>Permanently Delete Your Account</p>
               
-                  <div class=" shadow w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg">
-                    <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">WARNING: This action cannot be undone!
-                  </div> 
+                  
                   <div class = 'text-center'>
                     <button class="mt-3 w-32 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 rounded-md focus:outline-none focus:shadow-outline" id = 'delete-button' onclick = 'show_confirmation()'>
                         <img class = 'h-6 inline mb-1 -ml-2 mr-2' src = '/img/delete.svg'>Delete
@@ -167,7 +171,7 @@
         return
       }
 
-      let data = {
+      let data_password = {
         "password": password_input
       }
       
@@ -175,7 +179,7 @@
                 "method": "PUT",
                 "redirect": 'follow',
                 "headers": {"Content-Type": "application/json"},
-                "body": JSON.stringify(data),
+                "body": JSON.stringify(data_password),
             })
             .then(setTimeout(() => window.location.reload(), 250))
 
@@ -262,12 +266,28 @@
         alert_msg.innerText = "All fields must be filled in!";
         return
       }
-      else if(input_name==={{user.full_name|tojson}} && input_number === {{user.phone_number|tojson}}){
+      if(input_name==={{user.full_name|tojson}} && input_number === {{user.phone_number|tojson}}){
         alert_div.classList.remove('hidden');
         alert_msg.innerText = "New profile information must be different!";
         return
       }
+      if(!(/^[a-zA-Z]+$/.test(input_name))){
+        alert_div.classList.remove('hidden');
+        alert_msg.innerText = "Enter Valid Name";
+        return
+      }
+      if(!(Number(input_number))){
+        alert_div.classList.remove('hidden');
+        alert_msg.innerText = "Enter Valid Phone Number";
+        return
+      }
+      if(input_number.length!=8){
+        alert_div.classList.remove('hidden');
+        alert_msg.innerText = "Phone Number Must be 8 Numbers";
+        return
+      }
 
+      
       let data = {
         "full_name": input_name,
         "phone_number": input_number
