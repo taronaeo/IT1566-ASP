@@ -15,6 +15,7 @@ from .listing import listing
 from .products import products
 
 from .car_listing import car_listing
+from .contractor_listing import contractor_listing
 
 # * BETA WORK
 from .chat import chat

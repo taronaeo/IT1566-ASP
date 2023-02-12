@@ -6,40 +6,14 @@
   ! `py main.py`
 """
 
-import re
-import shelve
-
-from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_LISTING_LOCATION
-from ..models import Listing
+from .. import UPLOAD_DIR
 from ..utils import check_filename
 
 from werkzeug.utils import secure_filename
-from werkzeug.datastructures import FileStorage
-from flask import Blueprint, abort, flash, url_for, request, redirect, render_template
-from flask_login import current_user, login_required
+from flask import Blueprint, flash, request, redirect, render_template
+from flask_login import current_user
 
 listing = Blueprint('listing', __name__)
-
-
-@listing.route('/contractors')
-def contractors():
-  return render_template('/listing/contractors.html',
-                         user=current_user,
-                         contractors={})
-
-
-@listing.route('/contractors/create')
-@login_required
-def create_contractor():
-  return render_template('/listing/create_contractor.html',
-                         user=current_user)
-
-
-@listing.route('/contractors/<uid>/update')
-@login_required
-def update_contractor(uid: str):
-  return render_template('/listing/update_contractor.html',
-                         user=current_user)
 
 # ! Job Start and end
 
