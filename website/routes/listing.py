@@ -119,7 +119,7 @@ def create():
     filename = secure_filename(vehicle_img.filename)  # type: ignore
     vehicle_img.save(f'{UPLOAD_DIR}/{filename}')
 
-    Listing.create_listing(
+    Listing.create(
         current_user.uid,  # type: ignore
         title,
         filename,
@@ -144,6 +144,21 @@ def update(uid: str):
     return render_template('/listing/update_car.html',
                            user=current_user,
                            listing=db_listing[uid])
+
+
+@listing.route('/cars/<uid>/update/status/<status>')
+@login_required
+def update_status(uid: str, status: str):
+  with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    if uid not in db_listing:
+      return abort(404)
+
+    if status not in ['LISTED', 'DELISTED', 'ACCEPTED', 'EXPIRED']:
+      return abort(404)
+
+    Listing.set_status(uid, status)
+    flash(f'Listing {status.lower()}')
+    return redirect(url_for('listing.view', uid=uid))
 
 
 @listing.route('/cars/<uid>/delete')
