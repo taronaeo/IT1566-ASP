@@ -1,8 +1,6 @@
 from website import create_app
 from website.sockets import create_socket
 
-from flask_socketio import SocketIO
-
 SERVER_HOST = '0.0.0.0'
 SERVER_PORT = 3000
 

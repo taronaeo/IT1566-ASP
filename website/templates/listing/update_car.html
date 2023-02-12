@@ -36,7 +36,7 @@
     <div>
       <label for="vehicle_img" class="font-light">Vehicle Image</label>
       <label id="vehicle_img_box" for="vehicle_img"
-        class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+        class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer bg-cover bg-center bg-no-repeat bg-[url('/uploads/{{ listing.vehicle_img }}')] active:bg-blue-50 active:border-blue-300">
         <div class="flex flex-col items-center justify-center py-6">
           <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
           <p class="mb-2 text-sm text-gray-500">Click to change photo</p>
@@ -141,4 +141,50 @@
 {% endblock %}
 
 {% block script %}
+<script>
+  const form = document.getElementById('form')
+  const title = document.getElementById('title')
+  const vehicle_img_box = document.getElementById('vehicle_img_box')
+  const vehicle_img = document.getElementById('vehicle_img')
+  const vehicle_location = document.getElementById('vehicle_location')
+  const requirements = document.getElementById('requirements')
+  const price = document.getElementById('price')
+
+  const preview_title = document.getElementById('preview_title')
+  const preview_vehicle_img = document.getElementById('preview_vehicle_img')
+  const preview_vehicle_location = document.getElementById('preview_vehicle_location')
+  const preview_requirements = document.getElementById('preview_requirements')
+  const preview_price = document.getElementById('preview_price')
+
+  const button_discard = document.getElementById('button_discard')
+  const button_submit = document.getElementById('button_submit')
+
+  function updateImage() {
+    const [file] = vehicle_img.files
+    vehicle_img_box.classList.add('bg-cover')
+    vehicle_img_box.classList.add('bg-center')
+    vehicle_img_box.classList.add('bg-no-repeat')
+    vehicle_img_box.classList.add(`bg-[url('${URL.createObjectURL(file)}')]`)
+    preview_vehicle_img.src = !file ? "/img/car_silhouette.png" : URL.createObjectURL(file)
+  }
+
+  function updatePreview() {
+    preview_title.innerText = title.value || "Example Title"
+    preview_vehicle_location.innerText = vehicle_location.value || "Location"
+    preview_requirements.innerText = requirements.value || "Requirements"
+    preview_price.innerText = `$${Number(price.value).toFixed(2)}` || "$0.00"
+  }
+
+  title.addEventListener('input', updatePreview)
+  vehicle_img.addEventListener('input', updateImage)
+  vehicle_location.addEventListener('input', updatePreview)
+  requirements.addEventListener('input', updatePreview)
+  price.addEventListener('input', updatePreview)
+
+  button_submit.addEventListener('click', () => form.submit())
+  button_discard.addEventListener('click', () => {
+    const yes = confirm("Are you sure?")
+    if (yes) window.location.href = "{{ url_for('listing.cars') }}"
+  })
+</script>
 {% endblock %}

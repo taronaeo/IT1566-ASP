@@ -26,6 +26,7 @@ DB_REVIEW_LOCATION = f"{DB_BASE_LOCATION}_review_transaction"
 
 DB_PRODUCTS_LOCATION = f"{DB_BASE_LOCATION}_products"
 
+
 def create_app():
   app = Flask(__name__,
               static_url_path='',
@@ -57,7 +58,7 @@ def create_app():
   app.register_blueprint(account, url_prefix='/')
   app.register_blueprint(vehicle, url_prefix='/')
   app.register_blueprint(listing, url_prefix='/')
-  app.register_blueprint(products, url_prefix= '/')
+  app.register_blueprint(products, url_prefix='/')
 
   # * BETA CODE
   app.register_blueprint(chat, url_prefix='/')
@@ -70,7 +71,8 @@ def create_app():
                    "/api/listing/<string:uid>")
   api.add_resource(ReviewApiEndpoint, "/api/review",
                    "/api/review/<string:review_uid>")
-  api.add_resource(ProductApiEndpoint, "/api/product", "/api/product/<string:product_uid>")
+  api.add_resource(ProductApiEndpoint, "/api/product",
+                   "/api/product/<string:product_uid>")
 
   from .models import User
 

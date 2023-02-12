@@ -237,13 +237,13 @@
         <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
           {% for listing in listings.values() | selectattr('status', 'equalto', 'LISTED') if listing.uid !=
           listing_data.uid %}
+
           {% if loop.index <= 4 %}
             {{ card_listing(listing) }}
             {% endif %}
             {% endfor %}
             </div>
         </div>
-    </div>
 </section>
 {% endblock %}
 
