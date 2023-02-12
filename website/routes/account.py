@@ -7,11 +7,13 @@
 """
 
 import shelve
-from .. import DB_USER_LOCATION, DB_WALLET_LOCATION, DB_CAR_LISTING_LOCATION, DB_REVIEW_LOCATION
+
+from .. import DB_USER_LOCATION, DB_WALLET_LOCATION, DB_LISTING_LOCATION, DB_REVIEW_LOCATION, DB_PRODUCTS_LOCATION
+
 
 from flask import Blueprint, render_template, request, redirect, url_for, abort
 from flask_login import current_user, login_required
-from ..models import Wallet, WalletCard
+from ..models import Wallet, WalletCard, Listing
 
 account = Blueprint('account', __name__)
 
@@ -81,15 +83,6 @@ def wallet_payment(wallet_uid, trans_type, amount):
                            transaction=transaction)
 
 
-@account.route('/account')
-@login_required
-def get_account():
-  with shelve.open(DB_USER_LOCATION) as db_user:
-    return render_template('/account/account.html',
-                           user=current_user,
-                           users=db_user)
-
-
 @account.route('/account/update')
 @login_required
 def update_account():
@@ -143,10 +136,27 @@ def review():
 @account.route('/admin/dashboard')
 @login_required
 def get_dashboard():
+  userCount=0
+  listingCount=0
+  productCount=0
   with shelve.open(DB_USER_LOCATION) as db_user:
-    return render_template('/admin/dashboard.html',
-                           user=current_user,
-                           users=db_user)
+
+    with shelve.open(DB_LISTING_LOCATION) as db_listing:
+      with shelve.open(DB_WALLET_LOCATION) as db_wallet:
+        with shelve.open(DB_PRODUCTS_LOCATION) as db_products:
+          for user in db_user.values():
+            userCount += 1
+          for listing in db_listing.values():
+            listingCount += 1
+          for product in db_products.values():
+            productCount +=1
+          return render_template('/admin/dashboard.html',
+                                  user=current_user,
+                                  users=db_user,
+                                  userCount=userCount,
+                                  listingCount=listingCount,
+                                  wallet=db_wallet,
+                                  productCount=productCount )
 
 
 @account.route('/ratingfor/<uid>')
