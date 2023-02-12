@@ -4,15 +4,43 @@
 {%block content%}
 
 <section>
+
+    {%if user.access_level == "Admin"%}
     <div class = 'text-center bg-slate-200 pt-1 pb-4 rounded shadow-md'>
         <div class="bg-red-100 m-2 w-52 mx-auto py-2 px-4 text-red-800 text-sm shadow " role="alert">
             <img class = 'inline text-center w-5' src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">FOR ADMIN USE
         </div>
         <button onclick ="create()" class = "mx-auto mt-4 bg-blue-600 text-white font-semibold py-2 px-4 rounded">Create Product</button>
     </div>
+    {%endif%}
+    <form method="GET" id="search" class="relative">
+        <div class="flex flex-row border border-gray-300 rounded-lg">
+          <div class="flex-none self-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor"
+              class="pl-2 w-8 md:pl-4 md:w-10">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </div>
+  
+          <div class="grow">
+            <input type="search"
+              name="query"
+              value="{{ query }}"
+              placeholder="Search for products..."
+              class="p-2 md:p-4 w-full rounded-lg text-base text-gray-900 font-light focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+  
+          <div class="flex-none">
+            <button type="submit"
+              class="p-2 md:p-4 px-4 md:px-6 h-full text-white bg-blue-700 rounded-r-lg">Search</button>
+          </div>
+        </div>
+      </form>
     <div class = 'h-auto border-2 my-4 rounded'>
         <h1 class = "text-xl text-center text-gray-900 font-semibold m-2">Search by Category</h1>
-        <hr class = "border-gray-200 border  mx-6 md:mx-24">
+        <hr class = "border-blue-500 border  mx-20 md:mx-64">
             <div class = "text-sm">
                 <div id = "group1" class = " grid grid-cols-2 grid-rows-2 md:grid md:grid-cols-4 md:grid-rows-1 hidden">
                     <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Car Camera')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/carcamera.svg">Car Cameras</div></a>
@@ -60,10 +88,8 @@
       <hr class = "border-gray-300 border mb-4">
       <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
   
-          {% for product in db_products.values()%}
-              {% if loop.index > 6 %}
+          {% for product in product_list%}
                   {{ card_product(product) }}
-              {%endif%}
           {% endfor %}
         </div>
 

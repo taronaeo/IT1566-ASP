@@ -108,7 +108,7 @@
     <span id = 'success-topup' class = 'hidden font-semibold'>Top-up Successful!</span>
     <div>
 
-      <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id = "topup-input" class="placeholder-blue-800 bg-blue-100 p-4 my-4 gap-1 text-blue w-full rounded-lg" placeholder="$" type="text">
+      <input id = "topup-value" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="placeholder-blue-800 bg-blue-100 p-4 my-4 gap-1 text-blue w-full rounded-lg" placeholder="$" type="text">
     </div>
     <div class="grid grid-cols-4 gap-2 ">
       <button onclick="" id="topup-5" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
@@ -124,9 +124,7 @@
         $50
       </button>
     </div>  
-    <span class = "font-semibold block mt-6">
-      Topup Value: $<span class = "font-light"id = "topup-value">0</span>
-    </span>
+
     
       <div class = 'pt-4 text-center'>
         <button class="mt-3 w-32 px-4 py-2 font-bold text-blue-500 border-2 border-blue-500 duration-200 ease-out rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'cancel-topup' onclick = 'cancel_topup()'>
@@ -168,9 +166,6 @@
         </button>
 
       </div>
-      <span class = "font-semibold block mt-6">
-        Withdraw Value: $<span class = "font-light"id = "withdraw-value">0</span>
-      </span>
         <div class = 'text-center justify-between'>
           <button class="mt-4 w-32 px-4 py-2 font-bold text-blue-500 border-2 border-blue-500 duration-200 ease-out rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'cancel-withdraw' onclick = 'cancel_withdraw()'>
               Cancel
@@ -194,11 +189,16 @@
                 <h3 class="text-xl font-semibold">
                     Add new card
                 </h3>
+                
                 <button onclick="cancel_card_popup()" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                 </button>
             </div>
-     
+            <div id = "card-alert-div" class="hidden w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
+              <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">
+              <span id = "card-alert"></span>
+            </div> 
+
             <div class="md:p-6 space-y-6">
 
                 <form id = "form" method="POST" enctype="multipart/form-data">
@@ -214,24 +214,30 @@
                         </select>
                       </div>
                       <label for="cardno">Credit card number:</label>
-                      <input name = "card_number" axlength="16" minlength="16"required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardno" type="text">
+                      <input placeholder = "0000 0000 0000 0000"
+                        name = "card_number"
+                        maxlength="19"
+                        minlength="19"
+                        type = "tel"
+                        id = "cardno"
+                        class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
                       <label for="cardno">Cardholder Name:</label>
-                      <input name = "card_name" required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardname" type="text">
+                      <input name = "card_name" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardname" type="text">
                       
                       <div>
                       <label class="" for="cvv">CVV:</label> 
-                      <input name="cvv" required minlength="3" maxlength="3" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cvv" type="text">
+                      <input name="cvv" minlength="3" maxlength="3" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cvv" type="text">
                       </div>
                       <div>
                         <label class="" for="expiration">Expiration:</label>
                         <div class="flex flex-row space-x-2 md:space-x-4">
                           
-                          <input name = "exp_month" maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
+                          <input id = "exp_month" name = "exp_month" maxlength="2"  class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
                           <div class="">
                             <p class="text-3xl md:text-4xl">/</p>
                           </div>
                       
-                          <input name = "exp_yr" maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
+                          <input name = "exp_yr" id = "exp_yr" maxlength="2"  class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
                         
                         </div>
                       
@@ -245,12 +251,10 @@
                 </div>
                 
                 <div class="items-center p-6 border-t border-gray-200 rounded-b space-x-4">
-                    <button class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center" id = 'submit-button'>Add card</button>
+                    <button class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center" id = 'submit-button' type = "button">Add card</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
+ 
 
 <div class = 'hidden w-full fixed z-40 inset-0 bg-slate-500/50 ' id = 'delete-overlay'>
   <div class = 'bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
@@ -276,61 +280,63 @@
 
   {% block script %}
   <script>
+    const input = document.getElementById("cardno");
+    input.addEventListener("input", () => input.value = formatNumber(input.value.replaceAll(" ", "")));
+
+    const formatNumber = (number) => number.split("").reduce((seed, next, index) => {
+      if (index !== 0 && !(index % 4)) seed += " ";
+      return seed + next;
+    }, "");
     const payment_methods = "{{wallet.payment_methods}}"
     let global_alert = document.getElementById('global-alert')
     let topup_value = document.getElementById('topup-value');
-    let topup_input = document.getElementById('topup-input');
-    let withdraw_value = document.getElementById('withdraw-value');
-    let withdraw_input = document.getElementById('withdraw-input');
+    let withdraw_value = document.getElementById('withdraw-input');
     const confirm_topup = document.getElementById('confirm-topup')
     const confirm_withdraw = document.getElementById('confirm-withdraw');
     let alert_insufficient = document.getElementById('alert-insufficient');
     let alert_insufficient_withdraw = document.getElementById('alert-insufficient-withdraw');
     const acc_bal = Number("{{wallet.balance}}")
-    topup_input.addEventListener('input',()=>{  
-      topup_value.innerHTML= topup_input.value
-    
-    })
 
-    withdraw_input.addEventListener('input',()=>{  
-      withdraw_value.innerHTML= withdraw_input.value
-    
-    })
+
+
     let withdraw_alert =document.getElementById('withdraw-alert');
 
     confirm_withdraw.addEventListener('click',()=>{
-      if(Number(withdraw_value.innerHTML)===0){
+      if(Number(withdraw_value.value)===0){
         alert_insufficient_withdraw.classList.remove('hidden');
         withdraw_alert.innerText = "Enter a Withdraw Amount!"
         return
 
       }      
-      else if(acc_bal<Number(withdraw_value.innerHTML)){
+      else if(acc_bal<Number(withdraw_value.value)){
         alert_insufficient_withdraw.classList.remove('hidden');
         withdraw_alert.innerText = "Withdraw Cannot be Greater Than Current Balance!"
         return
       }
       else{
         alert_insufficient_withdraw.classList.add('hidden');
-        window.location.href = "/account/wallet/payment/" + user_uid + "/withdraw/" + Number(withdraw_value.innerHTML)
+        window.location.href = "/account/wallet/payment/" + user_uid + "/withdraw/" + Number(withdraw_value.value)
       }
     })
 
     const alert_text = document.getElementById('alert-text')
+
+
     confirm_topup.addEventListener('click',()=>{
-      if(Number(topup_value.innerHTML)===0){
+      
+      if(Number(topup_value.value)===0){
         alert_insufficient.classList.remove('hidden')
         alert_text.innerText = "Top Up Cannot be $0!"
         return
       }
-      else if(Number(topup_value.innerHTML)<5){
+      else if(Number(topup_value.value)<5){
         alert_insufficient.classList.remove('hidden')
         alert_text.innerText = "Top Up Cannot be less than $5!"
         return
       }
       else{
         alert_insufficient.classList.add('hidden');
-        window.location.href = "/account/wallet/payment/" + user_uid + "/topup/" + Number(topup_value.innerHTML)
+        window.location.href = "/account/wallet/payment/" + user_uid + "/topup/" + Number(topup_value.value)
       }
     })
 
@@ -338,8 +344,68 @@
     const walletapi_url = {{url_for('walletapiendpoint')|tojson}}
     const user_uid = "{{user.uid}}"
 
+    let card_alert_div = document.getElementById('card-alert-div');
+    let card_alert_text = document.getElementById('card-alert');
+
     const submit_button = document.getElementById('submit-button');
-    submit_button.addEventListener('click', () => form.submit());
+    submit_button.addEventListener('click', () =>{
+      let bank_input = document.getElementById('select-bank').value;
+      let card_number_input = document.getElementById('cardno').value;
+      let card_name_input = document.getElementById('cardname').value;
+      let cvv_input = document.getElementById('cvv').value;
+      let exp_month_input = Number(document.getElementById('exp_month').value);
+      let exp_year_input = Number(document.getElementById('exp_yr').value);
+
+      if(!(card_number_input||card_name_input||cvv_input||exp_month_input||exp_year_input)){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Fields Cannot be Blank!"
+        return
+      }
+      if(card_number_input.length!=19){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Credit Card";
+        return
+        
+      }
+      card_number_input = card_number_input.replace(/\s+/g, "")
+
+      if(isNaN(card_number_input)){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Credit Card";
+        return
+      }
+      card_name_input = card_name_input.replace(/\s+/g, "")
+      if(!(/^[a-zA-Z]+$/.test(card_name_input))){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Name";
+        return
+      }
+      
+      if(!(Number(cvv_input))){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid CVV";
+        return
+      }
+
+      if(isNaN(exp_month_input)||isNaN(exp_year_input)){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Expiry Date";
+        return
+      }
+      if(Number(exp_month_input)>12){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Expiry Month";
+        return
+      }
+      if(Number(exp_year_input)<23){
+        card_alert_div.classList.remove('hidden');
+        card_alert_text.innerText = "Enter Valid Expiry Year";
+        return
+      }
+    
+
+      form.submit()
+    });
     let card;
     function show_topup(){
       if(payment_methods=== '[]'){
@@ -429,20 +495,22 @@
     const topup20 = document.getElementById('topup-20');
     const topup50 = document.getElementById('topup-50');
 
-    topup5.addEventListener('click',()=>topup_value.innerText = 5);
-    topup10.addEventListener('click',()=>topup_value.innerText = 10);
-    topup20.addEventListener('click',()=>topup_value.innerText = 20);
-    topup50.addEventListener('click',()=>topup_value.innerText = 50);
+    topup5.addEventListener('click',()=>{
+      topup_value.value = 5
+    });
+    topup10.addEventListener('click',()=>topup_value.value= 10);
+    topup20.addEventListener('click',()=>topup_value.value= 20);
+    topup50.addEventListener('click',()=>topup_value.value = 50);
 
     const withdraw5 = document.getElementById('withdraw-5');
     const withdraw10 = document.getElementById('withdraw-10');
     const withdraw20 = document.getElementById('withdraw-20');
     const withdraw50 = document.getElementById('withdraw-50');
 
-    withdraw5.addEventListener('click',()=>withdraw_value.innerText = 5);
-    withdraw10.addEventListener('click',()=>withdraw_value.innerText = 10);
-    withdraw20.addEventListener('click',()=>withdraw_value.innerText = 20);
-    withdraw50.addEventListener('click',()=>withdraw_value.innerText = 50);
+    withdraw5.addEventListener('click',()=>withdraw_value.value = 5);
+    withdraw10.addEventListener('click',()=>withdraw_value.value = 10);
+    withdraw20.addEventListener('click',()=>withdraw_value.value = 20);
+    withdraw50.addEventListener('click',()=>withdraw_value.value = 50);
     
 
     const select=document.getElementById("select-bank");

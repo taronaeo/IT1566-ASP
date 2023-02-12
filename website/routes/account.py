@@ -21,6 +21,7 @@ def wallet():
       if request.method == 'POST':
         bank = request.form.get('bank')
         card_number = request.form.get('card_number')
+        card_number = card_number.replace(" ","")
         card_name = request.form.get('card_name')
         cvv = int(request.form.get('cvv'))
         exp_month = str(request.form.get('exp_month'))
@@ -51,6 +52,7 @@ def wallet_payment(wallet_uid,trans_type,amount):
     if request.method == 'POST':
       bank = request.form.get('bank')
       card_number = request.form.get('card_number')
+      card_number = card_number.replace(" ","")
       card_name = request.form.get('card_name')
       cvv = int(request.form.get('cvv'))
       exp_month = str(request.form.get('exp_month'))
