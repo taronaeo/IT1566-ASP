@@ -3,8 +3,8 @@
 {% block title %}Job Start{% endblock %}
 
 {% block content %}
-
-{% with alerts = get_flashed_messages() %}
+<section class="flex flex-col gap-4">
+  {% with alerts = get_flashed_messages() %}
   {% if alerts %}
   {% for alert in alerts %}
   <div class="p-4 col-span-1 md:col-span-2 flex flex-row gap-1 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
@@ -20,201 +20,233 @@
   {% endif %}
   {% endwith %}
 
-<div class="container mx-auto px-4">
-    <header class=" py-6 bg-blue-500 border-b border-gray-300">
-        <h1 class="text-center text-3xl font-bold text-white mb-2">Job Start</h1>
-    </header>
-    <div class="grid flex-auto bg-white rounded-lg shadow-lg p-8 pb-2 mb-6">
-        <h1 class="font-bold">Exterior Photos</h1>
-        <p class="py-4">Upload photos of all four angles of the customer's car before washing.</p>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-32">
-        <div>
-            <label for="vehicle_img" class="font-light">Vehicle Image</label>
-            <label id="vehicle_img_box" for="vehicle_img"
-              class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
-              <div class="flex flex-col items-center justify-center py-6">
-                <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
-                <p class="mb-2 text-sm text-gray-500">Click to upload</p>
-                <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
-              </div>
-              <input type="file" name="vehicle_img" id="vehicle_img" accept="image/png, image/jpeg" class="hidden">
-            </label>
-          </div>
-          <div>
-            <label for="vehicle_img" class="font-light">Vehicle Image</label>
-            <label id="vehicle_img_box_2" for="vehicle_img"
-              class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
-              <div class="flex flex-col items-center justify-center py-6">
-                <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
-                <p class="mb-2 text-sm text-gray-500">Click to upload</p>
-                <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
-              </div>
-              <input type="file" name="vehicle_img" id="vehicle_img_2" accept="image/png, image/jpeg" class="hidden">
-            </label>
-          </div>
-          <div>
-            <label for="vehicle_img" class="font-light">Vehicle Image</label>
-            <label id="vehicle_img_box_3" for="vehicle_img"
-              class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
-              <div class="flex flex-col items-center justify-center py-6">
-                <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
-                <p class="mb-2 text-sm text-gray-500">Click to upload</p>
-                <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
-              </div>
-              <input type="file" name="vehicle_img" id="vehicle_img_3" accept="image/png, image/jpeg" class="hidden">
-            </label>
-          </div>
-          <div>
-            <label for="vehicle_img" class="font-light">Vehicle Image</label>
-            <label id="vehicle_img_box_4" for="vehicle_img"
-              class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
-              <div class="flex flex-col items-center justify-center py-6">
-                <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
-                <p class="mb-2 text-sm text-gray-500">Click to upload</p>
-                <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
-              </div>
-              <input type="file" name="vehicle_img" id="vehicle_img_4" accept="image/png, image/jpeg" class="hidden">
-            </label>
-          </div>
-          
-        </div>
-          
-          <p class="py-4 mt-2 font-light text-sm text-gray-500">
-            Take a photo of the exterior outlook of the vehicle. Remember to get every angle of the car.
-          </p>
-    </div>
-    <div class="grid flex-auto bg-white rounded-lg shadow-lg p-8 pb-2 mb-6">
-        <h1 class="font-bold">Interior Photos (Optional)</h1>
-        <p class="py-4">Upload photos of the car's interior if interior detailing has been requested.</p>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-32">   
-        <div>
-            <label for="vehicle_img" class="font-light">Vehicle Image</label>
-            <label id="vehicle_img_box_5" for="vehicle_img"
-              class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
-              <div class="flex flex-col items-center justify-center py-6">
-                <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
-                <p class="mb-2 text-sm text-gray-500">Click to upload</p>
-                <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
-              </div>
-              <input type="file" name="vehicle_img" id="vehicle_img_5" accept="image/png, image/jpeg" class="hidden">
-            </label>
-          </div>
-          <div>
-            <label for="vehicle_img" class="font-light">Vehicle Image</label>
-            <label id="vehicle_img_box_6" for="vehicle_img"
-              class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
-              <div class="flex flex-col items-center justify-center py-6">
-                <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
-                <p class="mb-2 text-sm text-gray-500">Click to upload</p>
-                <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
-              </div>
-              <input type="file" name="vehicle_img" id="vehicle_img_6" accept="image/png, image/jpeg" class="hidden">
-            </label>
-          </div>
-          <div>
-            <label for="vehicle_img" class="font-light">Vehicle Image</label>
-            <label id="vehicle_img_box_7" for="vehicle_img"
-              class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
-              <div class="flex flex-col items-center justify-center py-6">
-                <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
-                <p class="mb-2 text-sm text-gray-500">Click to upload</p>
-                <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
-              </div>
-              <input type="file" name="vehicle_img" id="vehicle_img_7" accept="image/png, image/jpeg" class="hidden">
-            </label>
-          </div>
-          <div>
-            <label for="vehicle_img" class="font-light">Vehicle Image</label>
-            <label id="vehicle_img_box_8" for="vehicle_img"
-              class="aspect-video w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
-              <div class="flex flex-col items-center justify-center py-6">
-                <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
-                <p class="mb-2 text-sm text-gray-500">Click to upload</p>
-                <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
-              </div>
-              <input type="file" name="vehicle_img" id="vehicle_img_8" accept="image/png, image/jpeg" class="hidden">
-            </label>
-          </div>
-          
-        </div>
-          
-          <p class="py-4 mt-2 font-light text-sm text-gray-500">
-            Try to focus on any dirt and grime that needs to be
-            cleaned.
-          </p>
-    </div>
-</div>
-<div class="py-4 flex flex-col items-center">
-    <a href="{{ url_for('listing.jobend') }}"><button class="content-center bg-blue-500 hover:bg-blue-400 text-white font-bold py-4 px-8 border-b-4 border-blue-700 hover:border-blue-500 rounded">
-        Wash Completed
-      </button>
-    </a>
-</div>
+  <form id="form" method="POST" enctype="multipart/form-data" class="space-y-4">
+    <h1 class="py-6 font-bold text-xl text-white text-center bg-blue-500 md:text-2xl">Job Start</h1>
 
+    <div class="p-6 bg-white border border-blue-200 rounded-lg">
+      <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 md:text-xl">Exterior Photos</h5>
+      <p class="text-gray-700">Upload photos of all four angles of the customer's car before washing.</p>
 
+      <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <label id="front_of_vehicle_box" for="front_of_vehicle_img"
+            class="aspect-square w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+            <div class="flex flex-col items-center justify-center py-6">
+              <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+              <p class="mb-2 text-sm text-gray-500">Front of Vehicle</p>
+              <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+            </div>
+            <input type="file" name="front_of_vehicle_img" id="front_of_vehicle_img" accept="image/png, image/jpeg"
+              class="hidden">
+          </label>
+        </div>
+
+        <div>
+          <label id="left_of_vehicle_box" for="left_of_vehicle_img"
+            class="aspect-square w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+            <div class="flex flex-col items-center justify-center py-6">
+              <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+              <p class="mb-2 text-sm text-gray-500">Left of Vehicle</p>
+              <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+            </div>
+            <input type="file" name="left_of_vehicle_img" id="left_of_vehicle_img" accept="image/png, image/jpeg"
+              class="hidden">
+          </label>
+        </div>
+
+        <div>
+          <label id="right_of_vehicle_box" for="right_of_vehicle_img"
+            class="aspect-square w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+            <div class="flex flex-col items-center justify-center py-6">
+              <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+              <p class="mb-2 text-sm text-gray-500">Right of Vehicle</p>
+              <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+            </div>
+            <input type="file" name="right_of_vehicle_img" id="right_of_vehicle_img" accept="image/png, image/jpeg"
+              class="hidden">
+          </label>
+        </div>
+
+        <div>
+          <label id="back_of_vehicle_box" for="back_of_vehicle_img"
+            class="aspect-square w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+            <div class="flex flex-col items-center justify-center py-6">
+              <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+              <p class="mb-2 text-sm text-gray-500">Back of Vehicle</p>
+              <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+            </div>
+            <input type="file" name="back_of_vehicle_img" id="back_of_vehicle_img" accept="image/png, image/jpeg"
+              class="hidden">
+          </label>
+        </div>
+      </div>
+
+      <p class="mt-2 font-light text-sm text-gray-500">
+        Take a photo of the exterior outlook of the vehicle. Try to focus on any scratches, dents, or rusts.
+      </p>
+    </div>
+
+    <div class="p-6 bg-white border border-blue-200 rounded-lg">
+      <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 md:text-xl">Interior Photos (Optional)</h5>
+      <p class="text-gray-700">Upload photos of the car's interior if interior detailing has been requested.</p>
+
+      <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <label id="interior1_box" for="interior1_img"
+            class="aspect-square w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+            <div class="flex flex-col items-center justify-center py-6">
+              <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+              <p class="mb-2 text-sm text-gray-500">Interior 1</p>
+              <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+            </div>
+            <input type="file" name="interior1_img" id="interior1_img" accept="image/png, image/jpeg" class="hidden">
+          </label>
+        </div>
+
+        <div>
+          <label id="interior2_box" for="interior2_img"
+            class="aspect-square w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+            <div class="flex flex-col items-center justify-center py-6">
+              <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+              <p class="mb-2 text-sm text-gray-500">Interior 2</p>
+              <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+            </div>
+            <input type="file" name="interior2_img" id="interior2_img" accept="image/png, image/jpeg" class="hidden">
+          </label>
+        </div>
+
+        <div>
+          <label id="interior3_box" for="interior3_img"
+            class="aspect-square w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+            <div class="flex flex-col items-center justify-center py-6">
+              <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+              <p class="mb-2 text-sm text-gray-500">Interior 3</p>
+              <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+            </div>
+            <input type="file" name="interior3_img" id="interior3_img" accept="image/png, image/jpeg" class="hidden">
+          </label>
+        </div>
+
+        <div>
+          <label id="interior4_box" for="interior4_img"
+            class="aspect-square w-full rounded-lg flex flex-col items-center justify-center border-2 border-gray-300 border-dashed cursor-pointer active:bg-blue-50 active:border-blue-300">
+            <div class="flex flex-col items-center justify-center py-6">
+              <img src="/img/upload.svg" alt="Upload Icon" class="mb-3 w-5 h-5">
+              <p class="mb-2 text-sm text-gray-500">Interior 4</p>
+              <p class="text-xs text-gray-500">PNG or JPG (Max 1 MB)</p>
+            </div>
+            <input type="file" name="interior4_img" id="interior4_img" accept="image/png, image/jpeg" class="hidden">
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit"
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
+      Upload Photos
+    </button>
+  </form>
+</section>
 {% endblock %}
 
 {% block script %}
 <script>
-    
-    const vehicle_img_box = document.getElementById('vehicle_img_box')
-    const vehicle_img = document.getElementById('vehicle_img')
-    
-    const vehicle_img_box_2 = document.getElementById('vehicle_img_box_2')
-    const vehicle_img_2 = document.getElementById('vehicle_img_2')
+  const front_of_vehicle_img = document.getElementById('front_of_vehicle_img')
+  const left_of_vehicle_img = document.getElementById('left_of_vehicle_img')
+  const right_of_vehicle_img = document.getElementById('right_of_vehicle_img')
+  const back_of_vehicle_img = document.getElementById('back_of_vehicle_img')
 
-    const vehicle_img_box_3 = document.getElementById('vehicle_img_box_3')
-    const vehicle_img_3 = document.getElementById('vehicle_img_3')
+  const interior1_img = document.getElementById('interior1_img')
+  const interior2_img = document.getElementById('interior2_img')
+  const interior3_img = document.getElementById('interior3_img')
+  const interior4_img = document.getElementById('interior4_img')
 
-    const vehicle_img_box_4 = document.getElementById('vehicle_img_box_4')
-    const vehicle_img_4 = document.getElementById('vehicle_img_4')
-    
-    const vehicle_img_box_5 = document.getElementById('vehicle_img_box_5')
-    const vehicle_img_5 = document.getElementById('vehicle_img_5')
+  const front_of_vehicle_box = document.getElementById('front_of_vehicle_box')
+  const left_of_vehicle_box = document.getElementById('left_of_vehicle_box')
+  const right_of_vehicle_box = document.getElementById('right_of_vehicle_box')
+  const back_of_vehicle_box = document.getElementById('back_of_vehicle_box')
 
-    const vehicle_img_box_6 = document.getElementById('vehicle_img_box_6')
-    const vehicle_img_6 = document.getElementById('vehicle_img_6')
+  const interior1_box = document.getElementById('interior1_box')
+  const interior2_box = document.getElementById('interior2_box')
+  const interior3_box = document.getElementById('interior3_box')
+  const interior4_box = document.getElementById('interior4_box')
 
-    const vehicle_img_box_7 = document.getElementById('vehicle_img_box_7')
-    const vehicle_img_7 = document.getElementById('vehicle_img_7')
+  function updateImage() {
+    const [front_of_vehicle_file] = front_of_vehicle_img.files
+    const [left_of_vehicle_file] = left_of_vehicle_img.files
+    const [right_of_vehicle_file] = right_of_vehicle_img.files
+    const [back_of_vehicle_file] = back_of_vehicle_img.files
 
-    const vehicle_img_box_8 = document.getElementById('vehicle_img_box_8')
-    const vehicle_img_8 = document.getElementById('vehicle_img_8')
+    const [interior1_file] = interior1_img.files
+    const [interior2_file] = interior2_img.files
+    const [interior3_file] = interior3_img.files
+    const [interior4_file] = interior4_img.files
 
-    
+    if (front_of_vehicle_img.value != "") {
+      front_of_vehicle_box.classList.add('bg-contain')
+      front_of_vehicle_box.classList.add('bg-center')
+      front_of_vehicle_box.classList.add('bg-no-repeat')
+      front_of_vehicle_box.classList.add(`bg-[url('${URL.createObjectURL(front_of_vehicle_file)}')]`)
+    }
 
-    
+    if (left_of_vehicle_img.value != "") {
+      left_of_vehicle_box.classList.add('bg-contain')
+      left_of_vehicle_box.classList.add('bg-center')
+      left_of_vehicle_box.classList.add('bg-no-repeat')
+      left_of_vehicle_box.classList.add(`bg-[url('${URL.createObjectURL(left_of_vehicle_file)}')]`)
+    }
 
-    function updateImage() {
-    const [file] = vehicle_img.files
-    vehicle_img_box.classList.add('bg-cover')
-    vehicle_img_box.classList.add('bg-center')
-    vehicle_img_box.classList.add('bg-no-repeat')
-    vehicle_img_box.classList.add(`bg-[url('${URL.createObjectURL(file)}')]`)
-    preview_vehicle_img.src = !file ? "/img/car_silhouette.png" : URL.createObjectURL(file)
-    
+    if (right_of_vehicle_img.value != "") {
+      right_of_vehicle_box.classList.add('bg-contain')
+      right_of_vehicle_box.classList.add('bg-center')
+      right_of_vehicle_box.classList.add('bg-no-repeat')
+      right_of_vehicle_box.classList.add(`bg-[url('${URL.createObjectURL(right_of_vehicle_file)}')]`)
+    }
+
+    if (back_of_vehicle_img.value != "") {
+      back_of_vehicle_box.classList.add('bg-contain')
+      back_of_vehicle_box.classList.add('bg-center')
+      back_of_vehicle_box.classList.add('bg-no-repeat')
+      back_of_vehicle_box.classList.add(`bg-[url('${URL.createObjectURL(back_of_vehicle_file)}')]`)
+    }
+
+    if (interior1_img.value != "") {
+      interior1_box.classList.add('bg-contain')
+      interior1_box.classList.add('bg-center')
+      interior1_box.classList.add('bg-no-repeat')
+      interior1_box.classList.add(`bg-[url('${URL.createObjectURL(interior1_file)}')]`)
+    }
+
+    if (interior2_img.value != "") {
+      interior2_box.classList.add('bg-contain')
+      interior2_box.classList.add('bg-center')
+      interior2_box.classList.add('bg-no-repeat')
+      interior2_box.classList.add(`bg-[url('${URL.createObjectURL(interior2_file)}')]`)
+    }
+
+    if (interior3_img.value != "") {
+      interior3_box.classList.add('bg-contain')
+      interior3_box.classList.add('bg-center')
+      interior3_box.classList.add('bg-no-repeat')
+      interior3_box.classList.add(`bg-[url('${URL.createObjectURL(interior3_file)}')]`)
+    }
+
+    if (interior4_img.value != "") {
+      interior4_box.classList.add('bg-contain')
+      interior4_box.classList.add('bg-center')
+      interior4_box.classList.add('bg-no-repeat')
+      interior4_box.classList.add(`bg-[url('${URL.createObjectURL(interior4_file)}')]`)
+    }
   }
-  
-  function updateImage2() {
-    const [file] = vehicle_img_2.files
-    vehicle_img_box_2.classList.add('bg-cover')
-    vehicle_img_box_2.classList.add('bg-center')
-    vehicle_img_box_2.classList.add('bg-no-repeat')
-    vehicle_img_box_2.classList.add(`bg-[url('${URL.createObjectURL(file)}')]`)
-    preview_vehicle_img_2.src = !file ? "/img/car_silhouette.png" : URL.createObjectURL(file)
-    
-  }
-  
-  
-  vehicle_img.addEventListener('input', updateImage)
-  vehicle_img_2.addEventListener('input', updateImage2)
-  vehicle_img_3.addEventListener('input', updateImage)
-  vehicle_img_4.addEventListener('input', updateImage)
-  vehicle_img_5.addEventListener('input', updateImage)
-  vehicle_img_6.addEventListener('input', updateImage)
-  vehicle_img_7.addEventListener('input', updateImage)
-  vehicle_img_8.addEventListener('input', updateImage)
-  
 
+  front_of_vehicle_img.addEventListener('input', updateImage)
+  left_of_vehicle_img.addEventListener('input', updateImage)
+  right_of_vehicle_img.addEventListener('input', updateImage)
+  back_of_vehicle_img.addEventListener('input', updateImage)
+
+  interior1_img.addEventListener('input', updateImage)
+  interior2_img.addEventListener('input', updateImage)
+  interior3_img.addEventListener('input', updateImage)
+  interior4_img.addEventListener('input', updateImage)
 </script>
 {% endblock %}

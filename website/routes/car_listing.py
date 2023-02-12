@@ -77,9 +77,7 @@ def accept(uid: str):
 
     db_listing[uid] = listing
     flash('Job accepted')
-    return redirect(url_for('listing.jobstart'))
-
-  return redirect(url_for('car_listing.view', uid=uid))
+    return redirect(url_for('listing.jobstart', uid=uid))
 
 
 @car_listing.route('/cars/create', methods=['GET', 'POST'])
@@ -156,7 +154,9 @@ def create():
         vehicle_location,
         requirements,
         price,
-        ''
+        '',
+        [],
+        []
     )
     return redirect(url_for('car_listing.cars'))
 

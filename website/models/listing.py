@@ -21,6 +21,8 @@ class Listing():
     requirements: str,
     price: float,
     accepted_by: str,
+    exterior_photos: list,
+    interior_photos: list,
     created_at: float,
   ):
     self.uid = uid  # Randomly generated UID
@@ -33,6 +35,8 @@ class Listing():
     self.requirements = requirements
     self.price = price
     self.accepted_by = accepted_by
+    self.exterior_photos = exterior_photos
+    self.interior_photos = interior_photos
     self.created_at = created_at
 
   @staticmethod
@@ -44,7 +48,9 @@ class Listing():
     vehicle_location: str,
     requirements: str,
     price: float,
-    accepted_by: str
+    accepted_by: str,
+    exterior_photos: list,
+    interior_photos: list,
   ):
     uid = ''.join(random.sample(string.ascii_uppercase, 5))
 
@@ -59,6 +65,8 @@ class Listing():
       requirements,
       price,
       accepted_by,
+      exterior_photos,
+      interior_photos,
       datetime.now().timestamp(),
     )
 
