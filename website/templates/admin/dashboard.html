@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 {% block title %}Login{% endblock %}
@@ -65,53 +64,29 @@
   <div class="mt-4 bg-white w-full grid grid-cols-1 md:grid-cols-1 xl:grid-cols-3 gap-4">
       <div class="px-4 py-4 flex border border-2 rounded items-center">
         <div class="flex-shrink-0">
-          <span class="text-2xl sm:text-3xl leading-none font-bold text-blue-500">4</span>
+          <span class="text-2xl sm:text-3xl leading-none font-bold text-blue-500">{{listingCount}}</span>
           <h3 class="text-base font-normal text-gray-500">Listings</h3>
-        </div>
-        <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-          14.6%
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd"
-              d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"></path>
-          </svg>
         </div>
       </div>
    
       <div class="flex border border-2 rounded items-center">
         <div class="px-4 py-4 flex-shrink-0">
-          <span class="text-2xl sm:text-3xl leading-none font-bold text-blue-500">$2000</span>
+          <span class="text-2xl sm:text-3xl leading-none font-bold text-blue-500"></span>
           <h3 class="text-base font-normal text-gray-500">Sales</h3>
-        </div>
-        <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-          22.6%
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd"
-              d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"></path>
-          </svg>
         </div>
       </div>
     
       <div class="flex border border-2 rounded items-center">
         <div class="px-4 py-4 flex-shrink-0">
-          <span class="text-2xl sm:text-3xl leading-none font-bold text-blue-500">5</span>
-          <h3 class="text-base font-normal text-gray-500">User signups this week</h3>
-        </div>
-        <div class="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
-          -2.7%
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" 
-            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" 
-            clip-rule="evenodd"></path>
-          </svg>
+          <span class="text-2xl sm:text-3xl leading-none font-bold text-blue-500">{{userCount}}</span>
+          <h3 class="text-base font-normal text-gray-500">Total users</h3>
         </div>
       </div>
   
   </div>
 </div>
 
-
+  
   <div class="border-b mb-4">
     <h1 class="text-2xl">Recent Transactions</h1>
   </div>  
@@ -119,24 +94,27 @@
     <table id="recenttransactions" class="w-full text-left text-sm  text-gray-500 bg-white" style="width:100%">
       <thead class="text-xs uppercase bg-slate-100">
         <tr>
-          <th scope="col" class="px-6 py-3">Transaction</th>
           <th scope="col" class="px-6 py-3">Date & Time</th>
+          <th scope="col" class="px-6 py-3">Description</th>
           <th scope="col" class="px-6 py-3">Amount</th>
           
         </tr>
       </thead>
       <tbody>
+        {% for record in wallet.transactions %}
         <tr class="border-b bg-white hover:bg-blue-200 dark:border-slate-700 dark:bg-gray-slate">
           <td class="p-6 whitespace-nowrap text-sm font-normal text-gray-900">
-            Payment from <span class="font-semibold">John Tan</span>
+            {{ record.transaction_timestamp }}
           </td>
           <td class="p-6 whitespace-nowrap text-sm font-normal text-gray-500">
-            Feb 11 ,2023
+            {{ record.transaction_type }}
           </td>
           <td class="p-6 whitespace-nowrap text-sm font-semibold text-gray-900">
-            $59
+            {{ record.transaction_amount }}
           </td>
         </tr>
+        {%endfor%}
+      
         
        
         
@@ -159,6 +137,8 @@
           <th scope="col" class="px-6 py-3">Full Name</th>
           <th scope="col" class="px-6 py-3">Email Address</th>
           <th scope="col" class="px-6 py-3">Contact Number</th>
+          <th scope="col" class="px-6 py-3">Background Check</th>
+          <th scope="col" class="px-6 py-3">Access Level</th>
           <th></th>
           <th></th>
         </tr>
@@ -170,8 +150,11 @@
           <td class="px-6 py-4">{{users.full_name}}</td>
           <td class="px-6 py-4">{{users.email}}</td>
           <td class="px-6 py-4">{{users.phone_number}}</td>
+          <td class="px-6 py-4">{{users.background_check}}</td>
+          <td class="px-6 py-4">{{users.access_level}}</td>
+          
           <td class="px-6 py-4">
-            <button onclick="editUser('{{users.uid}}', '{{users.full_name}}', '{{users.email}}' , '{{users.phone_number}}')"
+            <button onclick="editUser('{{users.uid}}', '{{users.full_name}}', '{{users.email}}' , '{{users.phone_number}}','{{users.background_check}}','{{users.access_level}}')"
               class="font-medium text-blue-600 hover:underline dark:text-blue-500">Edit</button>
           </td>
           <td class="px-6 py-4">
@@ -214,6 +197,20 @@
         <label class="block font-bold mb-2" for="editPhoneNumber">Contact Number</label>
         <input maxlength="9" placeholder="{{users.phone_number}}" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="tel" id="editPhoneNumber" >
       </div>
+      <div class="mb-4">
+        <label class="block font-bold mb-2" for="editBackground">Background Check</label>
+        <select placeholder="{{users.background_check}}" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" name="" id="editBackground">
+          <option value="False">False</option>
+          <option value="True">True</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block font-bold mb-2" for="editAccessLevel">Access Level</label>
+        <select class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" name="" id="editAccessLevel">
+          <option value="User">User</option>
+          <option value="Admin">Admin</option>
+        </select>
+      </div>
 
       <span id="updateErrorText" class="text-red-600 font-bold"></span>
     </form>
@@ -249,6 +246,11 @@ $("#manageusers").DataTable({
   
 <script>
 
+
+
+  
+
+  
   let user_uid;
 
 
@@ -268,6 +270,8 @@ $("#manageusers").DataTable({
   const editUID = document.getElementById('editUID')
   const editFullName = document.getElementById('editFullName')
   const editPhoneNumber = document.getElementById('editPhoneNumber')
+  const editBackground = document.getElementById('editBackground')
+  const editAccessLevel = document.getElementById('editAccessLevel')
   const editEmail= document.getElementById("editEmail")
   const userapi_url = {{ url_for("userapiendpoint") | tojson}}
 
@@ -294,11 +298,13 @@ $("#manageusers").DataTable({
     
     
 
-  function editUser(uid, full_name, email ,phone_number) {
+  function editUser(uid, full_name, email ,phone_number,background,access_level) {
     editUID.value = uid
     editFullName.value = full_name
     editPhoneNumber.value = phone_number
     editEmail.value= email
+    editBackground.value = background
+    editAccessLevel.value = access_level
 
     popup.classList.toggle('hidden')
   }
@@ -309,8 +315,8 @@ $("#manageusers").DataTable({
   }
 
   function updateRequest() {
-    if (!editFullName.value || !editPhoneNumber.value || !editEmail.value) {
-      updateErrorText.innerText = "Full Name, Email and Phone Number are required!"
+    if (!editFullName.value || !editPhoneNumber.value || !editEmail.value ) {
+      updateErrorText.innerText = "All fields have to be filled up!"
       return
     }
 
@@ -321,10 +327,14 @@ $("#manageusers").DataTable({
         "full_name": editFullName.value,
         "email": editEmail.value,
         "phone_number": editPhoneNumber.value,
+        "background_check": editBackground.value,
+        "access_level": editAccessLevel.value,
 
       })
     }).then(setTimeout(() => window.location.reload(), 250))
   }
+
+ 
 </script>
   
   
