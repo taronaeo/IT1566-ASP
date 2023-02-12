@@ -30,7 +30,8 @@
   {% endif %}
 
   <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
-    {% for listing in cars.values() | sort(attribute='created_at') | reverse %}
+    {% for listing in cars.values() | selectattr('status', 'equalto', 'LISTED') | sort(attribute='created_at') | reverse
+    %}
     {{ card_listing(listing) }}
     {% endfor %}
   </div>
