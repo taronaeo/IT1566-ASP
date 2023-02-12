@@ -142,7 +142,7 @@ def get_dashboard():
   productCount=0
   with shelve.open(DB_USER_LOCATION) as db_user:
 
-    with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
       with shelve.open(DB_WALLET_LOCATION) as db_wallet:
         with shelve.open(DB_PRODUCTS_LOCATION) as db_products:
           for user in db_user.values():
