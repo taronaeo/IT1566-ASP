@@ -177,7 +177,7 @@
   button_submit.addEventListener('click', () => form.submit())
   button_discard.addEventListener('click', () => {
     const yes = confirm("Are you sure?")
-    if (yes) window.location.href = "{{ url_for('listing.cars') }}"
+    if (yes) window.location.href = "{{ url_for('car_listing.cars') }}"
   })
 </script>
 {% endblock %}

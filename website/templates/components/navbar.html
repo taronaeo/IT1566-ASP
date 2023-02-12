@@ -34,7 +34,7 @@
 
           <span class="px-2">{{ user.full_name }}</span>
 
-          <a href="{{ url_for('listing.create') }}"
+          <a href="{{ url_for('car_listing.create') }}"
             class="px-3 py-1.5 rounded-lg text-xs text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
             Create Listing
           </a>
@@ -72,14 +72,14 @@
       </a>
 
       <a class="py-4 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2"
-        href="{{ url_for('listing.cars') }}">
+        href="{{ url_for('car_listing.cars') }}">
         Car Listings
       </a>
 
       <ul class="md:hidden block border-l-2 border-blue-300">
         <li class="block">
           <a class="block py-2 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2 pl-4"
-            href="{{ url_for('listing.create') }}">
+            href="{{ url_for('car_listing.create') }}">
             Create Listing
           </a>
         </li>

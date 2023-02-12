@@ -33,7 +33,7 @@
 
 {% macro card_listing(listing) -%}
 <div class="w-full md:max-w-sm bg-white rounded-lg border border-blue-100">
-  <a href="{{ url_for('listing.view', uid=listing.uid) }}" class="flex flex-col justify-center">
+  <a href="{{ url_for('car_listing.view', uid=listing.uid) }}" class="flex flex-col justify-center">
     <div class="relative w-full h-52">
       <img src="/uploads/{{ listing.vehicle_img }}" alt="Vehicle Backdrop"
         class="absolute w-full h-full aspect-video object-cover rounded-t-lg z-0">

@@ -21,7 +21,7 @@
   {% endwith %}
 
   <div class="inline-flex flex-row items-center space-x-1 md:space-x-2 text-xs font-light">
-    <a href="{{ url_for('listing.cars') }}" class="text-gray-700 hover:text-blue-600">Car Listings</a>
+    <a href="{{ url_for('car_listing.cars') }}" class="text-gray-700 hover:text-blue-600">Car Listings</a>
     <img src="/img/chevron_right.svg" alt="Chevron Right Icon" class="w-5 h-5">
     <a href="#" class="text-gray-700 hover:text-blue-600">{{ listing_data.title }}</a>
   </div>
@@ -74,7 +74,7 @@
 
         <ul class="w-full text-sm font-medium text-gray-900">
           <li>
-            <a href="{{ url_for('listing.update', uid=listing_data.uid) }}"
+            <a href="{{ url_for('car_listing.update', uid=listing_data.uid) }}"
               class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 h-5">
@@ -87,7 +87,7 @@
 
           <li>
             {% if listing_data.status == 'LISTED' %}
-            <a href="{{ url_for('listing.update_status', uid=listing_data.uid, status='DELISTED') }}"
+            <a href="{{ url_for('car_listing.update_status', uid=listing_data.uid, status='DELISTED') }}"
               class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 h-5">
@@ -97,7 +97,7 @@
               Set to Private
             </a>
             {% elif listing_data.status == 'DELISTED' %}
-            <a href="{{ url_for('listing.update_status', uid=listing_data.uid, status='LISTED') }}"
+            <a href="{{ url_for('car_listing.update_status', uid=listing_data.uid, status='LISTED') }}"
               class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 h-5">
@@ -142,7 +142,7 @@
                       Go back
                     </button>
 
-                    <a href="{{ url_for('listing.delete', uid=listing_data.uid) }}"
+                    <a href="{{ url_for('car_listing.delete', uid=listing_data.uid) }}"
                       class="px-5 py-2.5 font-medium text-sm text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
                       Yes, delete
                     </a>

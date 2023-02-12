@@ -42,19 +42,19 @@
         <input type="file" name="vehicle_img" id="vehicle_img" accept="image/png, image/jpeg" class="hidden">
       </label>
       <p class="mt-2 font-light text-sm text-gray-500">
-        Enter a good photo which can attract customers 
+        Enter a good photo which can attract customers
       </p>
     </div>
 
     <div>
-        <label for="description" class="font-light">Description</label>
-        <textarea type="text" name="description" id="description" rows="4"
-          placeholder="Willing to provide excellent services at an affordable price"
-          class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600"></textarea>
-        <p class="mt-2 font-light text-sm text-gray-500">
-          State description for customers to better understand what you can provide
-        </p>
-      </div>
+      <label for="description" class="font-light">Description</label>
+      <textarea type="text" name="description" id="description" rows="4"
+        placeholder="Willing to provide excellent services at an affordable price"
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600"></textarea>
+      <p class="mt-2 font-light text-sm text-gray-500">
+        State description for customers to better understand what you can provide
+      </p>
+    </div>
 
     <div>
       <label for="vehicle_plate" class="font-light">Experience</label>
@@ -75,7 +75,7 @@
       </p>
     </div>
 
-    
+
 
     <div>
       <label for="price" class="font-light">Price</label>
@@ -174,18 +174,7 @@
   button_submit.addEventListener('click', () => form.submit())
   button_discard.addEventListener('click', () => {
     const yes = confirm("Are you sure?")
-    if (yes) window.location.href = "{{ url_for('listing.cars') }}"
+    if (yes) window.location.href = "{{ url_for('car_listing.cars') }}"
   })
 </script>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
