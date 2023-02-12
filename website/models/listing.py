@@ -4,7 +4,7 @@ import shelve
 import string
 import random
 
-from .. import DB_LISTING_LOCATION
+from .. import DB_CAR_LISTING_LOCATION
 from datetime import datetime
 
 
@@ -58,7 +58,7 @@ class Listing():
       datetime.now().timestamp(),
     )
 
-    with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
       db_listing[uid] = listing
       db_listing.sync()
 
@@ -66,7 +66,7 @@ class Listing():
 
   @staticmethod
   def set_status(uid: str, status: str):
-    with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
       if uid not in db_listing:
         return None
 

@@ -6,7 +6,10 @@
   ! `py main.py`
 """
 
-from flask import Blueprint, render_template
+import shelve
+
+from .. import DB_CONTRACTOR_LISTING_LOCATION
+from flask import Blueprint, request, render_template
 from flask_login import current_user, login_required
 
 contractor_listing = Blueprint('contractor_listing', __name__)
@@ -14,6 +17,8 @@ contractor_listing = Blueprint('contractor_listing', __name__)
 
 @contractor_listing.route('/contractors')
 def contractors():
+  query = request.args.get('query', '').strip()
+
   return render_template('/listing/contractors.html',
                          user=current_user,
                          contractors={})

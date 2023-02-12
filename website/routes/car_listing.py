@@ -1,10 +1,11 @@
 import re
 import shelve
 
-from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_LISTING_LOCATION
+from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_CAR_LISTING_LOCATION
 from ..utils import check_filename
 from ..models import Listing
 
+from werkzeug.utils import secure_filename
 from flask import Blueprint, abort, flash, url_for, request, redirect, render_template
 from flask_login import current_user, login_required
 
@@ -15,7 +16,7 @@ car_listing = Blueprint('car_listing', __name__)
 def cars():
   query = request.args.get('query', '').strip()
 
-  with shelve.open(DB_LISTING_LOCATION) as db_listing:
+  with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
     listings = db_listing.values()
 
     if query:
@@ -35,7 +36,7 @@ def cars():
 @car_listing.route('/cars/<uid>')
 def view(uid: str):
   with shelve.open(DB_USER_LOCATION) as db_user, \
-          shelve.open(DB_LISTING_LOCATION) as db_listing:
+          shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
 
     if uid not in db_listing:
       abort(404)
@@ -139,7 +140,7 @@ def create():
 @car_listing.route('/cars/<uid>/update', methods=['GET', 'POST'])
 @login_required
 def update(uid: str):
-  with shelve.open(DB_LISTING_LOCATION) as db_listing:
+  with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
     if uid not in db_listing:
       abort(404)
 
@@ -215,7 +216,7 @@ def update(uid: str):
 @car_listing.route('/cars/<uid>/update/status/<status>')
 @login_required
 def update_status(uid: str, status: str):
-  with shelve.open(DB_LISTING_LOCATION) as db_listing:
+  with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
     if uid not in db_listing:
       return abort(404)
 
@@ -229,7 +230,7 @@ def update_status(uid: str, status: str):
 
 @car_listing.route('/cars/<uid>/delete')
 def delete(uid: str):
-  with shelve.open(DB_LISTING_LOCATION) as db_listing:
+  with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
     if uid not in db_listing:
       abort(404)
 
