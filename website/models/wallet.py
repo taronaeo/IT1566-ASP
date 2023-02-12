@@ -16,11 +16,11 @@ class Wallet():
     self.transactions = transactions
 
   @staticmethod
-  def create_wallet(email: str) -> Wallet:
-    wallet = Wallet(email, 0, [])
+  def create_wallet(uid: str) -> Wallet:
+    wallet = Wallet(uid, 0, [])
 
     with shelve.open(DB_WALLET_LOCATION) as db:
-      db[email] = wallet
+      db[uid] = wallet
       db.sync()
 
     return wallet

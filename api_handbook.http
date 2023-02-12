@@ -245,10 +245,10 @@ POST http://localhost:3000/api/review
 Content-Type: application/json
 
 {
-  "from_uid": "22222U@mymail.nyp.edu.sg",
-  "to_uid": "22222@mymail.nyp.edu.sg",
-  "rating": 3,
-  "comments": "Good Ah Neh!"
+  "from_uid": "SKCQT",
+  "to_uid": "FIBWS",
+  "rating": 5,
+  "comments": "Good Wash!"
 }
 ###
 DELETE http://localhost:3000/api/user/22222@mymail.nyp.edu.sg

@@ -1,38 +1,19 @@
-{% extends 'base.html' %}
+  {% extends 'base.html' %}
 
 {% block title %}Account Management{% endblock %}
 
 {% block content %}
-<section class="container h-auto flex flex-row relative">
-    <div class="grid grid-cols-5 container xl:mx-32 lg:mx-16 sm:mx-0 border-slate-300 border-r-2">
-      <div class=" h-full container col-span-1 text-white text-lg font-normal shadow-md bg-gray-800">
-        
-        <div class = 'fixed'>
-        <ul>
-          <li class="w-1 h-16 border-blue-600 border-l-4 mt-4 mb-4 ml-1 rounded xl:w-auto lg:w-4 md:w-3 sm:w-2">
-            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-700 hover:text-white transition duration-300 ease-out" href="#profile" data-mdb-ripple="true" data-mdb-ripple-color="dark">Profile Info</a>
-          </li>
-          <li class="w-1 h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded xl:w-auto lg:w-4 md:w-3 sm:w-2">
-            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-600 hover:text-white transition duration-300 ease-out" href="#acc" data-mdb-ripple="true" data-mdb-ripple-color="dark">Account Details</a>
-          </li>
-          <li class="w-1 h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded xl:w-auto lg:w-4 ">
-            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-600 hover:text-white transition duration-300 ease-out" href="#wallet" data-mdb-ripple="true" data-mdb-ripple-color="dark">E-Wallet</a>
-          </li>
-          <li class="w-1 h-16 border-blue-600 border-l-4 mb-4 ml-1 rounded xl:w-auto lg:w-4 md:w-3 sm:w-2">
-            <a class="flex items-center py-4 px-6 h-full hover:bg-gray-600 hover:text-white transition duration-300 ease-out" href="#delete" data-mdb-ripple="true" data-mdb-ripple-color="dark">Delete Account</a>
-          </li>
-        </ul>
-        </div>
-      </div>
-      <div class="h-auto col-span-4 bg-slate-200 px-6 py-8">
-            <h2 id = 'profile' class="text-2xl text-center font-semibold m-auto mb-4 border-b-2 border-amber-300 w-96 pb-3 ">Profile Information</h2>
-    
-              <div class="h-auto w-2/3 mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
-                <form>
-                  <div class="hidden w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" id = 'alert'>
-                      <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon"><span id = 'alert-msg'></span>
-                  </div>
 
+      <div class="h-auto"> 
+            <div class = " lg:w-4/5 border-t-2 border-blue-500 mx-auto"><img class="mx-auto rounded w-48 my-6" src="https://ui-avatars.com/api/?name={{user.full_name }}&format=svg&rounded=true" ></div>
+              <div class="lg:w-4/5 bg-slate-200 border h-auto w-auto mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
+                <div class="shadow hidden w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" id = 'alert'>
+                  <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon"><span id = 'alert-msg'></span>
+              </div>
+                <h2 class = "font-semibold text-lg text-center">Profile Infomation</h2>
+                <hr class = "border border-blue-500 mt-2 my-4">
+                  
+                
                   <div class="mb-4"> 
                     <label class="block font-normal mb-2" for="full_name">Full Name</label>
                     <input class="hidden w-full border-2 border-gray-300 px-3 py-2 rounded-lg shadow-sm" type="text" id="full_name" placeholder="John Tan" value="{{user.full_name}}">
@@ -47,14 +28,14 @@
                   <div class = 'mb-4'>
                     <span class = 'ml-6 text-lg font-semibold' id = 'contact'></span>
                   </div>
-                </form>
+
                 <div class="text-center ">
-                  <button class=" w-32 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit' type="button" onclick="swap_span_to_input(),swap_buttons_to_confirm()">  
+                  <button class=" w-32 px-4 py-2 font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit' type="button" onclick="swap_span_to_input(),swap_buttons_to_confirm()">  
                     <img class = 'inline mb-1 -ml-2 mr-2 h-6'src = "/img/edit.svg">Edit
                   </button>
                 </div>
 
-                <div class="text-right">
+                <div class="text-left">
                   <button class=" hidden w-28 px-4 py-2 font-bold text-blue-500 bg-white border-2 border-blue-500 rounded-md hover:text-white hover:border-white duration-200 ease-out hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'cancel' type = 'button' onclick="swap_input_to_span()">  
                     Cancel
                   </button>
@@ -64,11 +45,14 @@
                 </div>
 
               </div>
-              <h2 class="text-2xl text-center font-semibold m-auto mb-4 mt-8 border-b-2 border-amber-300 w-96 pb-3" id = 'wallet'>Account Details</h2>
-    
-              <div class="h-auto w-2/3 mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
-                <form>
-                  <div class=" w-full flex flex-row gap-1 p-4 mb-4 text-sm text-gray-600 bg-slate-200 rounded-lg">
+              
+
+
+      <div class="lg:w-4/5 mt-12 bg-slate-200 border h-auto w-auto mx-auto drop-shadow-lg bg-white p-6 rounded-lg">
+        <h2 class = "font-semibold text-lg text-center">Account Details</h2>
+        <hr class = "border border-blue-500 mt-2 ">
+              <div class="h-auto mx-auto drop-shadow-lg rounded-lg">
+                  <div class=" w-full flex flex-row gap-1 p-4 my-4 text-sm text-gray-600 bg-white rounded-lg">
                     NOTE: Email cannot be changed
                   </div> 
                   <div id = 'password-alert-div' class=" hidden w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg">
@@ -93,7 +77,7 @@
                   <div class = 'mb-4'>
                     <span class = 'ml-6 text-xl' id = 'pass'>• • • • • • • •</span>
                   </div>
-                </form>
+
                 <div class="text-center ">
                   <button class=" w-32 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit-password' type="button" onclick="edit_password()">  
                     <img class = 'inline mb-1 -ml-2 mr-2 h-6'src = "/img/edit.svg">Edit
@@ -101,46 +85,40 @@
                   <div id = 'reveal' class = "mt-4 italic text-sm font-light">(Password revealed when editing)</div>
                 </div>
 
-                <div class="text-right">
-                  <button class=" hidden w-28 px-4 py-2 font-bold text-blue-500 bg-white border-2 border-blue-500 rounded-md hover:text-white hover:border-white duration-200 ease-out hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'cancel-password' type = 'button' onclick="cancel_password_change()">  
+                <div class="text-left">
+                  <button class=" mt-4 hidden w-28 px-4 py-2 font-bold text-blue-500 bg-white border-2 border-blue-500 rounded-md hover:text-white hover:border-white duration-200 ease-out hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'cancel-password' type = 'button' onclick="cancel_password_change()">  
                     Cancel
                   </button>
-                  <button class=" hidden w-28 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'confirm-password' type="submit" onclick="put_request_password()">  
+                  <button class=" mt-4 hidden w-28 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'confirm-password' type="submit" onclick="put_request_password()">  
                     Confirm
                   </button>
                 </div>
 
               </div>
-    
-              <h2 class="text-2xl text-center font-semibold m-auto mb-4 mt-8 border-b-2 border-amber-300 w-96 pb-3" id = 'wallet'>E-Wallet</h2>
-    
-              <div class="h-auto w-2/3 mx-auto drop-shadow-lg bg-white p-6 rounded-lg text-center ">
-                <p class = 'text-left'>Manage your e-wallet. Top-up funds, withdraw balance as well as view past transanctions.</p>
-                <button class="mt-3 w-32 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
-                  <a href = '/account/wallet'>
-                    <img class = 'h-6 inline mb-1 -ml-2 mr-2' src = '/img/wallet.svg'>Wallet
-                  </a>
-                </button>
-              </div>
+      </div>
 
-              <h2 class="text-2xl text-center font-semibold m-auto mb-4 mt-8 border-b-2 border-amber-300 w-96 pb-3" id = 'delete'>Delete Account</h2>
-              <div class = 'h-auto w-2/3 mx-auto drop-shadow-lg bg-white p-6 rounded-lg'>
+
+     <div class="lg:w-4/5 mt-12 bg-slate-200 border h-auto w-auto mx-auto drop-shadow-lg bg-white rounded-lg">
+        <h2 class = "font-semibold text-lg text-center p-6">Delete Account</h2>
+        <hr class = "border border-blue-500 mx-6 ">
+              <div class = 'h-auto p-6 mx-auto drop-shadow-lgrounded-lg'>
                 <p class = 'font-semibold'>Permanently Delete Your Account</p>
               
-                  <div class=" w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg">
+                  <div class=" shadow w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg">
                     <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">WARNING: This action cannot be undone!
                   </div> 
                   <div class = 'text-center'>
-                    <button class="mt-3 w-32 px-4 py-2 font-bold text-white bg-orange-500  rounded-md hover:bg-orange-700 focus:outline-none focus:shadow-outline" id = 'delete-button' onclick = 'show_confirmation()'>
+                    <button class="mt-3 w-32 px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 rounded-md focus:outline-none focus:shadow-outline" id = 'delete-button' onclick = 'show_confirmation()'>
                         <img class = 'h-6 inline mb-1 -ml-2 mr-2' src = '/img/delete.svg'>Delete
                     </button>
                   </div>
               </div>
+          
       </div>
       </div> 
     </div>
-    <div class = 'hidden w-full fixed z-40 inset-0 bg-slate-500/50 ' id = 'popup-overlay'>
-      <div class = 'bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
+    <div class = ' hidden w-full fixed z-40 inset-0 bg-slate-500/50 ' id = 'popup-overlay'>
+      <div class = 'w-4/5 bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
         <span id = 'confirmation-text'>
         Are you sure you want to <span class = 'font-semibold'>Permanently</span> delete your account?
         </span> 
@@ -148,11 +126,11 @@
         <div class=" w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg" id = 'delete-warning'>
             <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">WARNING: This action cannot be undone!
           </div>
-          <div class = 'text-center'>
-            <button class="mt-3 w-32 px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 duration-200 ease-out rounded-md hover:bg-orange-700 focus:outline-none focus:shadow-outline" id = 'cancel-button' onclick = 'cancel_delete()'>
+          <div class = 'flex justify-center'>
+            <button class="mr-2 mt-3 w-32 px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 duration-200 ease-out rounded-md hover:bg-orange-700 focus:outline-none focus:shadow-outline" id = 'cancel-button' onclick = 'cancel_delete()'>
                 Cancel
             </button>
-            <button onclick = 'delRequest()' class="mt-3 w-32 px-4 py-2 font-bold border-2 border-orange-500 text-white bg-orange-500   rounded-md hover:bg-orange-700 focus:outline-none focus:shadow-outline" id = 'confirm-button'>
+            <button onclick = 'delRequest()' class="ml-2 mt-3 w-32 px-4 py-2 font-bold border-2 border-orange-500 text-white bg-orange-500   rounded-md hover:bg-orange-700 focus:outline-none focus:shadow-outline" id = 'confirm-button'>
               Confirm
             </button>
           </div>
@@ -162,12 +140,10 @@
       
     </div>
 
-  </section>
-
   <script>
 
     const userapi_url = {{ url_for("userapiendpoint")|tojson }};
-    const user_email = {{user.email|tojson}};
+    const user_email = {{user.uid|tojson}};
 
     function put_request_password(){
       let alert_div = document.getElementById('password-alert-div');
