@@ -48,9 +48,12 @@ def view(uid: str):
       abort(404)
 
     listing_creator = db_user[listing_owner]
+    user_rating = db_user[current_user.uid].avg_rating()  # type: ignore
 
     return render_template('/listing/view_car.html',
                            user=current_user,
+                           rating=user_rating,
+                           rating_stars=round(user_rating),
                            listings=db_listing,
                            listing_data=listing_data,
                            listing_creator=listing_creator)

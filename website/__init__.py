@@ -18,7 +18,6 @@ DB_USER_LOCATION = f"{DB_BASE_LOCATION}_user"
 DB_CHAT_LOCATION = f"{DB_BASE_LOCATION}_chat"
 DB_WALLET_LOCATION = f"{DB_BASE_LOCATION}_wallet"
 DB_CAR_LISTING_LOCATION = f"{DB_BASE_LOCATION}_car_listing"
-DB_CONTRACTOR_LISTING_LOCATION = f"{DB_BASE_LOCATION}_contractor_listing"
 DB_VEHICLE_LOCATION = f"{DB_BASE_LOCATION}_vehicle"
 DB_WALLET_TRANSACTION_LOCATION = f"{DB_BASE_LOCATION}_wallet_transaction"
 DB_LISTING_TRANSACTION_LOCATION = f"{DB_BASE_LOCATION}_listing_transaction"
@@ -42,7 +41,7 @@ def create_app():
   login_manager.login_view = "auth.login"  # type: ignore
   login_manager.init_app(app)
 
-  from .routes import views, auth, account, vehicle, listing, products, car_listing, contractor_listing
+  from .routes import views, auth, account, vehicle, listing, products, car_listing
 
   # * BETA WORK
   from .routes import chat
@@ -61,7 +60,6 @@ def create_app():
   app.register_blueprint(listing, url_prefix='/')
   app.register_blueprint(products, url_prefix='/')
   app.register_blueprint(car_listing, url_prefix='/')
-  app.register_blueprint(contractor_listing, url_prefix='/')
 
   # * BETA CODE
   app.register_blueprint(chat, url_prefix='/')
