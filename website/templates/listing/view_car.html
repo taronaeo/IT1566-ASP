@@ -4,6 +4,22 @@
 
 {% block content %}
 <section class="flex flex-col gap-4">
+  {% with alerts = get_flashed_messages() %}
+  {% if alerts %}
+  {% for alert in alerts %}
+  <div class="p-4 col-span-1 md:col-span-2 flex flex-row gap-1 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+    <div class="w-5 h-5">
+      <img src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">
+    </div>
+
+    <p class="grow">
+      {{alert}}
+    </p>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
   <div class="inline-flex flex-row items-center space-x-1 md:space-x-2 text-xs font-light">
     <a href="{{ url_for('listing.cars') }}" class="text-gray-700 hover:text-blue-600">Car Listings</a>
     <img src="/img/chevron_right.svg" alt="Chevron Right Icon" class="w-5 h-5">
@@ -12,9 +28,11 @@
 
   <div class="relative w-full h-64 md:h-96">
     <img src="/uploads/{{ listing_data.vehicle_img }}" alt="Vehicle Outlook"
+      draggable="false"
       class="absolute w-full h-full aspect-video object-cover rounded-lg z-0">
 
     <img src="/uploads/{{ listing_data.vehicle_img }}" alt="Vehicle Outlook"
+      draggable="false"
       class="absolute w-full h-full aspect-video object-contain rounded-lg z-10 backdrop-blur-md">
   </div>
 
@@ -68,7 +86,9 @@
           </li>
 
           <li>
-            <a href="#" class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
+            {% if listing_data.status == 'LISTED' %}
+            <a href="{{ url_for('listing.update_status', uid=listing_data.uid, status='DELISTED') }}"
+              class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -76,6 +96,18 @@
               </svg>
               Set to Private
             </a>
+            {% elif listing_data.status == 'DELISTED' %}
+            <a href="{{ url_for('listing.update_status', uid=listing_data.uid, status='LISTED') }}"
+              class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Set to Public
+            </a>
+            {% endif %}
           </li>
 
           <li>
@@ -203,14 +235,15 @@
         {% endif %}
 
         <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
-          {% for listing in listings.values() if listing.uid != listing_data.uid %}
+          {% for listing in listings.values() | selectattr('status', 'equalto', 'LISTED') if listing.uid !=
+          listing_data.uid %}
+
           {% if loop.index <= 4 %}
             {{ card_listing(listing) }}
             {% endif %}
             {% endfor %}
             </div>
         </div>
-    </div>
 </section>
 {% endblock %}
 

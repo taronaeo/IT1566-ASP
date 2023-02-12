@@ -102,7 +102,25 @@ def profile():
     with shelve.open(DB_WALLET_LOCATION) as db_wallet:
       with shelve.open(DB_LISTING_LOCATION) as db_listing:
         with shelve.open(DB_REVIEW_LOCATION) as db_review:
-          return render_template('/account/profile.html', user=current_user,wallet=db_wallet[current_user.uid],cars=db_listing, reviews=db_review)
+          return render_template('/account/profile.html', user=current_user,wallet=db_wallet[current_user.uid],cars=db_listing, reviews=db_review, db_user = db_user)
+
+
+@account.route('/account/profile/<string:uid>')
+def other_profile(uid):
+  with shelve.open(DB_USER_LOCATION) as db_user:
+    with shelve.open(DB_WALLET_LOCATION) as db_wallet:
+      with shelve.open(DB_LISTING_LOCATION) as db_listing:
+        with shelve.open(DB_REVIEW_LOCATION) as db_review:
+          if uid == current_user.uid:
+            return redirect(url_for('account.profile',
+                                    user=current_user,
+                                    wallet=db_wallet[uid],
+                                    cars=db_listing,
+                                    reviews=db_review,
+                                    db_user = db_user))
+          if uid not in db_user:
+            abort(404)
+          return render_template('/account/external_profile.html', user=current_user,wallet=db_wallet[uid],cars=db_listing, reviews=db_review, profile_user = db_user[uid], db_user = db_user)
 
 
 @account.route('/account/inbox')
@@ -117,3 +135,8 @@ def review():
   with shelve.open(DB_USER_LOCATION) as db_user:
     with shelve.open(DB_REVIEW_LOCATION) as db_review:
       return render_template ('/account/review.html', user = current_user, reviews = db_review)
+
+@account.route('/ratingfor/<uid>')
+def ratings(uid: str):
+  with shelve.open(DB_USER_LOCATION) as db_user:
+      return render_template('/account/rate.html', user = current_user, for_uid = uid)

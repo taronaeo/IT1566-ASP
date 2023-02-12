@@ -32,19 +32,18 @@ class UserApiEndpoint(Resource):
     args = parser.parse_args()
 
     with shelve.open(DB_USER_LOCATION) as db:
+      
       try:
         if args['email'] in db:
           return { "message": "Account already exists." }, 409
 
         if args['password'] != args['password_confirm']:
           return {"message": "Passwords do not match."}
-
         user = User(
           args['email'],
           args['full_name'],
-          args['password'],
           args['phone_number'],
-          
+          args['password'],
           uid = args['email'],
           training_complete=args['training_complete'],
           background_check=args['background_check'],

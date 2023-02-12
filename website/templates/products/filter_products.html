@@ -1,0 +1,61 @@
+{%extends 'base.html'%}
+{%block title %}Car Accessories or Other Car Washing Products{%endblock%}
+
+{%block content%}
+
+<section>
+
+    <div class =" md:w-full  mx-auto py-4 px-8 bg-slate-200 rounded">
+        <label class = 'block text-lg text-center mb-2 text-gray-800 font-semibold' for='product-categories'>Categories</label>
+        <hr class = "border-slate-400 border mb-4">
+        <select class = 'w-64 md:w-2/3 text-center mx-auto block py-2 border-gray-300 shadow border rounded' id = "product-categories">
+            <option {{"selected='selected'" if category == 'Car Camera'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Car Camera')}}">Car Camera</option>
+            <option {{"selected='selected'" if category == 'Tyres'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Tyres')}}">Tyres</option>
+            <option {{"selected='selected'" if category == 'Battery'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Battery')}}">Battery</option>
+            <option {{"selected='selected'" if category == 'Sound Processor'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Sound Processor')}}">Sound Processor</option>
+            <option {{"selected='selected'" if category == 'Engine Oil'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Engine Oil')}}">Engine Oil</option>
+            <option {{"selected='selected'" if category == 'Car Polish'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Car Polish')}}">Car Polish</option>
+            <option {{"selected='selected'" if category == 'Coilover'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Coilover')}}">Coilover</option>
+            <option {{"selected='selected'" if category == 'Brake Kit'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Brake Kit')}}">Brake Kit</option>
+            <option {{"selected='selected'" if category == 'Paint Protection'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Paint Protection')}}">Paint Protection</option>
+            <option {{"selected='selected'" if category == 'Rims'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Rims')}}">Rims</option>
+            <option {{"selected='selected'" if category == 'Speakers'}} class = "background-white text-black" value = "{{url_for('products.filter_product', category = 'Speakers')}}">Speakers</option>
+        </select>
+    </div>
+        <div class = 'text-center'>
+        <button onclick = "back_products()" id = 'reset-button' class = "mt-4 border-blue-600 border text-blue-600 font-semibold py-2 px-4 rounded">
+            Back to Products Page
+        </button>
+        <button onclick = "search()" id = 'search-button' class = "mt-4 bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+            Search Products
+        </button>
+        </div>
+
+    <h1 class="my-4 text-xl font-bold text-gray-900 md:text-2xl">{{category}} Products</h1>
+    <hr class = "border-gray-300 border mb-4">
+    <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
+
+        {% for product in products%}
+            {% if loop.index <= 6 %}
+                {{ card_product(product) }}
+            {%endif%}
+        {% endfor %}
+      </div>
+
+        
+</section>
+
+{%endblock%}
+{%block script%}
+<script>
+    function back_products(){
+        window.location.href = "/products"
+    }
+    function search(){
+        let select_option = document.getElementById('product-categories').value;
+        window.location.href = select_option;   
+    }
+
+
+</script>
+{%endblock%}

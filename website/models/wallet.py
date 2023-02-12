@@ -21,7 +21,7 @@ class Wallet():
     wallet = Wallet(email, 0, [],[])
 
     with shelve.open(DB_WALLET_LOCATION) as db:
-      db[email] = wallet
+      db[uid] = wallet
       db.sync()
 
     return wallet
@@ -115,5 +115,3 @@ class WalletCard():
       db.sync()
 
     return card
-  
-  

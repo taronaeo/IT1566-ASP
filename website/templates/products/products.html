@@ -1,0 +1,143 @@
+{%extends 'base.html'%}
+{%block title %}Car Accessories or Other Car Washing Products{%endblock%}
+
+{%block content%}
+
+<section>
+    <div class = 'text-center bg-slate-200 pt-1 pb-4 rounded shadow-md'>
+        <div class="bg-red-100 m-2 w-52 mx-auto py-2 px-4 text-red-800 text-sm shadow " role="alert">
+            <img class = 'inline text-center w-5' src="/img/exclaimation.svg" alt="Exclaimation Icon" draggable="false">FOR ADMIN USE
+        </div>
+        <button onclick ="create()" class = "mx-auto mt-4 bg-blue-600 text-white font-semibold py-2 px-4 rounded">Create Product</button>
+    </div>
+    <div class = 'h-auto border-2 my-4 rounded'>
+        <h1 class = "text-xl text-center text-gray-900 font-semibold m-2">Search by Category</h1>
+        <hr class = "border-gray-200 border  mx-6 md:mx-24">
+            <div class = "text-sm">
+                <div id = "group1" class = " grid grid-cols-2 grid-rows-2 md:grid md:grid-cols-4 md:grid-rows-1 hidden">
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Car Camera')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/carcamera.svg">Car Cameras</div></a>
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Tyres')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/tyre.svg">Tyres</div></a>
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Battery')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/car battery.svg">Battery</div></a>
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Car Shampoo')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/shampoo.svg">Car Shampoo</div></a>
+                </div>
+                <div id = "group2" class = " grid grid-cols-2 grid-rows-2 md:grid md:grid-cols-4 md:grid-rows-1 hidden">
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Sound Processor')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/processor.svg">Sound Processor</div></a>
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Engine Oil')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/engineoil.svg">Engine Oil</div></a>
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Car Polish')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/carpolish.svg">Car Polish</div></a>
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Coilover')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/coil.svg">Coilover</div></a>
+                </div>
+                <div id = "group3" class = "grid grid-cols-2 grid-rows-2 md:grid md:grid-cols-4 md:grid-rows-1 hidden ">
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Brake Kit')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/brake.svg">Brake Kit</div></a>
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Paint Protection')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/paint.svg">Paint Protection</div></a>
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Rims')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/wheel.svg">Rims</div></a>
+                    <div class = 'text-center underline py-8 mx-auto'><a href = "{{url_for('products.filter_product', category = 'Speakers')}}"><img class = 'mb-2 mx-auto w-16'src = "/img/speakers.svg">Speakers</div></a>
+                </div>
+
+    
+                <div class = 'md:hidden text-center mb-3'>
+                    <button id='first-previous' onclick = "previous1()" class = ''><img class = 'inline h-7 mr-4' src ="/img/leftarrow.svg"></button><button id = "first-next" onclick="next1()"><img class = 'ml-4 h-7 inline w-8' src ="/img/rightarrow.svg"></button>
+                </div>
+                <div class = 'md:hidden text-center mb-3'>
+                    <button id = 'second-previous' onclick = "previous2()" class = 'hidden'><img class = 'inline h-7 mr-4' src ="/img/leftarrow.svg"></button><button id = "second-next" onclick="next2()" class = 'hidden'><img class = 'ml-4 h-7 inline w-8' src ="/img/rightarrow.svg"></button>
+                </div>
+                <div class = 'md:hidden text-center mb-3'>
+                    <button id = 'third-previous' onclick = "previous3()" class = 'hidden'><img class = 'inline h-7 mr-4' src ="/img/leftarrow.svg"></button><button id = "third-next" onclick="next3()" class = 'hidden' ><img class = 'ml-4 h-7 inline w-8' src ="/img/rightarrow.svg"></button>
+                </div>
+            </div>
+    </div>  
+    <h1 class="mb-4 text-xl font-bold text-gray-900 md:text-2xl">Featured Products</h1>
+    <hr class = "border-gray-300 border mb-4">
+    <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
+
+        {% for product in db_products.values()%}
+            {% if loop.index <= 6 %}
+                {{ card_product(product) }}
+            {%endif%}
+        {% endfor %}
+      </div>
+
+      <h1 class="my-4 text-xl font-bold text-gray-900 md:text-2xl">All Products</h1>
+      <hr class = "border-gray-300 border mb-4">
+      <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
+  
+          {% for product in db_products.values()%}
+              {% if loop.index > 6 %}
+                  {{ card_product(product) }}
+              {%endif%}
+          {% endfor %}
+        </div>
+
+        
+</section>
+
+{%endblock%}
+{%block script%}
+<script>
+
+    function create(){
+        window.location.href = "/products/create_product"
+    }
+
+
+    
+
+    window.addEventListener('load', ()=>{
+        previous1()
+    })
+    function previous1(){
+        document.getElementById('first-previous').classList.add('hidden');
+        document.getElementById('first-next').classList.add('hidden');
+        document.getElementById('third-previous').classList.remove('hidden');
+        document.getElementById('third-next').classList.remove('hidden');
+
+        document.getElementById('group1').classList.add('hidden');
+        document.getElementById('group3').classList.remove('hidden')
+    }
+    function previous2(){
+        document.getElementById('second-previous').classList.add('hidden');
+        document.getElementById('second-next').classList.add('hidden');
+        document.getElementById('first-previous').classList.remove('hidden');
+        document.getElementById('first-next').classList.remove('hidden');
+
+        document.getElementById('group2').classList.add('hidden');
+        document.getElementById('group1').classList.remove('hidden')
+    }
+    function previous3(){
+        document.getElementById('third-previous').classList.add('hidden');
+        document.getElementById('third-next').classList.add('hidden');
+        document.getElementById('second-previous').classList.remove('hidden');
+        document.getElementById('second-next').classList.remove('hidden');
+
+        document.getElementById('group3').classList.add('hidden');
+        document.getElementById('group2').classList.remove('hidden')
+    }
+    function next1(){
+        document.getElementById('first-previous').classList.add('hidden');
+        document.getElementById('first-next').classList.add('hidden');
+        document.getElementById('second-previous').classList.remove('hidden');
+        document.getElementById('second-next').classList.remove('hidden');
+
+        document.getElementById('group1').classList.add('hidden');
+        document.getElementById('group2').classList.remove('hidden')
+    }
+    function next2(){
+        document.getElementById('second-previous').classList.add('hidden');
+        document.getElementById('second-next').classList.add('hidden');
+        document.getElementById('third-previous').classList.remove('hidden');
+        document.getElementById('third-next').classList.remove('hidden');
+
+        document.getElementById('group2').classList.add('hidden');
+        document.getElementById('group3').classList.remove('hidden')
+    }
+    function next3(){
+        document.getElementById('third-previous').classList.add('hidden');
+        document.getElementById('third-next').classList.add('hidden');
+        document.getElementById('first-previous').classList.remove('hidden');
+        document.getElementById('first-next').classList.remove('hidden');
+
+        document.getElementById('group3').classList.add('hidden');
+        document.getElementById('group1').classList.remove('hidden')
+    }
+
+</script>
+{%endblock%}
