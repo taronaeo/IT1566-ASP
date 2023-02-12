@@ -1,0 +1,404 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment for {{user.full_name}}'s Wallet{% endblock %}
+
+{% block content %}
+<div id = "methods" class = "z-30 md:z-50  hidden overflow-scroll pt-4 md:pt-8 inset-0 md:top-18 top-12 w-screen h-full bg-white z-1">
+  <button class = "left-3 top-4 md:top-10 md:left-32 absolute" id = "hide-methods"><img class = "inline h-7" src = "/img/chevron-double-left.svg"><span class = "hidden md:inline ml-5" >Back</span></button>
+  <div class = "text-center">
+  <h1 class = " font-semibold text-lg md:text-2xl">Available Payment Methods</h1>
+  <hr class = "md:mx-64 border border-blue-500 mt-2 mb-4 mx-12">
+  </div>
+
+    <div class = "md:mx-20 mx-4 rounded border border-slate-300 p-4">
+    <div id = "cards">
+      {%for card in payment_methods%}
+    <div class = "mb-4">
+      <img class = " inline h-14 w-14 mr-2" {{"src =/img/visa.svg" if card['bank'] == 'Visa' else "src =/img/mastercard-2.svg" }}>
+      <input type="radio" id="{{card['card_number']}}" name="current_card" value="{{card['card_number']}}">
+      <label class = "tracking-tighter" for="{{card['card_number']}}">Card ending in 
+        {%for numbers in card['card_number']%}
+        {%if loop.index>12%}
+        {{numbers}}
+        {%endif%}
+        {%endfor%}
+        </label><br>
+      </div>
+      {%endfor%}
+    </div>
+
+
+    <div id = "add-payment-method" class = "mb-4">
+
+      <div>
+        <button id = "show-payment-methods" class = "text-blue-600 font-semibold">
+        <img class = " inline h-8 w-14 mr-2 " src = "/img/plus.svg">
+        Add new payment method 
+        </button>
+        </div>
+      </div>
+
+
+      <div class = 'hidden w-full z-40 fixed h-auto inset-0 bg-slate-500/50 ' id = 'popup-overlay'>
+      
+
+        <div class = 'w-11/12 md:w-3/4 bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
+          <div class="flex items-start justify-between pb-5 md:p-5 rounded-t">
+            <h3 class="text-xl font-semibold">
+                Add new card
+            </h3>
+            <button onclick="cancel_card_popup()" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+            </button>
+        </div>
+          <form id = "form" method="POST" enctype="multipart/form-data">
+          <div class="grid grid-cols-2 gap-6">
+            <label class="" for="a">Issuing Bank:</label>
+            <div class="flex flex-row">
+              <img id="cardsvg" class = 'flex w-10 h-10 px-2' src="/img/visa.svg">
+    
+              
+              <select id = "select-bank" name = "bank" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" name="" id="">
+                <option value="Visa">Visa</option>
+                <option value="Mastercard">Mastercard</option>
+              </select>
+            </div>
+            <label for="cardno">Credit card number:</label>
+            <input name = "card_number" axlength="16" minlength="16"required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardno" type="text">
+            <label for="cardno">Cardholder Name:</label>
+            <input name = "card_name" required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardname" type="text">
+            
+            <div>
+            <label class="" for="cvv">CVV:</label> 
+            <input name="cvv" required minlength="3" maxlength="3" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cvv" type="text">
+            </div>
+            <div>
+              <label class="" for="expiration">Expiration:</label>
+              <div class="flex flex-row space-x-2 md:space-x-4">
+                
+                <input name = "exp_month" maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
+                <div class="">
+                  <p class="text-3xl md:text-4xl">/</p>
+                </div>
+            
+                <input name = "exp_yr" maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
+              
+                          
+              </div>
+              <input class = "hidden"  value = "{{amount}}" name = "total-amount">
+              </form>
+            </div>
+              <div>
+                <button id = "add-card" class = "text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add Card</button>
+              </div>
+            
+          </div> 
+
+
+        </div>
+  
+        
+      </div>
+
+  </div>
+
+  
+</div>
+<div class = "md:mx-20" id = 'content'>
+  <div>
+    <h1 class = "font-semibold text-center my-2 text-2xl">Wallet Payment</h1>
+    <hr class = "md:mx-64 border border-blue-500 mb-4 mx-10">
+  </div>
+  <div class="bg-slate-100 rounded-lg shadow-md p-4 mb-6">
+    <h2 class="text-lg font-semibold text-blue-600 mb-4">Account Balance</h2>
+    <p class="text-gray-600 mb-4">Current account balance is: <span class = "text-lg font-semibold">${{wallet.balance}}</span></p>
+  </div>
+
+
+  <div class="bg-slate-100 rounded-lg shadow-md p-4 mt-6 ">
+    <div id = "alert" class=" hidden w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg">
+      <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">
+      <span id = "alert-text"></span>
+    </div> 
+    <div class = "grid grid-cols-6 grid-rows-4">
+        <div class = "grid grid-cols-6 col-span-6 row-span-1">
+          <span class="col-start-1 col-end-3 text-lg font-bold text-gray-800 mb-4">Type:</span>
+          <span class = "font-light col-start-4 col-end-6">Name:</span>
+          <span class = "font-light">Total:</span>
+        </div>
+
+        <div id = 'og-div' class = "grid grid-cols-6 col-span-6 row-span-1">
+          <span class = " col-start-1 col-end-3 truncate">{{transaction}}</span>
+          <span class = "col-start-4 col-end-6 truncate">{{user.full_name}}</span>
+          <span class = " truncate">{{amount}}</span>
+          
+        </div>
+        <div id = 'edit-div' class = "hidden grid grid-cols-6 col-span-6 row-span-1">
+          <select id = "select" class = "border border-slate-300 col-start-1 col-end-3 ">
+            <option {{"selected = 'selected'" if transaction == 'Top Up'}}>Top Up</option>
+            <option {{"selected = 'selected'" if transaction == 'Withdraw'}}>Withdraw</option>
+          </select>
+          <span class = "col-start-4 col-end-6 truncate">{{user.full_name}}</span>
+          <input id = "total-amount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1'); class = "px-3 border border-slate-300" value = "{{amount}}">
+          
+        </div>
+
+          <div class = "grid grid-cols-6 grid-rows-1 col-span-6 row-span-1">
+            <span class = "col-start-1 col-end-5 font-extralight">(Minimum Topup is $5.00)</span>
+          </div>
+            <div class = " grid grid-cols-6 col-span-6 grid-rows-1 row-span-1 mt-2">
+              <button id = "edit-payment" class=" col-start-1 w-24 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit' type="button">  
+                <img class = 'inline mb-1 -ml-2 mr-2 h-5'src = "/img/edit.svg">Edit
+              </button> 
+                  <button id ="cancel-edit" class="hidden  col-start-1 inline w-24 px-4 py-2 text-white bg-white text-blue-500 border border-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit' type="button">  
+                    Cancel
+                </button>
+                <button id = "confirm-edit" class="hidden md:col-start-2 md:ml-6 lg:-ml-8 xl:-ml-16 col-start-3  inline w-24 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit' type="button">  
+                  Confirm
+              </button>
+            </div>
+      </div>
+      </div>
+        
+      
+      
+    </div>
+    <div class="md:mx-20 bg-slate-100 rounded-lg shadow-md p-4 mt-6">
+      <div class = "grid grid-cols-6 grid-rows-2">
+        <h2 class="col-start-1 text-lg font-semibold text-gray-800 mb-4">Checkout</h2>
+        <span id = "show-methods" class = "col-start-4 col-end-7 underline text-blue-600 md:text-md text-sm">Payment Methods:<img class = 'inline h-5'src = "/img/chevron_right.svg"></span>
+        
+        <div class = "grid grid-cols-6 grid-rows-1 col-span-6 row-span-1">
+          <span class = "col-start-1 col-end-4 text-sm font-light">Current Method:</span>
+            <span class = "col-start-4 col-end-7 font-light text-sm">Card ending in <span id = "ending_numbers" data-card = "{{current_payment['card_number']}}" class = "tracking-tighter font-semibold">
+              {%for numbers in current_payment['card_number']%}
+              {%if loop.index>12%}
+              {{numbers}}
+              {%endif%}
+              {%endfor%}
+            </span>
+            </span>
+        </div>
+      </div>
+      <div class = "text-right">
+        <button id = "checkout-button" class = "px-1 py-2 mb-4 w-32 font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+          <img class = "inline mb-1 mr-2 h-6" src = "/img/shopping_cart.svg"><span class = "mr-1">Checkout</span>
+        </button>
+      </div>
+    </div>
+    <div class = 'hidden  w-full fixed z-40 inset-0 bg-slate-500/50 ' id = 'checkout-overlay'>
+      <div class = 'w-11/12 md:w-3/4 bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
+        <div class = "font-semibold">Confirm Checkout?</div>
+        <div class = "my-4 px-4 py-4 border border-slate-300">
+          <div class = "mb-4"><span class = "font-light">Full Name: </span><span class = " font-bold">{{user.full_name}}</span></div>
+          <div class = "mb-4"><span class = " font-light">Transaction Type: </span><span class = "font-bold">{{transaction}} E-Wallet</span></div>
+          <div><span class = " font-light">Total: </span><span class = "font-bold">${{amount}}</span></div>
+          
+          
+
+        </div>
+        <button id ="cancel-checkout" class=" inline w-24 px-4 py-2 text-white bg-white text-blue-500 border border-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit' type="button">  
+          Cancel
+      </button>
+      <button id = "confirm-checkout" class="   inline w-24 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id='edit' type="button">  
+        Confirm
+    </button>
+      </div>
+    </div>
+ </div>
+
+  
+  {% endblock %}
+
+  {% block script %}
+  <script>
+
+    const cancel_checkout = document.getElementById('cancel-checkout');
+  
+    const confirm_checkout = document.getElementById('confirm-checkout');
+    
+
+    let edit_button = document.getElementById('edit-payment');
+    let cancel_button = document.getElementById('cancel-edit');
+    let confirm_button = document.getElementById('confirm-edit');
+    let og_div = document.getElementById('og-div');
+    let edit_div = document.getElementById('edit-div');
+    const user_uid = "{{user.uid}}"
+    let select_trans = document.getElementById('select');
+    let total_amount = document.getElementById('total-amount');
+    let trans_type = "{{transaction}}"
+
+    const alert = document.getElementById('alert');
+    let alert_text = document.getElementById('alert-text');
+
+
+
+    const acc_bal = "{{wallet.balance}}"
+    const checkout_button = document.getElementById('checkout-button');
+    let checkout_overlay = document.getElementById('checkout-overlay');
+    checkout_button.addEventListener('click',()=>{
+
+      checkout_overlay.classList.remove('hidden');
+
+    })
+    cancel_checkout.addEventListener('click',()=>{
+      checkout_overlay.classList.add('hidden')
+    })
+
+    
+    edit_button.addEventListener('click',()=>{
+      edit_button.classList.add('hidden');
+      cancel_button.classList.remove('hidden');
+      confirm_button.classList.remove('hidden')
+      og_div.classList.add('hidden');
+      edit_div.classList.remove('hidden')
+    })
+
+    cancel_button.addEventListener('click',() =>{
+      og_div.classList.remove('hidden');
+      edit_div.classList.add('hidden');
+      edit_button.classList.remove('hidden');
+      cancel_button.classList.add('hidden');
+      confirm_button.classList.add('hidden');
+    })
+
+    confirm_button.addEventListener('click',()=>{
+            
+      
+        if(trans_type==="Withdraw"){
+          if(select_trans.value === "Withdraw"){
+            if(Number(total_amount.value)===0){
+              alert.classList.remove('hidden')
+              alert_text.innerText = "Withdraw Amount Cannot be 0";
+              return
+            }
+            else if (Number(total_amount.value)>acc_bal){
+              alert.classList.remove('hidden')
+              alert_text.innerText = "Withdraw Amount Cannot be More Than Account Balance";
+              return
+            }
+            else{trans_type = "withdraw"}
+          }
+            else if(select_trans.value === "Top Up"){
+              if(Number(total_amount.value)<5){
+                alert.classList.remove('hidden')
+                alert_text.innerText = "Minimum Top Up is $5 ";
+                return
+              }
+              else{trans_type = "topup"}
+            }
+        }
+        else if(trans_type === "Top Up"){
+          if(select_trans.value === "Top Up"){
+            if(Number(total_amount.value)===0){
+              alert.classList.remove('hidden')
+              alert_text.innerText = "Top Up Amount Cannot be 0";
+              return
+            }
+            else if(Number(total_amount.value)<5){
+              alert.classList.remove('hidden')
+              alert_text.innerText = "Minimum Top Up is $5 ";
+              return
+          }
+            else{trans_type = "topup"}
+        }
+          else if(select_trans.value === "Withdraw"){
+            if(Number(total_amount.value)===0){
+              alert.classList.remove('hidden')
+              alert_text.innerText = "Withdraw Amount Cannot be 0";
+              return
+            }
+            else if (Number(total_amount.value)>acc_bal){
+              alert.classList.remove('hidden')
+              alert_text.innerText = "Withdraw Amount Cannot be More Than Account Balance";
+              return
+            }
+            else{trans_type = "withdraw"}
+          }
+        
+        }
+
+      window.location.href = "/account/wallet/payment/"+user_uid+'/'+trans_type+'/'+total_amount.value
+    })
+
+    const select=document.getElementById("select-bank");
+    const bank_svg = document.getElementById('cardsvg');
+    const confirm_topup = document.getElementById('confirm-topup');
+    
+
+    select.addEventListener('change', () =>{
+
+      if (select.value ==="Mastercard"){
+        bank_svg.src = "/img/mastercard-2.svg";
+      }
+      else{
+        bank_svg.src = "/img/visa.svg"
+      }
+    })
+
+    const submit_button = document.getElementById('add-card');
+    submit_button.addEventListener('click', ()=>form.submit())
+  
+    const methods = document.getElementById('methods');
+    const hide_methods = document.getElementById('hide-methods');
+    const show_methods = document.getElementById('show-methods');
+    const inputs = document.getElementsByName('current_card')
+    let ending_numbers = document.getElementById('ending_numbers')
+
+
+    show_methods.addEventListener('click', () =>{
+      methods.classList.remove('hidden')
+      methods.classList.add('fixed')
+    })
+    hide_methods.addEventListener('click',()=>{
+      let num_string = '0';
+      methods.classList.add('hidden')
+      inputs.forEach(value =>{
+        if(value.checked){
+          for(let number = 1; number<value.value.length; number++){
+          if(number>11){
+            num_string += ' ' + value.value[number]
+
+            }
+          }
+            ending_numbers.innerHTML = `
+              ${num_string.slice(1)} 
+            `;
+            
+          ending_numbers.dataset.card = value.value;
+        }
+      })
+    })
+
+
+
+
+    function cancel_card_popup(){
+      let overlay = document.getElementById('popup-overlay');
+      overlay.classList.add('hidden')
+    }
+
+    const show_payment_methods = document.getElementById('show-payment-methods');
+    const add_payment_methods = document.getElementById('add-payment-method');
+    const popup_overlay = document.getElementById('popup-overlay')
+    add_payment_methods.addEventListener('click',()=>{
+      popup_overlay.classList.remove('hidden')
+    })
+
+    
+    const walletapi_url = {{url_for("walletapiendpoint")|tojson}}
+    confirm_checkout.addEventListener('click', ()=>{
+      type = "{{transaction}}"
+      amount = "{{amount}}"
+      let data = {
+        "type": type,
+        "amount": amount
+      }
+      fetch(`${walletapi_url}/${user_uid}`,{
+        "method": "PUT",
+        "headers": {"Content-Type":"application/json"},
+        "body": JSON.stringify(data)
+      }).then(setTimeout(window.location.href = "/account/wallet", 200))
+    })
+  </script>
+  {% endblock %}

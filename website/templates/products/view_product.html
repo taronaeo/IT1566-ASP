@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ current_product.name }}{% endblock %}
+
+{% block content %}
+<section class="flex flex-col gap-4">
+  <div class="inline-flex flex-row items-center space-x-1 md:space-x-2 text-xs font-light">
+    <a href="{{ url_for('products.all_products') }}" class="text-gray-700 hover:text-blue-600">Products</a>
+    <img src="/img/chevron_right.svg" alt="Chevron Right Icon" class="w-5 h-5">
+    <a href="#" class="text-gray-700 hover:text-blue-600">{{ current_product.name }}</a>
+  </div>
+
+  <div class="relative w-full h-64 md:h-96">
+    <img src="/uploads/{{ current_product.product_img }}" alt="Vehicle Outlook"
+      class="absolute w-full h-full aspect-video object-cover rounded-lg z-0">
+
+    <img src="/uploads/{{ current_product.product_img }}" alt="Vehicle Outlook"
+      class="absolute w-full h-full aspect-video object-contain rounded-lg z-10 backdrop-blur-md">
+  </div>
+
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+    <!-- Title, Price, Description -->
+    <div class="col-span-1 md:col-span-2">
+      <h1 class="text-xl md:text-2xl">{{ current_product.name }}</h1>
+      <p class="mb-4 font-bold text-3xl text-gray-900 md:text-4xl">S${{ '%.2f' % current_product.price }}</p>
+
+      <hr class="my-4 h-px border-0 bg-gray-300" />
+
+      <h3 class="mb-4 font-bold text-xl md:text-2xl">Description</h3>
+      <p class="text-gray-700">{{ current_product.description }}</p>
+    </div>
+
+    <!-- Accept Listing, Chat -->
+    <div class="row-span-1 md:row-span-2">
+      <div class="w-full p-5 flex flex-col gap-4 bg-white border border-gray-200 rounded-lg">
+        <a href="#" class="w-full
+                        px-5 py-2.5
+                        text-sm text-white text-center font-medium
+                        bg-blue-700 hover:bg-blue-800
+                        focus:ring-4 focus:ring-blue-300
+                        focus:outline-none">
+          Purchase Now
+        </a>
+
+        <ul class="w-full text-sm font-medium text-gray-900">
+          <li>
+            <a href="{{ url_for('products.update_product', uid=current_product.uid) }}"
+              class="px-4 py-2 flex flex-row gap-2 hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+              </svg>
+              Edit Product
+            </a>
+          </li>
+
+          <li>
+            <button id="button_delete" class="w-full px-4 py-2 flex flex-row gap-2 text-red-600 hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+              </svg>
+              Delete
+            </button>
+
+            <dialog id="dialog_delete" class="p-0 w-full max-w-xs md:max-w-md rounded-lg backdrop:bg-gray-900/50">
+              <form method="dialog" class="bg-white rounded-lg">
+                <div class="px-6 py-4 flex flex-row items-center justify-between border-b border-gray-100">
+                  <h3 class="text-xl font-bold text-gray-900">Are you sure?</h3>
+
+                  <button value="cancel">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="px-6 py-4">
+                  <p class="font-light text-base">You cannot undo this action.</p>
+
+                  <div class="mt-4 flex flex-row justify-end">
+                    <button value="cancel"
+                      class="z-10 px-5 py-2.5 font-medium text-sm text-blue-700 rounded-lg hover:text-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+                      Go back
+                    </button>
+
+                    <a href="{{ url_for('products.delete_product', uid=current_product.uid) }}"
+                      class="px-5 py-2.5 font-medium text-sm text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+                      Yes, delete
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </dialog>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    
+
+
+    <div class="col-span-1 md:col-span-3">
+      <h3 class="mb-4 flex flex-row
+                  font-bold text-xl md:text-2xl
+                  after:ml-4 after:my-auto
+                  after:flex-1 after:content-['']
+                  after:border-b-[1px]
+                  after:border-gray-300">
+        Other Products
+      </h3>
+
+
+        <div class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))]">
+          {% for product in db_products.values() if product.uid != current_product.uid %}
+          {% if loop.index <= 4 %}
+            {{ card_product(product) }}
+            {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+  const button_delete = document.getElementById('button_delete');
+  const dialog_delete = document.getElementById('dialog_delete');
+
+  button_delete.addEventListener('click', () => dialog_delete.showModal());
+  dialog_delete.addEventListener('click', (e) => {
+    const rect = dialog_delete.getBoundingClientRect();
+    const inDialog = (rect.top <= e.clientY
+      && e.clientY <= rect.top + rect.height
+      && rect.left <= e.clientX
+      && e.clientX <= rect.left + rect.width);
+
+    if (!inDialog) dialog_delete.close();
+  })
+</script>
+{% endblock %}

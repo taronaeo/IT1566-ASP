@@ -76,11 +76,20 @@
         Car Listings
       </a>
 
-      <ul class="md:hidden block border-l border-slate-100">
+      <ul class="md:hidden block border-l-2 border-blue-300">
         <li class="block">
-          <a class="block py-2 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2 border-l pl-4"
+          <a class="block py-2 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2 pl-4"
             href="{{ url_for('listing.create') }}">
             Create Listing
+          </a>
+        </li>
+      </ul>
+
+      <ul class="md:hidden block border-l-2 border-blue-300">
+        <li class="block">
+          <a class="block py-2 text-sm text-gray-700 truncate hover:text-blue-500 md:p-0 md:pb-2 pl-4"
+            href="#">
+            My Listings
           </a>
         </li>
       </ul>

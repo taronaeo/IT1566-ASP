@@ -6,9 +6,13 @@
 <div class="py-4"></div>
 <div class="container mx-auto px-4">
   <header class="py-6 bg-slate-300 border-b border-gray-300">
-    <h1 class="text-center text-3xl font-bold text-gray-800 mb-2">{{user.full_name}}'s Wallet</h1>
+    <h1 class="text-center text-3xl font-bold text-gray-800 ">{{user.full_name}}'s Wallet</h1>
   </header>
   <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
+    <div id = "alert-insufficient-funds" class="hidden w-full flex flex-row gap-1 p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
+      <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">
+      <span id = "global-alert"></span>
+    </div> 
     <h2 class="text-2xl font-bold text-gray-800 mb-4">Account Balance</h2>
     <p class="text-gray-600 mb-4">Your current account balance is:</p>
     <h3 class="text-4xl font-bold text-gray-800 mb-4">${{wallet.balance}}</h3>
@@ -33,28 +37,35 @@
     </div>
     
     <div class="flex flex-wrap -mx-2">
-      <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
+      {%for card in wallet.payment_methods%}
+      <div class="w-full md:w-1/3 px-2 my-4 md:mb-0">
         <div class="bg-slate-300 rounded-lg p-4">
           <div class="flex flex-row space-x-4">
-            <img class = 'flex w-10 h-10' src="/img/visa.svg">
+            <img class = 'flex w-10 h-10'{{"src= /img/visa.svg" if card['bank'] == 'Visa' else "src = /img/mastercard-2.svg"}}>
           </div>
-          <p class="text-gray-600 mb-2 mt-1">XXXX-XXXX-XXXX-1234</p>
-          <button onclick="show_delete_popup()" id="remove" class="mt-2  px-4 py-2 font-bold text-white bg-red-500 rounded-md hover:bg-red-700 focus:outline-none focus:shadow-outline">
+          <p class = "font-bold text-lg">
+            {{card['card_name']}}
+          </p>
+          <p class="text-center text-xl tracking-widest text-gray-600 mb-2 mt-1">**** **** **** 
+         
+            {%for numbers in card['card_number'] %}
+            {%if loop.index>12%}
+            {{numbers}}
+            {%endif%}
+            {%endfor%}
+  
+          </p>
+          <p>{{card['expiry_date']}}</p>
+          <button onclick="pass_card(this.dataset.card),show_delete_popup()" data-card = "{{card}}"id="remove" class="mt-2  px-4 py-2 font-bold text-white bg-red-500 rounded-md hover:bg-red-700 focus:outline-none focus:shadow-outline">
             Remove
           </button>
         </div>
       </div>
-      <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
-        <div class="bg-slate-300  00 rounded-lg p-4">
-          <div class="flex flex-row space-x-4">
-            <img class = 'flex w-10 h-10' src="/img/mastercard-2.svg">
-          </div>
-          <p class="text-gray-600 mb-2 mt-1">XXXX-XXXX-XXXX-1234</p>
-          <button onclick="show_delete_popup()" id="remove" class="mt-2  px-4 py-2 font-bold text-white bg-red-500 rounded-md hover:bg-red-700 focus:outline-none focus:shadow-outline">
-            Remove
-          </button>
-        </div>
-      </div>
+      
+      {%endfor%}
+    </div>
+
+
       
       
     </div>
@@ -83,35 +94,46 @@
   </div>
 </div>
 
-<div class = 'hidden w-full fixed z-40 inset-0 bg-slate-500/50 ' id = 'topup-popup'>
-  <div class = 'bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
+
+<div class = 'hidden  w-full fixed z-40 inset-0 bg-slate-500/50 ' id = 'topup-popup'>
+  <div class = 'w-11/12 md:w-3/4 bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
+    <div id = "alert-insufficient" class="hidden w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg">
+      <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">
+      <span id = "alert-text"></span>
+    </div> 
+    
     <span id = 'confirmation-text'>
     How much would you like to <strong>Top Up</strong>?
     </span> 
     <span id = 'success-topup' class = 'hidden font-semibold'>Top-up Successful!</span>
     <div>
-      <input class="placeholder-blue-800 bg-blue-100 p-4 my-4 gap-1 text-blue w-full rounded-lg" placeholder="$" type="text">
+
+      <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id = "topup-input" class="placeholder-blue-800 bg-blue-100 p-4 my-4 gap-1 text-blue w-full rounded-lg" placeholder="$" type="text">
     </div>
     <div class="grid grid-cols-4 gap-2 ">
-      <button onclick="" id="" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+      <button onclick="" id="topup-5" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
         $5
       </button>
-      <button onclick="" id="" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+      <button onclick="" id="topup-10" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
         $10
       </button>
-      <button onclick="" id="" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+      <button onclick="" id="topup-20" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
         $20
       </button>
-      <button onclick="" id="" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+      <button onclick="" id="topup-50" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
         $50
       </button>
-    </div>
+    </div>  
+    <span class = "font-semibold block mt-6">
+      Topup Value: $<span class = "font-light"id = "topup-value">0</span>
+    </span>
     
       <div class = 'pt-4 text-center'>
         <button class="mt-3 w-32 px-4 py-2 font-bold text-blue-500 border-2 border-blue-500 duration-200 ease-out rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'cancel-topup' onclick = 'cancel_topup()'>
             Cancel
         </button>
-        <button onclick = 'topupRequest()' class="mt-3 w-32 px-4 py-2 font-bold border-2 border-blue-500 text-white bg-blue-500   rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'confirm-button'>
+
+        <button id = "confirm-topup" class="mt-3 w-32 px-4 py-2 font-bold border-2 border-blue-500 text-white bg-blue-500   rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'confirm-button'>
           Confirm
         </button>
       </div>
@@ -119,33 +141,42 @@
   </div>
   
   <div class = 'hidden w-full fixed z-40 inset-0 bg-slate-500/50 ' id = 'withdraw-popup'>
-    <div class = 'bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
+    <div class = 'w-11/12 md:w-3/4 bg-white px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50' id = 'confirmation'>
+      <div id = "alert-insufficient-withdraw" class="hidden w-full flex flex-row gap-1 p-4 my-4 text-sm text-red-800 bg-red-100 rounded-lg">
+        <img class = 'flex w-5 h-5' src="/img/exclaimation.svg" alt="Exclaimation Icon">
+        <span id = "withdraw-alert"></span>
+      </div> 
+      
       <span id = 'confirmation-text'>
       How much would you like to <strong>Withdraw</strong>?
       </span> 
-      <span id = 'success-topup' class = 'hidden font-semibold'>Top-up Successful!</span>
       <div>
-        <input class="placeholder-blue-800 bg-blue-100 p-4 my-4 gap-1 text-blue w-full rounded-lg" placeholder="$" type="text">
+        <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id = 'withdraw-input'  class="placeholder-blue-800 bg-blue-100 p-4 my-4 gap-1 text-blue w-full rounded-lg" placeholder="$" type="text">
       </div>
       <div class="grid grid-cols-4 gap-2">
-        <button onclick="" id="" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+        <button onclick="" id="withdraw-5" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
           $5
         </button>
-        <button onclick="" id="" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+        <button onclick="" id="withdraw-10" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
           $10
         </button>
-        <button onclick="" id="" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+        <button onclick="" id="withdraw-20" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
           $20
         </button>
-        <button onclick="" id="" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+        <button onclick="" id="withdraw-50" class="mt-3  md:px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
           $50
         </button>
+
       </div>
+      <span class = "font-semibold block mt-6">
+        Withdraw Value: $<span class = "font-light"id = "withdraw-value">0</span>
+      </span>
         <div class = 'text-center justify-between'>
           <button class="mt-4 w-32 px-4 py-2 font-bold text-blue-500 border-2 border-blue-500 duration-200 ease-out rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'cancel-withdraw' onclick = 'cancel_withdraw()'>
               Cancel
           </button>
-          <button onclick = 'withdrawRequest()' class="mt-3 w-32 px-4 py-2 font-bold border-2 border-blue-500 text-white bg-blue-500   rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'confirm-button'>
+
+          <button id = "confirm-withdraw" class="mt-3 w-32 px-4 py-2 font-bold border-2 border-blue-500 text-white bg-blue-500   rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline" id = 'confirm-button'>
             Confirm
           </button>
         </div>
@@ -155,7 +186,7 @@
   </div>
 
   <div class="hidden w-full fixed z-40 inset-0 bg-slate-500/50" id="card-popup">
-    <div class="bg-slate-100 px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
+    <div class="w-11/12 md:w-3/4 bg-slate-100 px-8 py-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
         <!-- Modal content -->
         <div class="bg-slate-100 relative">
           
@@ -169,37 +200,38 @@
             </div>
      
             <div class="md:p-6 space-y-6">
-                <form action="#">
+
+                <form id = "form" method="POST" enctype="multipart/form-data">
                     <div class="grid grid-cols-2 gap-6">
                       <label class="" for="a">Issuing Bank:</label>
                       <div class="flex flex-row">
                         <img id="cardsvg" class = 'flex w-10 h-10 px-2' src="/img/visa.svg">
               
                         
-                        <select class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" name="" id="">
+                        <select id = "select-bank" name = "bank" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" name="" id="">
                           <option value="Visa">Visa</option>
                           <option value="Mastercard">Mastercard</option>
                         </select>
                       </div>
                       <label for="cardno">Credit card number:</label>
-                      <input maxlength="16" minlength="16"required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardno" type="text">
+                      <input name = "card_number" axlength="16" minlength="16"required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardno" type="text">
                       <label for="cardno">Cardholder Name:</label>
-                      <input required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardname" type="text">
+                      <input name = "card_name" required class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cardname" type="text">
                       
                       <div>
                       <label class="" for="cvv">CVV:</label> 
-                      <input required minlength="3" maxlength="3" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cvv" type="text">
+                      <input name="cvv" required minlength="3" maxlength="3" class="p-2.5 w-full block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" id="cvv" type="text">
                       </div>
                       <div>
                         <label class="" for="expiration">Expiration:</label>
                         <div class="flex flex-row space-x-2 md:space-x-4">
                           
-                          <input maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
+                          <input name = "exp_month" maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
                           <div class="">
                             <p class="text-3xl md:text-4xl">/</p>
                           </div>
                       
-                          <input maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
+                          <input name = "exp_yr" maxlength="2" required class="p-2.5 w-1/3 block rounded-lg font-light text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" type="text">
                         
                         </div>
                       
@@ -213,7 +245,7 @@
                 </div>
                 
                 <div class="items-center p-6 border-t border-gray-200 rounded-b space-x-4">
-                    <button class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="submit">Add card</button>
+                    <button class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center" id = 'submit-button'>Add card</button>
                 </div>
             </form>
         </div>
@@ -244,18 +276,101 @@
 
   {% block script %}
   <script>
+    const payment_methods = "{{wallet.payment_methods}}"
+    let global_alert = document.getElementById('global-alert')
+    let topup_value = document.getElementById('topup-value');
+    let topup_input = document.getElementById('topup-input');
+    let withdraw_value = document.getElementById('withdraw-value');
+    let withdraw_input = document.getElementById('withdraw-input');
+    const confirm_topup = document.getElementById('confirm-topup')
+    const confirm_withdraw = document.getElementById('confirm-withdraw');
+    let alert_insufficient = document.getElementById('alert-insufficient');
+    let alert_insufficient_withdraw = document.getElementById('alert-insufficient-withdraw');
+    const acc_bal = Number("{{wallet.balance}}")
+    topup_input.addEventListener('input',()=>{  
+      topup_value.innerHTML= topup_input.value
+    
+    })
 
+    withdraw_input.addEventListener('input',()=>{  
+      withdraw_value.innerHTML= withdraw_input.value
+    
+    })
+    let withdraw_alert =document.getElementById('withdraw-alert');
+
+    confirm_withdraw.addEventListener('click',()=>{
+      if(Number(withdraw_value.innerHTML)===0){
+        alert_insufficient_withdraw.classList.remove('hidden');
+        withdraw_alert.innerText = "Enter a Withdraw Amount!"
+        return
+
+      }      
+      else if(acc_bal<Number(withdraw_value.innerHTML)){
+        alert_insufficient_withdraw.classList.remove('hidden');
+        withdraw_alert.innerText = "Withdraw Cannot be Greater Than Current Balance!"
+        return
+      }
+      else{
+        alert_insufficient_withdraw.classList.add('hidden');
+        window.location.href = "/account/wallet/payment/" + user_uid + "/withdraw/" + Number(withdraw_value.innerHTML)
+      }
+    })
+
+    const alert_text = document.getElementById('alert-text')
+    confirm_topup.addEventListener('click',()=>{
+      if(Number(topup_value.innerHTML)===0){
+        alert_insufficient.classList.remove('hidden')
+        alert_text.innerText = "Top Up Cannot be $0!"
+        return
+      }
+      else if(Number(topup_value.innerHTML)<5){
+        alert_insufficient.classList.remove('hidden')
+        alert_text.innerText = "Top Up Cannot be less than $5!"
+        return
+      }
+      else{
+        alert_insufficient.classList.add('hidden');
+        window.location.href = "/account/wallet/payment/" + user_uid + "/topup/" + Number(topup_value.innerHTML)
+      }
+    })
+
+
+    const walletapi_url = {{url_for('walletapiendpoint')|tojson}}
+    const user_uid = "{{user.uid}}"
+
+    const submit_button = document.getElementById('submit-button');
+    submit_button.addEventListener('click', () => form.submit());
+    let card;
     function show_topup(){
+      if(payment_methods=== '[]'){
+        document.getElementById('alert-insufficient-funds').classList.remove('hidden');
+        global_alert.innerText = "Add Payment Method to Top Up!"
+        return
+      }
       let overlay = document.getElementById('topup-popup');
       overlay.classList.remove('hidden')
+
+
     }
 
     function cancel_topup(){
       let overlay = document.getElementById('topup-popup');
       overlay.classList.add('hidden')
+      topup_value.innerText = 0
     }
 
+
     function show_withdraw(){
+      if(payment_methods=== '[]'){
+        document.getElementById('alert-insufficient-funds').classList.remove('hidden');
+        global_alert.innerText = "Add Payment Method to Withdraw!"
+        return
+      }
+      if(acc_bal<=0){
+        document.getElementById('alert-insufficient-funds').classList.remove('hidden');
+        global_alert.innerText = "Insufficient Funds to Withdraw!"
+        return
+      }
       let overlay = document.getElementById('withdraw-popup');
       overlay.classList.remove('hidden')
     }
@@ -279,35 +394,71 @@
     function show_delete_popup(){
       let overlay = document.getElementById('delete-overlay');
       overlay.classList.remove('hidden')
+      
     }
     
     function cancel_delete_popup(){
       let overlay = document.getElementById('delete-overlay');
       overlay.classList.add('hidden')
     }
+    function pass_card(current_card){
+      card = current_card
+    }
 
     function show_delete_confirm(){
       let overlay = document.getElementById('success-delete');
       overlay.classList.remove('hidden')
+      
+      let data = {
+        "type": "card_del",
+        "card": card
+      }
+      
+      fetch(`${walletapi_url}/${user_uid}`,{
+        "method": "PUT",
+        "headers": {"Content-Type":"application/json"},
+        "body": JSON.stringify(data)
+      }).then(setTimeout(window.location.reload(), 250))
     }
-    svg=document.getElementById("cardsvg");
-    
-    function swapsvg(){
-      svg2=document.getElementById("cardsvg").src="/img/mastercard-2.svg"
-    }
-
-    svg.addEventListener("change",swapsvg());
 
 
    
    
+    const topup5 = document.getElementById('topup-5');
+    const topup10 = document.getElementById('topup-10');
+    const topup20 = document.getElementById('topup-20');
+    const topup50 = document.getElementById('topup-50');
 
+    topup5.addEventListener('click',()=>topup_value.innerText = 5);
+    topup10.addEventListener('click',()=>topup_value.innerText = 10);
+    topup20.addEventListener('click',()=>topup_value.innerText = 20);
+    topup50.addEventListener('click',()=>topup_value.innerText = 50);
 
+    const withdraw5 = document.getElementById('withdraw-5');
+    const withdraw10 = document.getElementById('withdraw-10');
+    const withdraw20 = document.getElementById('withdraw-20');
+    const withdraw50 = document.getElementById('withdraw-50');
+
+    withdraw5.addEventListener('click',()=>withdraw_value.innerText = 5);
+    withdraw10.addEventListener('click',()=>withdraw_value.innerText = 10);
+    withdraw20.addEventListener('click',()=>withdraw_value.innerText = 20);
+    withdraw50.addEventListener('click',()=>withdraw_value.innerText = 50);
     
+
+    const select=document.getElementById("select-bank");
+    const bank_svg = document.getElementById('cardsvg');
     
 
+    select.addEventListener('change', () =>{
 
+      if (select.value ==="Mastercard"){
+        bank_svg.src = "/img/mastercard-2.svg";
+      }
+      else{
+        bank_svg.src = "/img/visa.svg"
+      }
+    })
 
-  
+console.log(user_uid)
       </script>
   {% endblock %}

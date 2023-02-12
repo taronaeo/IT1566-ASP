@@ -93,9 +93,15 @@ Content-Type: application/json
 }
 
 ###
+GET http://localhost:3000/api/wallet/IJPFB
+###
+PUT http://localhost:3000/api/wallet/IJPFB
+Content-Type: application/json
 
-# Query wallet balance
-GET http://localhost:3000/api/wallet/224444A@mymail.nyp.edu.sg
+{
+  "type": "card_del",
+  "card": "{'bank': 'Visa', 'card_name': 'Dexter Teo', 'card_number': '4030293232434555', 'cvv': 399, 'expiry_date': '03/27'}"
+}
 
 ###
 
@@ -199,7 +205,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/api/review/ZUMON
+GET http://localhost:3000/api/user/ETHCV
 
 ###
 GET http://localhost:3000/api/review/ACD
@@ -238,17 +244,16 @@ Content-Type: application/json
   "new-review": 3
 }
 ###
-GET http://localhost:3000/api/user/22222@mymail.nyp.edu.sg
-
+GET http://localhost:3000/api/review/PGSVO
 ###
 POST http://localhost:3000/api/review
 Content-Type: application/json
 
 {
-  "from_uid": "22222U@mymail.nyp.edu.sg",
-  "to_uid": "22222@mymail.nyp.edu.sg",
-  "rating": 3,
-  "comments": "Good Ah Neh!"
+  "from_uid": "SKCQT",
+  "to_uid": "FIBWS",
+  "rating": 5,
+  "comments": "Good Wash!"
 }
 ###
 DELETE http://localhost:3000/api/user/22222@mymail.nyp.edu.sg
