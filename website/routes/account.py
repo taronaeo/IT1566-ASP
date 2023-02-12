@@ -7,7 +7,7 @@
 """
 
 import shelve
-from .. import DB_USER_LOCATION, DB_WALLET_LOCATION, DB_LISTING_LOCATION, DB_REVIEW_LOCATION
+from .. import DB_USER_LOCATION, DB_WALLET_LOCATION, DB_LISTING_LOCATION, DB_REVIEW_LOCATION, DB_PRODUCTS_LOCATION
 
 from flask import Blueprint, render_template, request,redirect,url_for,abort
 from flask_login import current_user, login_required
@@ -133,23 +133,24 @@ def review():
 def get_dashboard():
   userCount=0
   listingCount=0
-  timestamp=[]
-  description=[]
-  amount=[]
+  productCount=0
   with shelve.open(DB_USER_LOCATION) as db_user:
     with shelve.open(DB_LISTING_LOCATION) as db_listing:
       with shelve.open(DB_WALLET_LOCATION) as db_wallet:
-        for user in db_user.values():
-          userCount += 1
-        for listing in db_listing.values():
-          listingCount += 1
-        for wallet in db_wallet.values():
-          timestamp.append(wallet.transaction_timestamp)
-
-          
-        return render_template('/admin/dashboard.html',
-                                user=current_user,
-                                users=db_user,userCount=userCount,listingCount=listingCount,wallet=db_wallet)
+        with shelve.open(DB_PRODUCTS_LOCATION) as db_products:
+          for user in db_user.values():
+            userCount += 1
+          for listing in db_listing.values():
+            listingCount += 1
+          for product in db_products.values():
+            productCount +=1
+          return render_template('/admin/dashboard.html',
+                                  user=current_user,
+                                  users=db_user,
+                                  userCount=userCount,
+                                  listingCount=listingCount,
+                                  wallet=db_wallet,
+                                  productCount=productCount )
 
 @account.route('/ratingfor/<uid>')
 def ratings(uid: str):
