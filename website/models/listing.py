@@ -4,7 +4,7 @@ import shelve
 import string
 import random
 
-from .. import DB_LISTING_LOCATION
+from .. import DB_CAR_LISTING_LOCATION
 from datetime import datetime
 
 
@@ -20,6 +20,7 @@ class Listing():
     vehicle_location: str,
     requirements: str,
     price: float,
+    accepted_by: str,
     created_at: float,
   ):
     self.uid = uid  # Randomly generated UID
@@ -31,6 +32,7 @@ class Listing():
     self.vehicle_location = vehicle_location
     self.requirements = requirements
     self.price = price
+    self.accepted_by = accepted_by
     self.created_at = created_at
 
   @staticmethod
@@ -42,6 +44,7 @@ class Listing():
     vehicle_location: str,
     requirements: str,
     price: float,
+    accepted_by: str
   ):
     uid = ''.join(random.sample(string.ascii_uppercase, 5))
 
@@ -55,10 +58,11 @@ class Listing():
       vehicle_location,
       requirements,
       price,
+      accepted_by,
       datetime.now().timestamp(),
     )
 
-    with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
       db_listing[uid] = listing
       db_listing.sync()
 
@@ -66,7 +70,7 @@ class Listing():
 
   @staticmethod
   def set_status(uid: str, status: str):
-    with shelve.open(DB_LISTING_LOCATION) as db_listing:
+    with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
       if uid not in db_listing:
         return None
 

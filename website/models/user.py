@@ -53,7 +53,7 @@ class User(UserMixin):
     try:
       ratings = sum(self.ratings) / len(self.ratings)
     except ZeroDivisionError:
-      return 0
+      return 5
     return ratings
 
   @staticmethod
