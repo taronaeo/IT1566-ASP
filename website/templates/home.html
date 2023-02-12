@@ -5,8 +5,8 @@
 {% block content %}
 <!-- search bar [given the time we have left if its too much to implement with the backend, just scrap this-->
 <!-- do last after fixing image and content sections-->
-<div class="p-4 mx-auto container">
-  <div>
+<!--<div class="p-4 mx-auto container">
+  <div class=" w-full md:max-sm">
     <div class="bg-slate-100 bg-black rounded-lg shadow-lg p-8 mb-8 py-6 bg-gray-200 border-b border-gray-300 ">
       <br>
       <h1 class="text-xl text-white font-bold">Find your next wash</h1>
@@ -18,122 +18,89 @@
       </form>
     </div>
   </div>
+-->
 
   <!-- advertisement block-->
   <!-- note to self: commit image and then come back here to style it-->
-  <div class="border-2 border-gray-300 w-full">
-    <div class="w-auto h-auto">
-      <img src="car-washing-ad1.jpg">
+
+  <div class="mb-2 mx-auto bg-slate-200 py-4 border border-slate-300 rounded ">
+    <div class="w-full h-15 mx-auto text-center">
+      <img src="/img/logo.svg"  class="w-1/2 md:w-1/4 inline" alt="Advertisement image">
+    </div>
+  </div>
+  
+  <div class="mb-4 border-2 border-gray-300">
+    <div class="w-full h-15">
+      <img src="/img/ad1.jpg"  class="w-full h-15" alt="Advertisement image">
     </div>
   </div>
 
-  <!-- content block--> 
-  <!-- for entirety of grid-->
-   <!-- for entirety of grid-->
- <div class="flex flex-col h-full border-2 border-gray-300">
-  <div class="grid grid-rows-8 ">
-    <!--contractors for hire grid-->
-    <div class="">  
-      <div class="pl-5 bg-slate-200 p-3 shadow-lg w-full font-bold bg-red-400">
-        <a href="/cars" > URGENT WASHES > </a>
+
+  <div class="pl-5 rounded bg-slate-200 p-3 shadow-lg w-full font-bold bg-blue-500">
+    <div class="flex flex-row space-x-2">
+      <div>
+      <a href="/cars" > Car Listings  
+      </a>
       </div>
-      <div class="grid grid-cols-3 gap-4">
-        <div class="p-4 bg-white shadow-lg">
-          <a href="templink.html" class="flex flex-col items-center text-center">
-            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-            <h3 class="text-center font-medium mb-2">Luxury Sedan</h3>
-          </a>
-        </div>
-      
-        <div class="p-4 bg-white shadow-lg rounded">
-          <a href="templink.html" class="flex flex-col items-center text-center">
-            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-            <h3 class="text-center font-medium mb-2">Hatchback</h3>
-          </a>
-        </div>
-      
-        <div class="p-4 bg-white shadow-lg rounded">
-          <a href="templink.html" class="flex flex-col items-center text-center">
-            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-            <h3 class="text-center font-medium mb-2">Sports</h3>
-          </a>
-        </div>
-
-        <div class="p-4 bg-white shadow-lg rounded">
-          <a href="templink.html" class="flex flex-col items-center text-center">
-            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-            <h3 class="text-center font-medium mb-2">SUV</h3>
-          </a>
-        </div>
-
-        <div class="p-4 bg-white shadow-lg rounded">
-          <a href="templink.html" class="flex flex-col items-center text-center">
-            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-            <h3 class="text-center font-medium mb-2">Mid-sized sedan</h3>
-          </a>
-        </div>
-
-        <div class="p-4 bg-white shadow-lg rounded">
-          <a href="templink.html" class="flex flex-col items-center text-center">
-            <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-            <h3 class="text-center font-medium mb-2">MPV</h3>
-          </a>
-        </div>
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+        </svg>
+        
       </div>
     </div>
+    
+  </div>
   
-    <!-- for the fucking border-->
-    <!-- <div class="w-px h-screen border-r border-gray-500"> -->
-      <!-- popular contractors grid-->
-       <div class=" "> 
-        <div  class="bg-slate-200 p-3 shadow-lg w-full font-bold bg-blue-400">
-          <a href="/cars" > CARS FOR WASH > </a>
-        </div>  
-        <div class="grid grid-cols-3 gap-4">
-          <div class="p-4 bg-white shadow-lg">
-            <a href="templink.html" class="flex flex-col items-center text-center">
-              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-              <h3 class="text-center font-medium mb-2">Luxury Sedan</h3>
-            </a>
-          </div>
-        
-          <div class="p-4 bg-white shadow-lg rounded">
-            <a href="templink.html" class="flex flex-col items-center text-center">
-              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-              <h3 class="text-center font-medium mb-2">Hatchback</h3>
-            </a>
-          </div>
-        
-          <div class="p-4 bg-white shadow-lg rounded">
-            <a href="templink.html" class="flex flex-col items-center text-center">
-              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-              <h3 class="text-center font-medium mb-2">Sports</h3>
-            </a>
-          </div>
-  
-          <div class="p-4 bg-white shadow-lg rounded">
-            <a href="templink.html" class="flex flex-col items-center text-center">
-              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-              <h3 class="text-center font-medium mb-2">SUV</h3>
-            </a>
-          </div>
-  
-          <div class="p-4 bg-white shadow-lg rounded">
-            <a href="templink.html" class="flex flex-col items-center text-center">
-              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-              <h3 class="text-center font-medium mb-2">Mid-sized sedan</h3>
-            </a>
-          </div>
-  
-          <div class="p-4 bg-white shadow-lg rounded">
-            <a href="templink.html" class="flex flex-col items-center text-center">
-              <img src="placeholder.png" class=" h-32 w-32 mx-auto mb-4">
-              <h3 class="text-center font-medium mb-2">MPV</h3>
-            </a>
-          </div>
-        </div>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 border-2 rounded">
+    {% for car in db_listings.values() %}
+    {% if loop.index <= 8 %}
+    {{ card_listing(car) }}
+    {%endif%}
+        {% endfor %}
+
+
 
   </div>
-</div>
-</div>
+
+
+  <div class="mt-8 pl-5 bg-slate-200 p-3 shadow-lg w-full font-bold bg-blue-500">
+    <div class="flex flex-row space-x-2">
+      <div>
+      <a href="/products" > Products
+      </a>
+      </div>
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+        </svg>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+    {% for products in db_products.values() %}
+        {{card_product(products)}}
+        {% endfor %}
+  
+
+  </div>
+  
+
+
+ 
+ 
+    
+  
+      
+
+     
+
+      
+        
+  
+      
 {% endblock %}
