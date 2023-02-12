@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block title %}Create Car Listing{% endblock %}
-{% set data = request.args.get %}
 
 {% block content %}
 <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -26,9 +25,7 @@
 
     <div>
       <label for="title" class="font-light">Listing Title</label>
-      <input type="text" name="title" id="title"
-        value="{{- data('title', '') -}}"
-        placeholder="Need an urgent wash for Christmas, etc..."
+      <input type="text" name="title" id="title" placeholder="Need an urgent wash for Christmas, etc..."
         class="p-2.5 w-full rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
       <p class="mt-2 font-light text-sm text-gray-500">Good to include a catchy title.</p>
     </div>
@@ -52,9 +49,7 @@
 
     <div>
       <label for="vehicle_plate" class="font-light">Vehicle Plate</label>
-      <input type="text" name="vehicle_plate" id="vehicle_plate"
-        value="{{- data('vehicle_plate', '') -}}"
-        placeholder="SMX6065G"
+      <input type="text" name="vehicle_plate" id="vehicle_plate" placeholder="SMX6065G"
         class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
       <p class="mt-2 font-light text-sm text-gray-500">
         License plate of the vehicle. This will be used to identify your vehicle in the carpark.
@@ -64,7 +59,6 @@
     <div>
       <label for="vehicle_location" class="font-light">Vehicle Location</label>
       <input type="text" name="vehicle_location" id="vehicle_location"
-        value="{{- data('vehicle_location', '') -}}"
         placeholder="180 Ang Mo Kio Avenue 8, Deck 5B, Lot 436"
         class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
       <p class="mt-2 font-light text-sm text-gray-500">
@@ -76,9 +70,7 @@
       <label for="requirements" class="font-light">Requirements</label>
       <textarea type="text" name="requirements" id="requirements" rows="4"
         placeholder="Clean vehicle exterior, Detail interior, Wax seal paintwork, etc..."
-        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
-        {{- data('requirements', '') -}}
-      </textarea>
+        class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600"></textarea>
       <p class="mt-2 font-light text-sm text-gray-500">
         State your requirements clearly so that contractors can understand your needs.
       </p>
@@ -86,9 +78,7 @@
 
     <div>
       <label for="price" class="font-light">Price</label>
-      <input type="text" name="price" id="price"
-        value="{{- data('price', '') -}}"
-        placeholder="50"
+      <input type="text" name="price" id="price" placeholder="50"
         class="p-2.5 w-full  rounded-lg font-light text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
       <p class="mt-2 font-light text-sm text-gray-500">
         How much are you willing to pay for the job?
@@ -106,21 +96,16 @@
             src="/img/car_silhouette.png" alt="Vehicle Outlook" />
 
           <div class="p-5">
-            <h5 id="preview_title" class="truncate text-2xl text-gray-900 font-medium tracking-tight">
-              {{- data('title', 'Example Title') -}}
+            <h5 id="preview_title" class="truncate text-2xl text-gray-900 font-medium tracking-tight">Example Title
             </h5>
             <p class="mb-2 text-sm text-gray-400 truncate inline-flex gap-1">
               <img src="/img/map_pin.svg" alt="Map Icon" class="w-5 h-5">
-              <span id="preview_vehicle_location">
-                {{- data('vehicle_location', 'Location') -}}
-              </span>
+              <span id="preview_vehicle_location">Location</span>
             </p>
 
             <p id="preview_requirements" class="mb-2 text-gray-600">Requirements</p>
             <div class="w-full text-blue-700 inline-flex justify-end">
-              <span id="preview_price" class="text-lg font-medium">
-                ${{- '%.2f' % data('price', 0) -}}
-              </span>
+              <span id="preview_price" class="text-lg font-medium">$0.00</span>
             </div>
           </div>
         </a>

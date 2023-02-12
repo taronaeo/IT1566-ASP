@@ -17,6 +17,6 @@ chat = Blueprint('chat', __name__)
 @chat.route('/chat')
 def view_chat():
   with shelve.open(DB_CHAT_LOCATION) as db_chat:
-    return render_template('/chats/chat.html',
+    return render_template('/account/chat.html',
                             user=current_user,
                             chats=db_chat)

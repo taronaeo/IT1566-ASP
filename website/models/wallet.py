@@ -16,6 +16,7 @@ class Wallet():
     self.balance = balance
     self.transactions = transactions
     self.payment_methods = payment_methods
+  
   @staticmethod
   def create_wallet(email: str) -> Wallet:
     wallet = Wallet(email, 0, [],[])

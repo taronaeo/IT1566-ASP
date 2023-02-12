@@ -89,6 +89,8 @@ def get_account():
                             user=current_user,
                             users=db_user)
 
+                            
+
 @account.route('/account/update')
 @login_required
 def update_account():
@@ -122,7 +124,6 @@ def other_profile(uid):
             abort(404)
           return render_template('/account/external_profile.html', user=current_user,wallet=db_wallet[uid],cars=db_listing, reviews=db_review, profile_user = db_user[uid], db_user = db_user)
 
-
 @account.route('/account/inbox')
 @login_required
 def get_inbox():
@@ -136,7 +137,16 @@ def review():
     with shelve.open(DB_REVIEW_LOCATION) as db_review:
       return render_template ('/account/review.html', user = current_user, reviews = db_review)
 
+@account.route('/admin/dashboard')
+@login_required
+def get_dashboard():
+  with shelve.open(DB_USER_LOCATION) as db_user:
+    return render_template('/admin/dashboard.html',
+                            user=current_user,
+                            users=db_user)
+
 @account.route('/ratingfor/<uid>')
 def ratings(uid: str):
   with shelve.open(DB_USER_LOCATION) as db_user:
       return render_template('/account/rate.html', user = current_user, for_uid = uid)
+
