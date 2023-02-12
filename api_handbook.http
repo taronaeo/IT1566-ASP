@@ -199,7 +199,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/api/review/ZUMON
+GET http://localhost:3000/api/user/ETHCV
 
 ###
 GET http://localhost:3000/api/review/ACD
@@ -238,8 +238,7 @@ Content-Type: application/json
   "new-review": 3
 }
 ###
-GET http://localhost:3000/api/user/22222@mymail.nyp.edu.sg
-
+GET http://localhost:3000/api/review/PGSVO
 ###
 POST http://localhost:3000/api/review
 Content-Type: application/json

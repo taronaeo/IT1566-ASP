@@ -7,9 +7,8 @@
 """
 
 import shelve
-
-from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_LISTING_LOCATION
-from ..models import Listing
+from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_LISTING_LOCATION, DB_PRODUCTS_LOCATION
+from ..models import Listing, Product
 from ..utils import check_filename
 
 from werkzeug.utils import secure_filename
@@ -240,3 +239,4 @@ def jobend():
     vehicle_img.save(f'{UPLOAD_DIR}/{filename}')
 
   return render_template('/job/jobend.html', user=current_user)
+

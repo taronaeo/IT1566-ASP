@@ -66,11 +66,17 @@ def other_profile(uid):
 @login_required
 def get_inbox():
   with shelve.open(DB_USER_LOCATION) as db_user:
-    with shelve.open(DB_WALLET_LOCATION) as db_wallet:
-      return render_template('/account/wallet.html', user=current_user,wallet=db_wallet[current_user.uid])
-
+    return render_template('/account/chat.html',
+                            user=current_user,
+                            users=db_user)
+                            
 @account.route('/review')
 def review():
   with shelve.open(DB_USER_LOCATION) as db_user:
     with shelve.open(DB_REVIEW_LOCATION) as db_review:
       return render_template ('/account/review.html', user = current_user, reviews = db_review)
+
+@account.route('/ratingfor/<uid>')
+def ratings(uid: str):
+  with shelve.open(DB_USER_LOCATION) as db_user:
+      return render_template('/account/rate.html', user = current_user, for_uid = uid)
