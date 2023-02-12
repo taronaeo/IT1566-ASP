@@ -55,6 +55,7 @@ def wallet_payment(wallet_uid,trans_type,amount):
       cvv = int(request.form.get('cvv'))
       exp_month = str(request.form.get('exp_month'))
       exp_yr = str(request.form.get('exp_yr'))
+      total_amount = request.form.get('total-amount')
 
       exp_date = exp_month + '/' + exp_yr
 
@@ -66,7 +67,7 @@ def wallet_payment(wallet_uid,trans_type,amount):
           cvv,
           exp_date
       )
-      return redirect(url_for("account.wallet_payment", wallet_uid = wallet_uid))
+      return redirect(url_for("account.wallet_payment", wallet_uid = wallet_uid, trans_type=trans_type, amount=total_amount))
     if trans_type == 'topup':
       transaction = "Top Up"
     elif trans_type == 'withdraw':
