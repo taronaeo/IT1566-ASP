@@ -1,7 +1,7 @@
 import re
 import shelve
 
-from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_CAR_LISTING_LOCATION
+from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_CAR_LISTING_LOCATION,DB_WALLET_LOCATION
 from ..utils import check_filename
 from ..models import Listing
 
@@ -137,6 +137,15 @@ def create():
     except ValueError:
       flash('Invalid price. It should be in decimal format')
       return redirect(url_for('car_listing.create',
+                              title=title,
+                              vehicle_plate=vehicle_plate,
+                              vehicle_location=vehicle_location,
+                              requirements=requirements,
+                              price=price))
+    with shelve.open(DB_WALLET_LOCATION) as db_wallet:                          
+      if price > db_wallet[current_user.uid].balance:
+        flash('Insufficient funds to create listing.')
+        return redirect(url_for('car_listing.create',
                               title=title,
                               vehicle_plate=vehicle_plate,
                               vehicle_location=vehicle_location,
