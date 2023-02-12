@@ -12,49 +12,173 @@
 </head>
 
 <body>
-  <div class="container mx-auto py-8">
-    <h1 class="text-2xl font-bold mb-4">Account Management</h1>
-    <table class="table-auto w-full">
-      <thead>
+
+
+<div class="py-4"></div>
+<div class="container mx-auto px-4">
+  
+  <div class="mb-4">
+  <header class="py-6 bg-slate-300 border-b border-gray-300">
+    <h1 class="text-center text-3xl font-bold text-gray-800 mb-2">Admin Dashboard</h1>
+  </header>
+  </div>
+  
+
+
+  
+  
+
+
+
+
+<div class="flex flex-col">
+  <div class="mb-10">
+  <div class="border-b">
+    <h1 class="text-2xl">Website Performance</h1>
+  </div>
+
+  <div class="mt-4 bg-white w-full grid grid-cols-1 md:grid-cols-1 xl:grid-cols-3 gap-4">
+      <div class="px-4 py-4 flex border border-2 rounded items-center">
+        <div class="flex-shrink-0">
+          <span class="text-2xl sm:text-3xl leading-none font-bold text-blue-500">4</span>
+          <h3 class="text-base font-normal text-gray-500">Listings</h3>
+        </div>
+        <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+          14.6%
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+   
+      <div class="flex border border-2 rounded items-center">
+        <div class="px-4 py-4 flex-shrink-0">
+          <span class="text-2xl sm:text-3xl leading-none font-bold text-blue-500">$2000</span>
+          <h3 class="text-base font-normal text-gray-500">Sales</h3>
+        </div>
+        <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+          22.6%
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+    
+      <div class="flex border border-2 rounded items-center">
+        <div class="px-4 py-4 flex-shrink-0">
+          <span class="text-2xl sm:text-3xl leading-none font-bold text-blue-500">5</span>
+          <h3 class="text-base font-normal text-gray-500">User signups this week</h3>
+        </div>
+        <div class="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
+          -2.7%
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" 
+            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" 
+            clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+  
+  </div>
+</div>
+
+
+  <div class="border-b mb-4">
+    <h1 class="text-2xl">Recent Transactions</h1>
+  </div>  
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-left text-sm  text-gray-500 bg-white">
+      <thead class="text-xs uppercase bg-slate-100">
         <tr>
-          <th class="px-4 py-2">UID</th>
-          <th class="px-4 py-2">Name</th>
-          <th class="px-4 py-2">Contact Number</th>
-          <th class="px-4 py-2">Email Address</th>
-          <th class="px-4 py-2">Home Address</th>
-          <th class="px-4 py-2"></th>
+          <th scope="col" class="px-6 py-3">Transaction</th>
+          <th scope="col" class="px-6 py-3">Date & Time</th>
+          <th scope="col" class="px-6 py-3">Amount</th>
+          
         </tr>
       </thead>
       <tbody>
-        {% for key, record in users.items() %}
-        <tr>
-          <td class="px-4 py-2">{{ record.email }}</td>
-          <td class="px-4 py-2">{{ record.full_name }}</td>
-          <td class="px-4 py-2">{{ record.phone_number }}</td>
-          <td class="px-4 py-2">{{ record.email }}</td>
-          <td class="px-4 py-2">{{ record.home_address }}</td>
-          <td class="px-4 py-2 flex justify-around">
-            <a href="/UpdateAcc?email={{ record.email }}"><button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Update</button></a>
-            <button data-email="{{ record.email }}"
-              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
-              onclick="delete_user('{{ record.email }}')">Delete</button>
+        <tr class="border-b bg-white hover:bg-blue-200 dark:border-slate-700 dark:bg-gray-slate">
+          <td class="p-6 whitespace-nowrap text-sm font-normal text-gray-900">
+            Payment from <span class="font-semibold">John Tan</span>
+          </td>
+          <td class="p-6 whitespace-nowrap text-sm font-normal text-gray-500">
+            Feb 11 ,2023
+          </td>
+          <td class="p-6 whitespace-nowrap text-sm font-semibold text-gray-900">
+            $59
           </td>
         </tr>
-        {% endfor %}
+        
+       
+        
       </tbody>
     </table>
   </div>
+</div>
 
-  <script>
-    const delete_user = (email) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('DELETE', `/api/user/${email}`)
-      xhr.send(null)
+  
 
-      setTimeout(() => window.location.reload(), 250)
-    }
-  </script>
+<div class="mt-8">
+  <div class="border-b mb-4">
+    <h1 class="text-2xl">Manage users</h1>
+  </div>  
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-left text-sm  text-gray-500 bg-slate-100">
+      <thead class="text-xs uppercase ">
+        <tr>
+          <th scope="col" class="px-6 py-3">Name</th>
+          <th scope="col" class="px-6 py-3">UID</th>
+          <th scope="col" class="px-6 py-3">Email Address</th>
+          <th scope="col" class="px-6 py-3">Contact Number</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b bg-white hover:bg-blue-200 dark:border-slate-700 dark:bg-gray-slate">
+          <th scope="row" class="whitespace-nowrap px-6 py-4 font-medium">nigger</th>
+          <td class="px-6 py-4">83991351</td>
+          <td class="px-6 py-4">J_unj_ie@outlook.com</td>
+          <td class="px-6 py-4">Slave123</td>
+          <td class="px-6 py-4">
+            <button onclick="editUser('{{users.email}}', '{{users.full_name}}', '{{users.phone_number}}')"
+              class="font-medium text-blue-600 hover:underline dark:text-blue-500">Edit</button>
+          </td>
+          <td class="px-6 py-4">
+            <a href="#" class="font-medium text-red-600 hover:underline dark:text-red-500" id='delete-button'
+              onclick='deleteUser("{{ users.email }}")'>Delete </a>
+          </td>
+         
+        </tr>
+        
+       
+        
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  
+          
+    
+</div>
+</div>
+
+   
+    
+     
+       
+
+  
+  
+  
+  
+  
+ 
 </body>
 
 </html>

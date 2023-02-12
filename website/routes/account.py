@@ -28,6 +28,8 @@ def get_account():
                             user=current_user,
                             users=db_user)
 
+                            
+
 @account.route('/account/update')
 @login_required
 def update_account():
@@ -56,3 +58,11 @@ def review():
   with shelve.open(DB_USER_LOCATION) as db_user:
     with shelve.open(DB_REVIEW_LOCATION) as db_review:
       return render_template ('/account/review.html', user = current_user, reviews = db_review)
+
+@account.route('/admin/dashboard')
+@login_required
+def get_dashboard():
+  with shelve.open(DB_USER_LOCATION) as db_user:
+    return render_template('/admin/dashboard.html',
+                            user=current_user,
+                            users=db_user)
