@@ -20,6 +20,7 @@ class Listing():
     vehicle_location: str,
     requirements: str,
     price: float,
+    accepted_by: str,
     created_at: float,
   ):
     self.uid = uid  # Randomly generated UID
@@ -31,6 +32,7 @@ class Listing():
     self.vehicle_location = vehicle_location
     self.requirements = requirements
     self.price = price
+    self.accepted_by = accepted_by
     self.created_at = created_at
 
   @staticmethod
@@ -42,6 +44,7 @@ class Listing():
     vehicle_location: str,
     requirements: str,
     price: float,
+    accepted_by: str
   ):
     uid = ''.join(random.sample(string.ascii_uppercase, 5))
 
@@ -55,6 +58,7 @@ class Listing():
       vehicle_location,
       requirements,
       price,
+      accepted_by,
       datetime.now().timestamp(),
     )
 

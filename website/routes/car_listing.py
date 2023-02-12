@@ -59,6 +59,29 @@ def view(uid: str):
                            listing_creator=listing_creator)
 
 
+@car_listing.route('/cars/<string:uid>/accept')
+@login_required
+def accept(uid: str):
+  with shelve.open(DB_CAR_LISTING_LOCATION) as db_listing:
+    if uid not in db_listing:
+      abort(404)
+
+    if not current_user.background_check or \
+            not current_user.training_complete:  # type: ignore
+      flash('Thorough background check and training is required before you can accept jobs')
+      return redirect(url_for('car_listing.view', uid=uid))
+
+    listing = db_listing[uid]
+    listing.status = 'ACCEPTED'
+    listing.accepted_by = current_user.uid  # type: ignore
+
+    db_listing[uid] = listing
+    flash('Job accepted')
+    return redirect(url_for('listing.jobstart'))
+
+  return redirect(url_for('car_listing.view', uid=uid))
+
+
 @car_listing.route('/cars/create', methods=['GET', 'POST'])
 @login_required
 def create():

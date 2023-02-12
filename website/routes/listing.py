@@ -24,7 +24,6 @@ def jobstart():
     vehicle_img = request.files.get('vehicle_img')
 
     if not vehicle_img:
-
       flash('All fields must not be empty')
       return redirect(request.url)
 

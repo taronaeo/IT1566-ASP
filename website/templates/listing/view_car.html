@@ -153,14 +153,15 @@
           </li>
         </ul>
         {% else %}
-        <button class="w-full
+        <a href="{{ url_for('car_listing.accept', uid=listing_data.uid) }}"
+          class="w-full
                         px-5 py-2.5
-                        text-sm text-white font-medium
+                        text-sm text-white text-center font-medium
                         bg-blue-700 hover:bg-blue-800
                         focus:ring-4 focus:ring-blue-300
                         focus:outline-none">
           Take this job
-        </button>
+        </a>
 
         <p class="flex flex-row
                   text-sm text-gray-400

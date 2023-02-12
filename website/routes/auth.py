@@ -6,6 +6,8 @@
 """
 
 import re
+import shelve
+from .. import DB_USER_LOCATION
 from ..models import User, Wallet
 
 from flask import Blueprint, flash, url_for, request, redirect, render_template
@@ -19,6 +21,32 @@ auth = Blueprint('auth', __name__)
 def logout():
   logout_user()
   return redirect(url_for('auth.login', next=url_for('views.home')))
+
+
+@auth.route('/override')
+@login_required
+def override():
+  with shelve.open(DB_USER_LOCATION) as db_user:
+    user = db_user[current_user.uid]  # type: ignore
+    user.background_check = True
+    user.training_complete = True
+
+    db_user[current_user.uid] = user  # type: ignore
+    db_user.sync()
+
+  return redirect(url_for('views.home'))
+
+
+@auth.route('/override1')
+@login_required
+def override2():
+  with shelve.open(DB_USER_LOCATION) as db_user:
+    db_user[current_user.uid].background_check = False  # type: ignore
+    db_user[current_user.uid].training_complete = False  # type: ignore
+
+    db_user.sync()
+
+  return redirect(url_for('views.home'))
 
 
 @auth.route('/login', methods=['GET', 'POST'])
