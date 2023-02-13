@@ -100,7 +100,7 @@ def jobend(uid):
               not right_of_vehicle_img or \
               not back_of_vehicle_img:
         flash('All exterior photos are required')
-        return redirect(url_for('listing.jobstart', uid=uid))
+        return redirect(url_for('listing.jobend', uid=uid))
 
       front_of_vehicle_img.save(f'{UPLOAD_DIR}/{uid}_front_of_vehicle_af.jpg')
       left_of_vehicle_img.save(f'{UPLOAD_DIR}/{uid}_left_of_vehicle_af.jpg')
