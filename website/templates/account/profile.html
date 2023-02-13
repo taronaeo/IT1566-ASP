@@ -29,6 +29,11 @@
                     <li class="text-center underline pt-2 font-bold">
                       <a href="{{ url_for('account.update_account') }}">Edit Profile</a>
                     </li>
+                    {%if user.access_level == "Admin"%}
+                    <li class="text-center underline pt-2 font-bold">
+                      <a href="{{ url_for('account.get_dashboard') }}">Admin Dashboard</a>
+                    </li>
+                    {%endif%}
                 </ul>
             </div>
             
