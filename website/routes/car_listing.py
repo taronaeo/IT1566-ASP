@@ -1,7 +1,7 @@
 import re
 import shelve
 
-from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_CAR_LISTING_LOCATION,DB_WALLET_LOCATION
+from .. import UPLOAD_DIR, DB_USER_LOCATION, DB_CAR_LISTING_LOCATION, DB_WALLET_LOCATION
 from ..utils import check_filename
 from ..models import Listing
 
@@ -48,7 +48,7 @@ def view(uid: str):
       abort(404)
 
     listing_creator = db_user[listing_owner]
-    user_rating = db_user[current_user.uid].avg_rating()  # type: ignore
+    user_rating = db_user[listing_owner].avg_rating()  # type: ignore
 
     return render_template('/listing/view_car.html',
                            user=current_user,
@@ -142,15 +142,15 @@ def create():
                               vehicle_location=vehicle_location,
                               requirements=requirements,
                               price=price))
-    with shelve.open(DB_WALLET_LOCATION) as db_wallet:                          
+    with shelve.open(DB_WALLET_LOCATION) as db_wallet:
       if price > db_wallet[current_user.uid].balance:
         flash('Insufficient funds to create listing.')
         return redirect(url_for('car_listing.create',
-                              title=title,
-                              vehicle_plate=vehicle_plate,
-                              vehicle_location=vehicle_location,
-                              requirements=requirements,
-                              price=price))
+                                title=title,
+                                vehicle_plate=vehicle_plate,
+                                vehicle_location=vehicle_location,
+                                requirements=requirements,
+                                price=price))
 
     filename = secure_filename(vehicle_img.filename)  # type: ignore
     vehicle_img.save(f'{UPLOAD_DIR}/{filename}')
