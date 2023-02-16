@@ -258,7 +258,7 @@
       let alert_msg = document.getElementById('alert-msg');
       let alert_div = document.getElementById('alert');
 
-      const input_name = document.getElementById('full_name').value;
+      let input_name = document.getElementById('full_name').value;
       const input_number = document.getElementById('phone_number').value;
 
       if(!input_name||!input_number){
@@ -271,6 +271,7 @@
         alert_msg.innerText = "New profile information must be different!";
         return
       }
+      input_name = input_name.replace(/\s+/g, "")
       if(!(/^[a-zA-Z]+$/.test(input_name))){
         alert_div.classList.remove('hidden');
         alert_msg.innerText = "Enter Valid Name";
